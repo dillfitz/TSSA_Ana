@@ -2,8 +2,7 @@
 // This class has been automatically generated on
 // Fri Jul 19 02:18:43 2019 by ROOT version 5.34/38
 // from TTree e_svx_tree/Tree of e svx observables
-// found on file: OHFe_allpassed_goodruns_744.root
-// EDIT: Renamed file AllRuns.root
+// found on file: AllRuns.root
 //////////////////////////////////////////////////////////
 
 #ifndef OHFe_Ana_h
