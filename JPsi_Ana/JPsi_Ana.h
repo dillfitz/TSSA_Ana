@@ -2,7 +2,7 @@
 // This class has been automatically generated on
 // Thu Jul 18 14:02:35 2019 by ROOT version 5.34/36
 // from TTree jpsi_tree/Tree of jpsi observables from electron pairs
-// found on file: JPsi_allpassedruns_830.root
+// found on file: AllRuns.root
 //////////////////////////////////////////////////////////
 
 #ifndef JPsi_Ana_h
@@ -178,9 +178,9 @@ JPsi_Ana::JPsi_Ana(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("JPsi_allpassedruns_830.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("AllRuns.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("JPsi_allpassedruns_830.root");
+         f = new TFile("AllRuns.root");
       }
       f->GetObject("jpsi_tree",tree);
 
