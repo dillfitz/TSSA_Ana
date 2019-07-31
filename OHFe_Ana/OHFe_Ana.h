@@ -23,6 +23,7 @@ public :
    Int_t           fCurrent; //!current Tree number in a TChain
 
    TFile           *outfile;     // pointer to the output file
+   TTree           *t_esvx;      // pointer to the output tree
 
    TString hist_name = "";
 
@@ -281,6 +282,7 @@ Int_t OHFe_Ana::Cut(Long64_t entry)
  //This function may be called from Loop.
    if (pt<=1.5 || pt >= 6.0)                     {return -1;}
    if (conversionveto2x==0)                      {return -2;}
+   //if (conversionveto1p5==0)                      {return -2;}
    if (abs(dep)>=2.)                             {return -3;}
    if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {return -4;}
    if (abs(zed)>= 75)                            {return -5;}

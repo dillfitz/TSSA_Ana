@@ -40,6 +40,51 @@ void OHFe_Ana::Loop()
    // Open a file for the output ntuple
    outfile = new TFile("ohfe.root", "RECREATE");
 
+   // Create output tree and branches //
+   t_esvx = new TTree( "Tr", "Tree of electron candidates from SvxCentralTracks");	  
+   t_esvx->Branch("fillnumber", &fillnumber, "fillnumber/I" );
+   t_esvx->Branch("run", &run, "run/I" );
+   t_esvx->Branch("event", &event, "event/I" );
+   t_esvx->Branch("spinpattern", &spinpattern, "spinpattern/I");
+   t_esvx->Branch("xing", &xing, "xing/I");
+   t_esvx->Branch("triginfo", &triginfo, "triginfo/I");
+   t_esvx->Branch("arm", &arm, "arm/I");
+   t_esvx->Branch("vertexsource", &vertexsource, "vertexsource/I"); 
+   t_esvx->Branch("ngoodseg", &ngoodseg, "ngoodseg/I"); 
+   t_esvx->Branch("nseg", &nseg, "nseg/I"); 
+   t_esvx->Branch("neinevent", &neinevent, "neinevent/I"); 
+   t_esvx->Branch("dcat", &dcat, "dcat/F"); 
+   t_esvx->Branch("dcal", &dcal, "dcal/F"); 
+   t_esvx->Branch("mom", &mom, "mom/F"); 
+   t_esvx->Branch("chisq", &chisq, "chisq/F"); 
+   t_esvx->Branch("ndf", &ndf, "ndf/I"); 
+   t_esvx->Branch("phi0", &phi0, "phi0/F"); 
+   t_esvx->Branch("phi", &phi, "phi/F");  
+   t_esvx->Branch("nhit", &nhit, "nhit/I"); 
+   t_esvx->Branch("hitpattern", &hitpattern, "hitpattern/I"); 
+   t_esvx->Branch("pt", &pt, "pt/F"); 
+   t_esvx->Branch("pz", &pz, "pz/F"); 
+   t_esvx->Branch("quality", &quality, "quality/I"); 
+   t_esvx->Branch("n0", &n0, "n0/I"); 
+   t_esvx->Branch("disp", &disp, "disp/F"); 
+   t_esvx->Branch("dep", &dep, "dep/F"); 
+   t_esvx->Branch("zed", &zed, "zed/F"); 
+   t_esvx->Branch("emcdphi", &emcdphi, "emcdphi/F"); 
+   t_esvx->Branch("emcdz", &emcdz, "emcdz/F"); 
+   t_esvx->Branch("emce", &emce, "emce/F"); 
+   t_esvx->Branch("ecore", &ecore, "ecore/F"); 
+   t_esvx->Branch("sigemcdphi", &sigemcdphi, "sigemcdphi/F"); 
+   t_esvx->Branch("sigemcdz", &sigemcdz, "sigemcdz/F"); 
+   t_esvx->Branch("conversionveto", &conversionveto, "conversionveto/O");  
+   t_esvx->Branch("n1", &n1, "n1/I"); 
+   t_esvx->Branch("npe0", &npe0, "npe0/F"); 
+   t_esvx->Branch("prob", &prob, "prob/F"); 
+   t_esvx->Branch("rchisq", &rchisq, "rchisq/F"); 
+   t_esvx->Branch("conversionveto1p5", &conversionveto1p5, "conversionveto1p5/O"); 
+   t_esvx->Branch("conversionveto2x", &conversionveto2x, "conversionveto2x/O"); 
+   t_esvx->Branch("conversionveto4x", &conversionveto4x, "conversionveto4x/O"); 
+   t_esvx->Branch("conversionveto10x", &conversionveto10x, "conversionveto10x/O"); 
+
    // Declaration of output histograms 
    bool cut_eff = 1; // Set this to fill histogram for determining cut efficiency.
    int cutval = 0;
@@ -54,14 +99,13 @@ void OHFe_Ana::Loop()
    float Pt_bins_low[nPt_bins] = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5, 5.0};
    float Pt_bins_high[nPt_bins] = {1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5, 5.0, 6.0};
 
-   TString hist_labels[nPt_bins] = { "_1.5_1.8","_1.8_2.1", "_2.1_2.4", "_2.4_2.7", "_2.7_3.0", "_3.0_3.5", "_3.5_4.0", "_4.0_4.5", "_4.5_5.0", "_5.0_6.0"};
+   TString hist_labels[nPt_bins] = { "_15_18","_18_21", "_21_24", "_24_27", "_27_30", "_30_35", "_35_40", "_40_45", "_45_50", "_50_60"};
 
 
-   // Initialize some histograms why not //
-   
+   // Initialize some histograms //
    for (int i=0; i<nPt_bins; i++) {
       hist_name = "dcat" + hist_labels[i];
-      e_dcat_binned[i] = new TH1F(hist_name, hist_name, 40, -0.1, 0.1);
+      e_dcat_binned[i] = new TH1F(hist_name, hist_name, 80, -0.2, 0.2);
       e_dcat_binned[i]->Sumw2();
 
       hist_name = "dep" + hist_labels[i];
@@ -85,7 +129,7 @@ void OHFe_Ana::Loop()
       e_nhit_binned[i]->Sumw2();      
    }
     
-   e_dcat = new TH1F("dcat","dcat", 40, -0.1, 0.1);
+   e_dcat = new TH1F("dcat","dcat", 80, -0.2, 0.2);
    e_dcat->Sumw2();
 
    e_pt = new TH1F("pt","pt", 45, 1.5, 6.);
@@ -113,13 +157,13 @@ void OHFe_Ana::Loop()
    cuts = new TH1F("cuts","cuts", 20, -15, 5);
    //cuts_efficiency = new TH1F("cuts_e","cuts_e", 20, 0., 1.);
 
-   Long64_t nbytes = 0, nb = 0;
+
+  Long64_t nbytes = 0, nb = 0;
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
-      // STILL NEED TO ADD CONVERSION VETO HERE!! //
       for (int i=0; i<nPt_bins; i++) {
          if(pt > Pt_bins_low[i] && pt < Pt_bins_high[i]) {
             if(abs(sigemcdphi)<3.&&abs(sigemcdz)<3.&&abs(zed)<75.&&disp<5.&&(quality==63||quality==31)&&(hitpattern&3)==3&&conversionveto2x==1) {
@@ -144,32 +188,31 @@ void OHFe_Ana::Loop()
       
       // Fill cuts hist to determine efficiency of selection criteria //
       if (cut_eff) {
-         for (int i=0; i<13; i++) {
-            if ((pt>1.5 && pt < 6.0) && i==0)                     {cuts->Fill(-1);}
-            if ((conversionveto2x==1) && i==1)                    {cuts->Fill(-2);}
-            if ((abs(dep)<2.) && i==2)                            {cuts->Fill(-3);}
-            if ((abs(sigemcdphi)<3.&& abs(sigemcdz)<3.) && i==3)  {cuts->Fill(-4);}
-            if ((abs(zed)<75) && i==4)                            {cuts->Fill(-5);}
-            if ((disp<5.) && i==5)                                {cuts->Fill(-6);} 
-            if (ndf!=0 && i==6) {
-               if ((chisq/ndf < 3.) && i==6)                      {cuts->Fill(-7);}
-            }
-            if ((nhit > 2 ) && i==7)                              {cuts->Fill(-8);}
-            if ((quality == 63 || quality ==31) && i==8)          {cuts->Fill(-9);}
-            if (((hitpattern&3)==3) && i==9)                      {cuts->Fill(-10);}
-            if (pt<5.) {
-               if ((n0 > 1 ) && i==10)                            {cuts->Fill(-11);}
-               if ((prob > 0.01) && i==11)                        {cuts->Fill(-12);}
-            }
-            else {
-               if ((n0 > 3 ) && i==10)                            {cuts->Fill(-11);}
-               if ((prob > 0.2) && i==11)                         {cuts->Fill(-12);}
-            }
-            if (ndf==0)                                           {cuts->Fill(-13);}
-
-            if (i==0) {cuts->Fill(0);}
+         if (pt>1.5 && pt < 6.0)                     {cuts->Fill(-1);}
+         if (conversionveto2x==1)                    {cuts->Fill(-2);}
+         if (abs(dep)<2.)                            {cuts->Fill(-3);}
+         if (abs(sigemcdphi)<3.&& abs(sigemcdz)<3.)  {cuts->Fill(-4);}
+         if (abs(zed)<75)                            {cuts->Fill(-5);}
+         if (disp<5.)                                {cuts->Fill(-6);} 
+         if (ndf!=0) {
+            if (chisq/ndf < 3.)                      {cuts->Fill(-7);}
          }
+         if (nhit > 2)                               {cuts->Fill(-8);}
+         if (quality == 63 || quality == 31)         {cuts->Fill(-9);}
+         if ((hitpattern&3)==3)                      {cuts->Fill(-10);}
+         if (pt<5.) {
+            if (n0 > 1)                              {cuts->Fill(-11);}
+            if (prob > 0.01)                         {cuts->Fill(-12);}
+         }
+         else {
+            if (n0 > 3 )                             {cuts->Fill(-11);}
+            if (prob > 0.2)                          {cuts->Fill(-12);}
+         }
+         if (ndf==0)                                 {cuts->Fill(-13);}
+
+         cuts->Fill(0);
       }
+   
       cutval = Cut(ientry);
       if (!(cutval<0)) { cuts->Fill(1);}
       if (cutval<0)    {continue; }   
@@ -188,6 +231,8 @@ void OHFe_Ana::Loop()
       e_chisq_ndf->Fill(chisq/ndf);
       e_n0->Fill(n0);
       e_nhit->Fill(nhit);
+
+      t_esvx->Fill();
       
    }
    outfile->Write();
