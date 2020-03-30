@@ -89,7 +89,18 @@ public :
    Float_t         dchphi1;
    Float_t         dchphi2;
    Float_t         truepairpt;
-
+   Float_t         dcat1;
+   Float_t         dcat2;
+   Float_t         dcal1;
+   Float_t         dcal2;
+   Float_t         chisq_svx1;
+   Float_t         chisq_svx2;
+   Int_t           ndf_svx1;
+   Int_t           ndf_svx2;
+   Int_t           nhit1;
+   Int_t           nhit2;
+   Int_t           hitpattern1;
+   Int_t           hitpattern2;
 
    // List of branches
    TBranch        *b_fillnumber;   //!
@@ -156,6 +167,19 @@ public :
    TBranch        *b_dchphi1;   //!
    TBranch        *b_dchphi2;   //!
    TBranch        *b_truepairpt;   //!
+   TBranch        *b_dcat1;   //!
+   TBranch        *b_dcat2;   //!
+   TBranch        *b_dcal1;   //!
+   TBranch        *b_dcal2;   //!
+   TBranch        *b_chisq_svx1;   //!
+   TBranch        *b_chisq_svx2;   //!
+   TBranch        *b_ndf_svx1;   //!
+   TBranch        *b_ndf_svx2;   //!
+   TBranch        *b_nhit1;   //!
+   TBranch        *b_nhit2;   //!
+   TBranch        *b_hitpattern1;   //!
+   TBranch        *b_hitpattern2;   //!
+
    //JPsi_Ana::JPsi  a;
 
    JPsi_Ana(TTree *tree=0);
@@ -173,18 +197,37 @@ public :
 #endif
 
 #ifdef JPsi_Ana_cxx
+/*
 JPsi_Ana::JPsi_Ana(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("AllRuns.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../AllRuns_momrecal_ana640.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("AllRuns.root");
+         f = new TFile("../AllRuns_momrecal_ana640.root");
       }
       f->GetObject("jpsi_tree",tree);
 
    }
+
+   Init(tree);
+}
+*/
+
+JPsi_Ana::JPsi_Ana(TTree *tree) : fChain(0) 
+{
+// if parameter tree is not specified (or zero), connect the file
+// used to generate this class and read the Tree.
+   if (tree == 0) {
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../AllRuns_PHCent_JPsi.root");
+      if (!f || !f->IsOpen()) {
+         f = new TFile("../AllRuns_PHCent_JPsi.root");
+      }
+      f->GetObject("jpsi_tree",tree);
+
+   }
+
    Init(tree);
 }
 
@@ -293,6 +336,16 @@ void JPsi_Ana::Init(TTree *tree)
    fChain->SetBranchAddress("dchphi1", &dchphi1, &b_dchphi1);
    fChain->SetBranchAddress("dchphi2", &dchphi2, &b_dchphi2);
    fChain->SetBranchAddress("truepairpt", &truepairpt, &b_truepairpt);
+   fChain->SetBranchAddress("dcat1", &dcat1, &b_dcat1);
+   fChain->SetBranchAddress("dcat2", &dcat2, &b_dcat2);
+   fChain->SetBranchAddress("chisq_svx1", &chisq_svx1, &b_chisq_svx1);
+   fChain->SetBranchAddress("chisq_svx2", &chisq_svx2, &b_chisq_svx2);
+   fChain->SetBranchAddress("ndf_svx1", &ndf_svx1, &b_ndf_svx1);
+   fChain->SetBranchAddress("ndf_svx2", &ndf_svx2, &b_ndf_svx2);
+   fChain->SetBranchAddress("nhit1", &nhit1, &b_nhit1);
+   fChain->SetBranchAddress("nhit2", &nhit2, &b_nhit2);
+   fChain->SetBranchAddress("hitpattern1", &hitpattern1, &b_hitpattern1);
+   fChain->SetBranchAddress("hitpattern2", &hitpattern2, &b_hitpattern2);
    Notify();
 }
 
@@ -307,6 +360,7 @@ Bool_t JPsi_Ana::Notify()
    return kTRUE;
 }
 
+
 void JPsi_Ana::Show(Long64_t entry)
 {
 // Print contents of entry.
@@ -314,17 +368,19 @@ void JPsi_Ana::Show(Long64_t entry)
    if (!fChain) return;
    fChain->Show(entry);
 }
+
 Int_t JPsi_Ana::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
-   if (type != 0) {return -1;}
+//   if (type != 0) {return -1;}
+
    if (pt >= 10) {return -2;}
    if (mom1<=0.5 || mom2<=0.5) { return -3; }
-   if (abs(dep1)>=2. || abs(dep2)>=2. || disp1>=5. || disp2>=5.) { return -4; }
-   // need sigmalized values here... //
-//   if (abs(emcdphi1)>=3. || abs(emcdphi2)>=3. || abs(emcdz1)>=3. || abs(emcdz2)>=3.) {return -1;}
+   if (abs(dep1)>=4. || abs(dep2)>=4.) { return -4; }
+   if (disp1>=5. || disp2>=5.) { return -4; }
+   if (abs(emcdphi1)>=3. || abs(emcdphi2)>=3. || abs(emcdz1)>=3. || abs(emcdz2)>=3.) {return -1;}
    if (pt1<5.) 
     {
        if (n01 <= 1 || prob1 <= 0.01) {return -5;}
@@ -335,11 +391,18 @@ Int_t JPsi_Ana::Cut(Long64_t entry)
        if (n02 <= 1 || prob2 <= 0.01) {return -7;}
     }
    else if (n02 <=3 || prob2 <= 0.2) {return -8;}
+
    if ((qual1 != 63 && qual1 !=31) || (qual2 !=63 && qual2 !=33)) {return -9;}
    if (abs(zed1)>= 75 || abs(zed2) >= 75) {return -10;}
-   // need to add svx info and chisq/ndf cuts // 
+
+  //if ( (!((hitpattern1&3)==3)) && (!((hitpattern2&3)==3)) ) {return -11;}
+  //if ( (!((hitpattern1&3)==3)) || (!((hitpattern2&3)==3)) ) {return -11;}
+  //if ( (!((hitpattern1&1)==1)) && (!((hitpattern2&1)==1)) ) {return -11;}
+  //if ( (!((hitpattern1&1)==1)) || (!((hitpattern2&1)==1)) ) {return -11;}
+  //if (!((hitpattern2&1)==1)) {return -12;}
 
    // Le Survivors //
    return 1;
 }
+
 #endif // #ifdef JPsi_Ana_cxx

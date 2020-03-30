@@ -4,6 +4,10 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
+#include "Constants.h"
+#include "findBin.h"
+
+
 void OHFe_Ana::Loop()
 {
 //   In a ROOT session, you can do:
@@ -41,7 +45,7 @@ void OHFe_Ana::Loop()
    outfile = new TFile("ohfe.root", "RECREATE");
 
    // Create output tree and branches //
-   t_esvx = new TTree( "Tr", "Tree of electron candidates from SvxCentralTracks");	  
+   t_esvx = new TTree( "e_svx_tree", "Tree of electron candidates from SvxCentralTracks");	  
    t_esvx->Branch("fillnumber", &fillnumber, "fillnumber/I" );
    t_esvx->Branch("run", &run, "run/I" );
    t_esvx->Branch("event", &event, "event/I" );
@@ -86,9 +90,11 @@ void OHFe_Ana::Loop()
    t_esvx->Branch("conversionveto10x", &conversionveto10x, "conversionveto10x/O"); 
 
    // Declaration of output histograms 
-   bool cut_eff = 1; // Set this to fill histogram for determining cut efficiency.
+   bool cut_eff = 0; // Set this to fill histogram for determining cut efficiency.
    int cutval = 0;
    const int nPt_bins = 10;
+   double bins[11]  = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0};
+
    TH1F *e_dcat_binned[nPt_bins], *e_dep_binned[nPt_bins]; 
    TH1F *e_prob_binned[nPt_bins], *e_chisq_ndf_binned[nPt_bins];
    TH1I *e_n0_binned[nPt_bins], *e_nhit_binned[nPt_bins];
@@ -157,13 +163,14 @@ void OHFe_Ana::Loop()
    cuts = new TH1F("cuts","cuts", 20, -15, 5);
    //cuts_efficiency = new TH1F("cuts_e","cuts_e", 20, 0., 1.);
 
-
-  Long64_t nbytes = 0, nb = 0;
+   Long64_t nbytes = 0, nb = 0;
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
-      
+
+
+      // This is to show the distributions before each respective cut is made.. bin by bin! //
       for (int i=0; i<nPt_bins; i++) {
          if(pt > Pt_bins_low[i] && pt < Pt_bins_high[i]) {
             if(abs(sigemcdphi)<3.&&abs(sigemcdz)<3.&&abs(zed)<75.&&disp<5.&&(quality==63||quality==31)&&(hitpattern&3)==3&&conversionveto2x==1) {
@@ -215,7 +222,9 @@ void OHFe_Ana::Loop()
    
       cutval = Cut(ientry);
       if (!(cutval<0)) { cuts->Fill(1);}
+      // Implement analysis cuts -- see header file //
       if (cutval<0)    {continue; }   
+
       for (int i=0; i<nPt_bins; i++) {
          if(pt > Pt_bins_low[i] && pt < Pt_bins_high[i]) {
             e_dcat_binned[i]->Fill(dcat);

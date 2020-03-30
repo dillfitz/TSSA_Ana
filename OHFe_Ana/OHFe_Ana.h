@@ -12,6 +12,7 @@
 #include <TChain.h>
 #include <TFile.h>
 #include <TH1.h>
+#include "TString.h"
 
 // Header file for the classes stored in the TTree if any.
 
@@ -153,11 +154,14 @@ OHFe_Ana::OHFe_Ana(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("AllRuns.root");
+      //TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("AllRuns.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("AllRuns_754_ana640.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("AllRuns.root");
+        // f = new TFile("AllRuns.root");
+         f = new TFile("AllRuns_754_ana640.root");
       }
       f->GetObject("e_svx_tree",tree);
+
 
    }
    Init(tree);
@@ -282,12 +286,12 @@ Int_t OHFe_Ana::Cut(Long64_t entry)
  //This function may be called from Loop.
    if (pt<=1.5 || pt >= 6.0)                     {return -1;}
    if (conversionveto2x==0)                      {return -2;}
-   //if (conversionveto1p5==0)                      {return -2;}
    if (abs(dep)>=2.)                             {return -3;}
    if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {return -4;}
    if (abs(zed)>= 75)                            {return -5;}
    if (disp>=5.)                                 {return -6;}
    if (ndf != 0) {
+      // 3 in note, 2 in ppg
       if (chisq/ndf >= 3.)                       {return -7;}      
    } 
    if (nhit <= 2 )                               {return -8;}
