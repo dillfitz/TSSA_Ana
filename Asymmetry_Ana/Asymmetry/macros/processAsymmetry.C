@@ -9,10 +9,11 @@ using namespace std;
 #include "TH1.h"
 #include "TGraphAsymmErrors.h"
 
-#include "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/Constants.h"
-#include "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/removeBlanks.h"
-#include "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/drawGraph.h"
-#include "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/weightedAverage.h"
+#include "../../Constants.h"
+
+#include "./plotMacros/removeBlanks.h"
+#include "./plotMacros/drawGraph.h"
+#include "./plotMacros/weightedAverage.h"
 
 const int width = 900;
 const int heightSqrt = 450;
@@ -20,32 +21,25 @@ const int heightLumi = 900;
 
 const int SQRT = 2;
 
-void processAsymmetry( const char* particle = "pi0",
+void processAsymmetry( const char* particle = "ohfe",
 		       const bool dpBackground = false, 
 		       const bool isolated = false )
 //both must be set to false for dp
 {
-  if( particle != "dp" && particle != "pi0" && particle != "eta" )
-    cout << "Error! particle can only be dp, pi0, or eta!  You are calculating nonsense " << endl;
+ // if( particle != "ohfe" && && particle != "dp" && particle != "pi0" && particle != "eta" )
+ //   cout << "Error! particle can only be dp, pi0, or eta!  You are calculating nonsense " << endl;
 
   gStyle->SetOptFit();
 
-  char *directory = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/dataFiles/";
+  char *directory = "./dataFiles/";
   TString inputFileName = directory;
   inputFileName += particle;
- if( isolated )
-    inputFileName += "_iso";
-  if( dpBackground )
-    inputFileName += "_dp_pt";
+  inputFileName += "_AN_fills";
   inputFileName += ".root";
 
   TString outputFileName = directory;
-  outputFileName += "graphs_";
   outputFileName += particle;
-  if( isolated )
-    outputFileName += "_iso";
-  if( dpBackground )
-    outputFileName += "_dp_pt";
+  outputFileName += "_AN";
   outputFileName += ".root";
 
   cout << "Opening file " << inputFileName << " to fit asymmetries " << endl; 
