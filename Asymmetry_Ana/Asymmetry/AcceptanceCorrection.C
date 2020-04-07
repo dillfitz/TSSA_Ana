@@ -152,10 +152,12 @@ TGraph* AcceptanceCorrection::graph( const int option )
   TGraph *graph = new TGraph( NUM_VALUE_BINS, BIN_CENTERS, correctionArray );
 
   TString title = "Acceptance Correction for the ";
-  if( option == WEST )      title += "West Arm ";
-  else if( option == EAST ) title += "East Arm ";
-  else if( option == SQRT ) title += "Square Root Formula ";
+  TString name = "AccCorr";
+  if( option == WEST )      { title += "West Arm "; name += "W"; }
+  else if( option == EAST ) { title += "East Arm "; name += "E";}
+  else if( option == SQRT ) { title += "Square Root Formula "; name += "Sqrt";}
   graph->SetTitle( title );
+  graph->SetName( name );
 
   return graph;
 }
@@ -173,10 +175,12 @@ TGraph* AcceptanceCorrection::graphConst( const int option )
   TGraph *graph = new TGraph( NUM_VALUE_BINS, BIN_CENTERS, correctionArray );
 
   TString title = "Acceptance Correction for the ";
-  if( option == WEST )      title += "West Arm ";
-  else if( option == EAST ) title += "East Arm ";
-  else if( option == SQRT ) title += "Square Root Formula ";
+  TString name = "AccCorr";
+  if( option == WEST )      { title += "West Arm "; name += "W"; }
+  else if( option == EAST ) { title += "East Arm "; name += "E";}
+  else if( option == SQRT ) { title += "Square Root Formula "; name += "Sqrt";}
   graph->SetTitle( title );
+  graph->SetName( name );
 
   return graph;
 }

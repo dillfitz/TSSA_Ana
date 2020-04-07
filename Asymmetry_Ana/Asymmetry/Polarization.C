@@ -153,14 +153,22 @@ TGraphErrors* Polarization::graph( const int color )
 
   TGraphErrors *graph = new TGraphErrors( NUM_FILL_BINS, fillBinArray, polArray,
 					  0, polErrArray );
-  TString title;
+  TString title, name;
   title += "Polarization of the ";
-  if( color == YELLOW )
+  name += "Pol";
+  if( color == YELLOW ) 
+  {
     title += "Yellow ";
+    name += "Y";
+  }
   else if( color == BLUE )
+  {
     title += "Blue ";
+    name += "B";
+  }
   title+= "Beam; fill bin; polarization ";
   graph->SetTitle( title );
+  graph->SetName( name );
 
   if( color == YELLOW )
     {

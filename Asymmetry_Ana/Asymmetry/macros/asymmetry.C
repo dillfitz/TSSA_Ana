@@ -23,12 +23,12 @@ using namespace std;
 //E_gamma & 10% > E_cone - E_pair
 //
 
-void asymmetry( const char* particle = "e",
+void asymmetry( const char* particle = "ohfe",
 		const bool dpBackground = false, 
 		const bool isolated = false )//both must be set to false for dp
 {
-   if( particle != "e" && particle != "pi0" && particle != "eta" )
-    cout << "Error! particle can only be e, pi0, or eta!  "
+   if( particle != "ohfe" && particle != "dp" && particle != "pi0" && particle != "eta" )
+    cout << "Error! particle can only be ohfe, dp, pi0, or eta!  "
 	 << "You are calculating nonsense " << endl;
 
   gSystem->Load( "libppAsymmetry.so" );
@@ -37,9 +37,15 @@ void asymmetry( const char* particle = "e",
        << " with " << NUM_VALUE_BINS << " pt bins " << endl;
 
   // matc tis filename structure
-  TString inputDataFileName = "curated_ohfe.root";
+  TString inputDataFileName = "../../";
+  inputDataFileName += "curated_";
+  inputDataFileName += particle;
+  inputDataFileName += ".root";
   TString inputTreeNameInFile = "e_svx_tree";
-  TString outputFileName = "ohfe_AN.root";
+
+  TString outputFileName = "./dataFiles/";
+  outputFileName += particle;
+  outputFileName += "_AN_fills.root";
 
   // TString outputFileName = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/dataFiles/";
   // outputFileName += particle;
@@ -151,7 +157,7 @@ void asymmetry( const char* particle = "e",
   dataTree->SetBranchAddress( "ptBin",  &ptBin );
 
   float px, py, px1, py1, px2, py2, pt, phi;
-  if( particle == "e" )
+  if( particle == "ohfe" )
     {    
       dataTree->SetBranchAddress( "pt", &pt );
       dataTree->SetBranchAddress( "phi", &phi );
@@ -199,7 +205,7 @@ void asymmetry( const char* particle = "e",
 	}
       */
       //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if( particle == "e" && ptBin >= 0  )//direct photon regular old asymmetry
+      if( particle == "ohfe" && ptBin >= 0  )//direct photon regular old asymmetry
 	{
            px = pt*cos(phi); 
            py = pt*sin(phi); 
@@ -257,7 +263,7 @@ void asymmetry( const char* particle = "e",
 	  }
 	TGraph *accCorrGraph;
 	float acceptanceCorrection[ NUM_VALUE_BINS ];
-	if( particle != "e" ) // check tis
+	if( particle != "ohfe" ) // check tis
  	  {
 	    accCorr.calculate( accCorrOption, acceptanceCorrection );
 	    accCorrGraph = accCorr.graph( accCorrOption );
@@ -303,6 +309,7 @@ void asymmetry( const char* particle = "e",
 	  TGraphErrors *graph = 
 	    new TGraphErrors( NUM_FILL_BINS, fillBinArray, asPtr, 0, erPtr );
 	  graph->SetTitle( title.str().c_str() );
+          graph->SetName( name.str().c_str() );
 	  graph->Write( name.str().c_str() );
 	  graph->Delete();
 	}

@@ -121,14 +121,22 @@ TGraph* RelativeLuminosity::graph( const int color )
     }
 
   TGraph *graph = new TGraph( NUM_FILL_BINS, fillBinArray, relLumiArray );
-  TString title;
+  TString title,name;
   title += "Relatvie Luminosity of the ";
+  name += "RelLumi";
   if( color == YELLOW )
+  {
     title += "Yellow ";
+    name += "Y";
+  }
   else if( color == BLUE )
+  {
     title += "Blue ";
+    name += "B";
+  }
   title+= "Beam; fill bin; relative luminosity ";
   graph->SetTitle( title );
+  graph->SetName( name );
 
   if( color == YELLOW )
     graph->SetMarkerColor( kOrange );

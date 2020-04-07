@@ -9,8 +9,8 @@ using namespace std;
 #include "Constants.h"
 #include "findBin.h"
 
-const int NUM_PT_BINS = 5;
-const float PT_BINS[ NUM_PT_BINS + 1 ] = { 1.5, 2.1, 2.7, 3.5, 4.5, 6.0 };
+//const int NUM_PT_BINS = NUM_VALUE_BINS;
+//const float PT_BINS[ NUM_PT_BINS + 1 ] = { 1.5, 1.8, 2.1, 2.7, 6.0 };
 
 void makeCuratedElectronFile()
 {
@@ -26,7 +26,7 @@ void makeCuratedElectronFile()
   fillTree->SetBranchAddress( "fillNumber",    &fillNumberFillTree );
 
   //TFile *dataFile = TFile::Open( "ohfe.root" );
-  TFile *dataFile = TFile::Open("AllRuns_754_ana640.root");
+  TFile *dataFile = TFile::Open("../AllRuns_754_ana640.root");
 
   // May need to add sector and energy content.. look into this. Will arm suffice instead of sector? //
   int fillnumber, run, event, xing, spinpattern, sector, arm; 
@@ -103,7 +103,7 @@ void makeCuratedElectronFile()
   {
       inputTree->GetEntry( i );
 
-
+/*
       //loading scale down info for cross section cross check
       if( run!= lastRunNumber )
 	{
@@ -116,11 +116,18 @@ void makeCuratedElectronFile()
 	      eventsTreeIndex++;
 	      eventsTree->GetEntry( eventsTreeIndex );
 	  }
-	  eventsTreeIndex++;
+          eventsTreeIndex++;
       }
       lastRunNumber = run;
+*/
 
-      if( fillnumber == 0 || fillnumber==18777 || fillnumber==18758 || fillnumber==18777 || fillnumber==18778) continue;
+      if(fillnumber == 0) 
+      {
+          if (run != lastRunNumber ) { cout << run << endl; }
+	  lastRunNumber = run; 
+          continue;  
+      }
+      if(fillnumber==18777 || fillnumber==18758 || fillnumber==18777 || fillnumber==18778) continue;
 
       if( fillnumber != lastFillNumber )
       {
@@ -160,7 +167,7 @@ void makeCuratedElectronFile()
       if (ndf == 0 )                                {continue;}
       if( triggerCounts[ xing ] < 10000 )           {continue;}
 
-      ptBin = findBin( NUM_PT_BINS, PT_BINS, pt ) ;
+      ptBin = findBin( NUM_VALUE_BINS, VALUE_BINS, pt ) ;
       if( ptBin >= 0 )
 	newTree->Fill();
 
