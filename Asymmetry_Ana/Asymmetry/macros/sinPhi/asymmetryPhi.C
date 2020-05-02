@@ -1,3 +1,4 @@
+
 //This code is currently structured to calculated the asymmetry for only one 
 //fill at a time
 #include <iostream>
@@ -13,9 +14,9 @@ using namespace std;
 #include "../../../findBin.h"
 #include "ConstantsSinPhi.h"
 
-void asymmetryPhi( const char* particle = "dp" )//must be set to false for dp
+void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
 {
-   if( particle != "dp" && particle != "pi0" && particle != "eta" )
+   if( particle != "ohfe" && particle != "dp" && particle != "pi0" && particle != "eta" )
     cout << "Error! particle can only be dp, pi0, or eta!  You are calculating nonsense " << endl;
 
   gSystem->Load( "libppAsymmetry.so" );
@@ -23,12 +24,11 @@ void asymmetryPhi( const char* particle = "dp" )//must be set to false for dp
        << NUM_FILL_BINS << " groups of " << NUM_FILLS_IN_GROUP << " fills " 
        << endl;
 
-  TString inputDataFileName = "../curated_";
+  TString inputDataFileName = "../../../curated_";
   inputDataFileName += particle;
-  inputDataFileName += "_file.root";
+  inputDataFileName += ".root";
 
-  TString inputTreeNameInFile = particle;
-  inputTreeNameInFile += "_tree";
+  TString inputTreeNameInFile = "e_svx_tree";
 
   TString outputFileName = particle;
   outputFileName += "_phi.root";
@@ -113,14 +113,14 @@ void asymmetryPhi( const char* particle = "dp" )//must be set to false for dp
   cout << "Loading " << inputTreeNameInFile << " from " << inputDataFileName 
        << endl;
   int fillNumber, arm, spinPattern;
-  float px, py, px1, px2, py1, py2;
+  float px, py, px1, px2, py1, py2, pt, phi;
   dataTree->SetBranchAddress( "fillNumber",  &fillNumber );
   dataTree->SetBranchAddress( "arm",         &arm );
   dataTree->SetBranchAddress( "spinPattern", &spinPattern );
-  if( particle == "dp" )
+  if( particle == "ohfe" || particle == "dp" )
     {
-      dataTree->SetBranchAddress( "px",          &px );
-      dataTree->SetBranchAddress( "py",          &py );
+      dataTree->SetBranchAddress( "pt",           &pt );
+      dataTree->SetBranchAddress( "phi",          &phi );
     }
   else
     {
@@ -157,10 +157,10 @@ void asymmetryPhi( const char* particle = "dp" )//must be set to false for dp
 	  px = px1 + px2;
 	  py = py1 + py2;
 	}
-      float pt = sqrt( px*px + py*py );
+      //float pt = sqrt( px*px + py*py );
       int ptBin = findBin( NUM_PT_BINS, PT_BINS, pt );
 
-      float phi = atan( py / px );
+      //float phi = atan( py / px );
       if( arm == 0 )  
 	phi = PI/2 - phi;
       else if( arm == 1 )
@@ -219,8 +219,7 @@ void asymmetryPhi( const char* particle = "dp" )//must be set to false for dp
 	  for( int phiBin = 0; phiBin < NUM_PHI_BINS; phiBin++ )
 	    {
 	      asymmetryArray[ phiBin ] = asArr[b][ option ][ phiBin ][ ptBin ];
-	      asymmeErrArray[ phiBin ] 
-		= asErrArr[b][ option ][ phiBin ][ ptBin ];
+	      asymmeErrArray[ phiBin ] = asErrArr[b][ option ][ phiBin ][ ptBin ];
 
 	      phiArray[ phiBin ] = PHI_BIN_CENTERS[ arm ][ ptBin ][ phiBin ];
 	      phiLow[ phiBin ] = phiArray[ phiBin ] - PHI_BINS[ phiBin ];

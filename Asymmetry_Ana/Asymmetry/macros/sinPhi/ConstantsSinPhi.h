@@ -9,9 +9,10 @@ const int NUM_OPTIONS_PHI = 2;
 const  char *OPTION_NAMES_PHI[ NUM_OPTIONS_PHI ] = { "Left", "Right" };
 
 const int NUM_PT_BINS = 4;
-const float PT_BINS[ NUM_PT_BINS + 1 ] = { 5, 6, 8, 10, 18 };
-const double PT_BIN_CENTERS[ NUM_PT_BINS ] =  
-{ 5.39, 6.69, 8.77, 11.88 };  
+const float PT_BINS[ NUM_VALUE_BINS + 1 ] = 
+  {1.5, 1.8, 2.1, 2.7, 6.0 };
+const float PT_BIN_CENTERS[ NUM_VALUE_BINS ] = 
+  { 1.65, 1.95, 2.4, 4.35 }; 
 
 const int NUM_PHI_BINS = 3;
 const float PHI_BINS[ NUM_PHI_BINS + 1 ] = { 0.589, 1.1127, 1.6364, 2.1598 };

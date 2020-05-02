@@ -10,7 +10,7 @@ using namespace std;
 
 #include "ttest.h"
 
-const bool SAVE_IMAGES = false;
+const bool SAVE_IMAGES = true;
 
 const float YMIN = -0.1;
 const float YMAX =  0.1;
@@ -25,10 +25,11 @@ const int YELLOW_WEST = 1;
 const int BLUE_WEST = 2;
 const int BLUE_EAST = 3;
 
-void plotRelLumi( const char* particle = "dp_corrected" )//"eta_iso_dp_pt" )
+void plotRelLumi( const char* particle = "ohfe" )//"eta_iso_dp_pt" )
 {
-  TString inputFileName = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/dataFiles/graphs_";
+  TString inputFileName = "../dataFiles/";
   inputFileName += particle;
+  inputFileName += "_AN";
   inputFileName += ".root";
   TF1* zeroLine = new TF1( "zeroLine", "0", 0, 20 );
   zeroLine->SetLineColor( kBlack );
@@ -72,13 +73,14 @@ void plotRelLumi( const char* particle = "dp_corrected" )//"eta_iso_dp_pt" )
   legend2->AddEntry( lumi[ YELLOW_WEST ], "West Arm - Right Asymmetry", "lep" );
   legend2->Draw();
 
-  TString directoryName = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/images/";
+  TString directoryName = "./images/";
 
   if( SAVE_IMAGES )
     {
       TString name = directoryName;
       name += particle;
-      name += "/lumiLeftRightYellow.png";
+      name += "/RelLumi/";
+      name += "lumiLeftRightYellow.png";
       c20->SaveAs( name );
     }
 
@@ -102,7 +104,8 @@ void plotRelLumi( const char* particle = "dp_corrected" )//"eta_iso_dp_pt" )
     {
       TString name = directoryName;
       name += particle;
-      name += "/lumiLeftRightBlue.png";
+      name += "/RelLumi/";
+      name += "lumiLeftRightBlue.png";
       c41->SaveAs( name );
     }
 
@@ -121,7 +124,8 @@ void plotRelLumi( const char* particle = "dp_corrected" )//"eta_iso_dp_pt" )
     {
       TString name = directoryName;
       name += particle;
-      name += "/lumiLeftRightYellowTTest.png";
+      name += "/RelLumi/";
+      name += "lumiLeftRightYellowTTest.png";
       c35->SaveAs( name );
     }
 
@@ -139,7 +143,8 @@ void plotRelLumi( const char* particle = "dp_corrected" )//"eta_iso_dp_pt" )
     {
       TString name = directoryName;
       name += particle;
-      name += "/lumiLeftRightBlueTTest.png";
+      name += "/RelLumi/";
+      name += "lumiLeftRightBlueTTest.png";
       c45->SaveAs( name );
     }
 

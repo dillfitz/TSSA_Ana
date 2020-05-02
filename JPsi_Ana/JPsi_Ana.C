@@ -63,6 +63,7 @@ void JPsi_Ana::Loop()
 */
 
    // It is clear that we will not be able to use so many bins.. //
+   int mass_bins = 20;
    float Pt_bins_low_ee[nPt_bins_ee] = {0.0, 0.5, 1.0, 2.0, 3.0,4.0,};
    float Pt_bins_high_ee[nPt_bins_ee] = {0.5, 1.0, 2.0, 3.0,4.0,10.0};
    float Pt_bins_low_e[nPt_bins_e] = {1.5, 2.0, 3.0};
@@ -74,51 +75,51 @@ void JPsi_Ana::Loop()
 
    for (int i=0; i<nPt_bins_ee; i++) {
       hist_name = "M_ee" + hist_labels_ee[i];
-      M_ee_binned_ee[i] = new TH1F(hist_name, hist_name, 40, 2.0, 4.0);
+      M_ee_binned_ee[i] = new TH1F(hist_name, hist_name, mass_bins, 2.0, 4.0);
       M_ee_binned_ee[i]->Sumw2();
 
 
       hist_name = "M_ee_same" + hist_labels_ee[i];
-      M_ee_binned_ee_same[i] = new TH1F(hist_name, hist_name, 40, 2.0, 4.0);
+      M_ee_binned_ee_same[i] = new TH1F(hist_name, hist_name, mass_bins, 2.0, 4.0);
       M_ee_binned_ee_same[i]->Sumw2();
 
       hist_name = "M_ee_opp" + hist_labels_ee[i];
-      M_ee_binned_ee_opp[i] = new TH1F(hist_name, hist_name, 40, 2.0, 4.0);
+      M_ee_binned_ee_opp[i] = new TH1F(hist_name, hist_name, mass_bins, 2.0, 4.0);
       M_ee_binned_ee_opp[i]->Sumw2();
    } 
 
 /*
    for (int i=0; i<nPt_bins_e; i++) {
       hist_name = "M_e1" + hist_labels_e[i];
-      M_ee_binned_e1[i] = new TH1F(hist_name, hist_name, 40, 2.0, 4.0);
+      M_ee_binned_e1[i] = new TH1F(hist_name, hist_name, mass_bins, 2.0, 4.0);
       M_ee_binned_e1[i]->Sumw2();
 
       hist_name = "M_e2" + hist_labels_e[i];
-      M_ee_binned_e2[i] = new TH1F(hist_name, hist_name, 40, 2.0, 4.0);
+      M_ee_binned_e2[i] = new TH1F(hist_name, hist_name, mass_bins, 2.0, 4.0);
       M_ee_binned_e2[i]->Sumw2();
    } 
 */
-   M_epem = new TH1F("M_epem","M_epem", 40, 2.0, 4.0);
+   M_epem = new TH1F("M_epem","M_epem", mass_bins, 2.0, 4.0);
    M_epem->Sumw2();
    M_epem->SetMarkerStyle(21);
    M_epem->GetYaxis()->SetTitle("Counts");
    M_epem->GetYaxis()->SetTitleOffset(1.25);
    M_epem->GetXaxis()->SetTitle("M_{ee} (GeV)");
 
-   M_epep = new TH1F("M_epep","M_epep",40, 2.0, 4.0);
+   M_epep = new TH1F("M_epep","M_epep",mass_bins, 2.0, 4.0);
    M_epep->Sumw2();
    M_epep->SetMarkerStyle(21);
    M_epep->SetMarkerColor(kGreen);
 
-   M_emem = new TH1F("M_emem","M_emem",40, 2.0, 4.0);
+   M_emem = new TH1F("M_emem","M_emem",mass_bins, 2.0, 4.0);
    M_emem->Sumw2();
    M_emem->SetMarkerStyle(21);
    M_emem->SetMarkerColor(kBlue);
 
-   M_ee_same = new TH1F("M_ee_same","M_ee_same", 40, 2.0, 4.0);  
+   M_ee_same = new TH1F("M_ee_same","M_ee_same", mass_bins, 2.0, 4.0);  
    M_ee_same->Sumw2();
  
-   M_ee_opp = new TH1F("M_ee_opp","M_ee_opp", 40, 2.0, 4.0); 
+   M_ee_opp = new TH1F("M_ee_opp","M_ee_opp", mass_bins, 2.0, 4.0); 
    M_ee_opp->Sumw2();  
 
    pt_ee = new TH1F("pt_epem","pt_epem", 40, 0., 10.);

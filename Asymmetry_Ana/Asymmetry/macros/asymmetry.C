@@ -161,7 +161,6 @@ void asymmetry( const char* particle = "ohfe",
     {    
       dataTree->SetBranchAddress( "pt", &pt );
       dataTree->SetBranchAddress( "phi", &phi );
-      cout << "px : " << px << " py : " << py << endl;
       //dataTree->SetBranchAddress( "px", &px );
       //dataTree->SetBranchAddress( "py", &py );
     }
@@ -263,14 +262,14 @@ void asymmetry( const char* particle = "ohfe",
 	  }
 	TGraph *accCorrGraph;
 	float acceptanceCorrection[ NUM_VALUE_BINS ];
-	if( particle != "ohfe" ) // check tis
+	if( particle != "ohfe" ) // check this
  	  {
 	    accCorr.calculate( accCorrOption, acceptanceCorrection );
 	    accCorrGraph = accCorr.graph( accCorrOption );
 	  }
 	else
 	  {
-	     accCorr.calculateConst( accCorrOption, acceptanceCorrection );
+	    accCorr.calculateConst( accCorrOption, acceptanceCorrection );
 	    accCorrGraph = accCorr.graphConst( accCorrOption );
 	  }
 
@@ -303,6 +302,7 @@ void asymmetry( const char* particle = "ohfe",
 	  ostringstream name;
 	  name << BEAM_NAMES[ beam ] << OPTION_NAMES[o] << VALUE_BINS[ ptBin ]
 	       << "to" << VALUE_BINS[ ptBin + 1 ];
+	  cout << name.str().c_str() << endl;
 
 	  float *asPtr = asArray[ ptBin ][ beam ][o];
 	  float *erPtr = erArray[ ptBin ][ beam ][o];

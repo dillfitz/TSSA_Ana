@@ -22,10 +22,11 @@ const float MAX =  0.04;
 
 const bool SAVE_IMAGES = true;
 
-void plotCompareFormulas( const char* particle = "dp_corrected" )
+void plotCompareFormulas( const char* particle = "ohfe" )
 {
-  TString inputFileName = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/dataFiles/graphs_";
+  TString inputFileName = "../dataFiles/";
   inputFileName += particle;
+  inputFileName += "_AN";
   inputFileName += ".root";
 
   cout << "Inputting file " << inputFileName << endl;
@@ -92,9 +93,10 @@ void plotCompareFormulas( const char* particle = "dp_corrected" )
 
       if( SAVE_IMAGES )
 	{
-	  TString name = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/images/";
+	  TString name = "./images/";
 	  name += particle; 
-	  name += "/compareSqrtLumi";
+	  name += "/CompareFormulas/";
+	  name += "compareSqrtLumi";
 	  name += marph[i];
 
 	  TString title = name;

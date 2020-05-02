@@ -10,7 +10,7 @@ using namespace std;
 #include "TCanvas.h"
 #include "TLegend.h"
 
-#include "../../Constants.h"
+#include "../../../Constants.h"
 #include "../plotMacros/weightedAverage.h"
 #include "ConstantsSinPhi.h"
 
@@ -22,7 +22,7 @@ const float YMAX[ NUM_PT_BINS ] =
 const float AVE_YMIN = -0.025;
 const float AVE_YMAX =  0.035;
 
-void plotSinPhi( const char* particle = "dp" )
+void plotSinPhi( const char* particle = "ohfe" )
 {
   gStyle->SetOptFit( true );
 

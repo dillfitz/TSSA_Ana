@@ -68,7 +68,8 @@ const int NUM_VALUE_BINS = 8;
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 2.31, 3.02, 4.2, 5.39, 6.41, 7.42, 8.75, 11.5 }; 
+  { 2.31, 3.02, 4.2, 5.39, 6.41, 7.42, 8.75, 11.5 };
+*/ 
 
 /*
 //eta pt
@@ -79,7 +80,7 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 2, 3, 4, 5, 6, 8, 15 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 2.38, 3.54, 4.39, 5.4, 6.69, 9.37 }; 
-
+*/
 
 
 /*
@@ -91,7 +92,7 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 2, 3, 4, 5, 6, 8, 18 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 2.29, 3.34, 4.38, 5.4, 6.69, 9.48 };
-
+*/
 
   /*
 //just one pt bin for dir photon systematic uncertainty from background purposes
@@ -102,6 +103,6 @@ const float BIN_CENTERS[ NUM_VALUE_BINS ] = { 6 };
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
   { 5, 18 };
 
-/**/
+*/
 
 #endif /* _CONSTANTS_H_ */

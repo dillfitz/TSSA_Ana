@@ -12,16 +12,18 @@ using namespace std;
 
 const bool SAVE_PICTURES = true;//false;
 
-void plotWestVsEast( const char* particle = "pi0_iso_no_pbgl" )
+void plotWestVsEast( const char* particle = "ohfe" )
 //_isolation_cut_commented_out" )
 {
   TF1* zeroLine = new TF1( "zeroLine", "0", 0, 20 );
   zeroLine->SetLineColor( kBlack );
   zeroLine->SetLineStyle( 2 );
 
-  TString inputFileName = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/dataFiles/graphs_";
+  TString inputFileName = "../dataFiles/";
   inputFileName += particle;
+  inputFileName += "_AN";
   inputFileName += ".root";
+
   cout << "Opening file " << inputFileName << endl;
   TFile *file = TFile::Open( inputFileName );
 
@@ -50,8 +52,9 @@ void plotWestVsEast( const char* particle = "pi0_iso_no_pbgl" )
       zeroLine->Draw( "same" );
       if( SAVE_PICTURES )
 	{
-	  TString pictureName = "images/WestVsEast/";
+	  TString pictureName = "./images/";
 	  pictureName += particle;
+	  pictureName += "/WestVsEast/";
 	  pictureName += ARM_NAMES[ arm ];
 	  pictureName += ".png";
 	  canvases[0][ arm ]->SaveAs( pictureName );
@@ -73,8 +76,9 @@ void plotWestVsEast( const char* particle = "pi0_iso_no_pbgl" )
       zeroLine->Draw( "same" );
       if( SAVE_PICTURES )
 	{
-	  TString pictureName = "images/WestVsEast/";
+	  TString pictureName = "./images/";
 	  pictureName += particle;
+	  pictureName += "/WestVsEast/";
 	  pictureName += ARM_NAMES[ arm ];
 	  pictureName += "TTest.png";
 	  canvases[1][ arm ]->SaveAs( pictureName );

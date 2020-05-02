@@ -1,7 +1,7 @@
 Universe        = vanilla
 GetEnv          = True
 Notification    = Error
-Notify_user     = nialewis@umich.edu
+Notify_user     = dillfitz@umich.edu
 
 Requirements    = CPU_Speed >= 1
 Rank            = CPU_Speed
@@ -16,7 +16,7 @@ codeDir         = /direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/ma
 Executable      = $(codeDir)/bunchShuffling.csh
 Output          = $(codeDir)/logFiles/out_$(Process).log
 Error           = $(codeDir)/logFiles/err_$(Process).log
-Log             = /tmp/nialewis/bunchShuffle_$(Process).log
+Log             = /tmp/dillfitz/bunchShuffle_$(Process).log
 
 
 Queue  40

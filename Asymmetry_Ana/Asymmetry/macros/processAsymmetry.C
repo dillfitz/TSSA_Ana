@@ -19,7 +19,7 @@ const int width = 900;
 const int heightSqrt = 450;
 const int heightLumi = 900;
 
-const int SQRT = 2;
+//const int SQRT = 2;
 
 void processAsymmetry( const char* particle = "ohfe",
 		       const bool dpBackground = false, 
@@ -37,6 +37,7 @@ void processAsymmetry( const char* particle = "ohfe",
   inputFileName += "_AN_fills";
   inputFileName += ".root";
 
+
   TString outputFileName = directory;
   outputFileName += particle;
   outputFileName += "_AN";
@@ -51,15 +52,15 @@ void processAsymmetry( const char* particle = "ohfe",
     for( int i = 0; i < NUM_BEAMS; i++ )// beam: yellow, blue
       for( int j = 0; j < NUM_OPTIONS; j++ )//options: left, right, sqrt
 	{
-	  TString name =  BEAM_NAMES[i];
-	  name += OPTION_NAMES[j];
-	  name += VALUE_BINS[ ptBin ];
-	  name += "to";
-	  name += VALUE_BINS[ ptBin + 1 ];
+	  ostringstream names;
+	  names << BEAM_NAMES[ i ] << OPTION_NAMES[j] << VALUE_BINS[ ptBin ]
+	       << "to" << VALUE_BINS[ ptBin + 1 ];
+	  cout << names.str().c_str() << endl;
 	
-	  graphs[ ptBin ][i][j] = (TGraphErrors*)file->Get( name );
+	  graphs[ ptBin ][i][j] = (TGraphErrors*)file->Get( names.str().c_str() );
 
 	  //get rid of asymmetries that did not have enough counts
+	  graphs[ ptBin ][i][j]->GetN();
 	  graphs[ ptBin ][i][j] = removeBlanks( graphs[ ptBin ][i][j] );
  
 	}// end looping through graphs
@@ -167,6 +168,8 @@ void processAsymmetry( const char* particle = "ohfe",
 	TGraphAsymmErrors *outGraph =  new TGraphAsymmErrors( NUM_VALUE_BINS, 
 				  BIN_CENTERS, fitValues[b][o], ptLow, ptHigh, 
 				  fitValuesErr[b][o], fitValuesErr[b][o]);
+	outGraph->SetName( graphName );
+	outGraph->SetTitle( graphName );
 	outGraph->Write( graphName );
 	outGraph->Delete();
       }
@@ -203,25 +206,34 @@ void processAsymmetry( const char* particle = "ohfe",
   TGraphAsymmErrors *graphLumiY = 
     new TGraphAsymmErrors( NUM_VALUE_BINS, BIN_CENTERS, lumiY, 
 			     ptLow, ptHigh, lumiYErr, lumiYErr );
+  graphLumiY->SetName( "lumiY" );
+  graphLumiY->SetTitle( "lumiY" );
   graphLumiY->Write( "lumiY" );
   graphLumiY->Delete();
 
   TGraphAsymmErrors *graphLumiB = 
     new TGraphAsymmErrors( NUM_VALUE_BINS, BIN_CENTERS, lumiB, 
 			   ptLow, ptHigh, lumiBErr, lumiBErr );
+  graphLumiB->SetName( "lumiB" );
+  graphLumiB->SetTitle( "lumiB" );
   graphLumiB->Write( "lumiB" );
   graphLumiB->Delete();
 
   TGraphAsymmErrors *graphLumi = 
     new TGraphAsymmErrors( NUM_VALUE_BINS, BIN_CENTERS, asymmetryLumi,
 			   ptLow, ptHigh, asymmetryLumiErr, asymmetryLumiErr );
+
+  graphLumi->SetName( "lumi" );
+  graphLumi->SetTitle( "lumi" );
   graphLumi->Write( "lumi" );
   graphLumi->Delete();
 
   TGraphAsymmErrors *graphSqrt = 
     new TGraphAsymmErrors( NUM_VALUE_BINS, BIN_CENTERS, asymmetrySqrt, 
 			   ptLow, ptHigh, asymmetrySqrtErr, asymmetrySqrtErr );
-  graphSqrt->Write( "sqrt" );
+  graphSqrt->SetName( "sqrt0" );
+  graphSqrt->SetTitle( "sqrt0" );
+  graphSqrt->Write( "sqrt0" );
   graphSqrt->Delete();
 
   outFile->Close();

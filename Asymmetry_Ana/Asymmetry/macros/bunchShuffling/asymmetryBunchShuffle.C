@@ -14,19 +14,20 @@ using namespace std;
 
 int getRandom( const int min, const int max );
 
-const int NUM_FILLS = 144;
-const int NUM_POLARIZED = 111;
+const int NUM_FILLS = 142;  // should be 142 here right? Find where it is used!
+const int NUM_POLARIZED = 111; // what is this number for?
 const int histoNumBins = 100;
 const float histoMin = -5;
 const float histoMax = +5;
+const float SQRT_ACC_CORR = 0.903699; // this could potentially change!
 
-const char *inputDataFileName = "../curated_dp_file.root";
-const char *inputTreeNameInFile = "dp_tree";
+const char *inputDataFileName = "../../../curated_ohfe.root";
+const char *inputTreeNameInFile = "e_svx_tree";
 
 const int multiply = 111;
 
 int asymmetryBunchShuffle( float seed = 2, 
-			   const int NUM_SHUFFLES = 100,
+			   const int NUM_SHUFFLES = 10000,
 			   const char* outputFileName = "shuffled.root" )
 {
   gSystem->Load( "libppAsymmetry.so" );
@@ -39,6 +40,15 @@ int asymmetryBunchShuffle( float seed = 2,
       TH1F *bunchShuffled[ NUM_VALUE_BINS ];
   for( int i = 0; i < NUM_VALUE_BINS; i++ )
     {
+
+      ostringstream name;
+      name << "shuffled" << i;
+      cout << name.str().c_str() << endl;
+
+      ostringstream title;
+      title << "Shuffle Seed for " << VALUE_BINS[ i ] << "to" << VALUE_BINS[ i + 1 ] << " GeV; A_{N}/#sigma_{A}; Entries";
+      cout << title.str().c_str() << endl;
+/*
       TString name = "shuffled";
       name += i;
       TString title = "Shuffle Seed ";
@@ -48,8 +58,8 @@ int asymmetryBunchShuffle( float seed = 2,
       title += " < p_{T} < ";
       title += VALUE_BINS[i + 1];
       title += " GeV; A_{N}/#sigma_{A}; Entries";
-
-      bunchShuffled[i] = new TH1F( name, title, 
+*/
+      bunchShuffled[i] = new TH1F( name.str().c_str(), title.str().c_str(), 
 				   histoNumBins, histoMin, histoMax );
     }
 
@@ -148,7 +158,7 @@ int asymmetryBunchShuffle( float seed = 2,
     {
       dataTree->GetEntry( treeEntry );
       if( treeEntry % 100000 == 0 ) 
-	cout << "Processed " << treeEntry << " photon pairs in tree" << endl;
+	cout << "Processed " << treeEntry << " electrons in tree" << endl;
 
       if( fillNumber != lastFillNumber )
 	{

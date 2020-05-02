@@ -17,10 +17,11 @@ const float MIN = -0.04;
 const float MAX =  0.05;
 
 const bool SAVE_IMAGES = true;//false;
-void plotYellowBlue( const char* particle = "dp_corrected" )
+void plotYellowBlue( const char* particle = "ohfe" )
 {
-  TString inputFileName = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/dataFiles/graphs_";
+  TString inputFileName = "../dataFiles/";
   inputFileName += particle;
+  inputFileName += "_AN";
   inputFileName += ".root";
 
   TF1* zeroLine = new TF1( "zeroLine", "0", 0, 20 );
@@ -51,9 +52,10 @@ void plotYellowBlue( const char* particle = "dp_corrected" )
   zeroLine->Draw( "same" );
   if( SAVE_IMAGES )
     {
-      TString name = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/images/";
+      TString name = "./images/";
       name += particle;
-      name += "/lumiYellowBlue.png";
+      name += "/YellowBlue/";
+      name += "lumiYellowBlue.png";
       c29->SaveAs( name );
     }
 
@@ -68,9 +70,10 @@ void plotYellowBlue( const char* particle = "dp_corrected" )
   zeroLine->Draw( "same" );
   if( SAVE_IMAGES )
     {
-      TString name = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/images/";
+      TString name = "./images/";
       name += particle;
-      name += "/lumiYellowBlueTTest.png";
+      name += "/YellowBlue/";
+      name += "lumiYellowBlueTTest.png";
       c30->SaveAs( name );
     }
 
@@ -92,9 +95,10 @@ void plotYellowBlue( const char* particle = "dp_corrected" )
   zeroLine->Draw( "same" );
   if( SAVE_IMAGES )
     {
-      TString name = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/images/";
+      TString name = "./images/";
       name += particle;
-      name += "/sqrtYellowBlue.png";
+      name += "/YellowBlue/";
+      name += "sqrtYellowBlue.png";
       c41->SaveAs( name );
     }
 
@@ -109,9 +113,10 @@ void plotYellowBlue( const char* particle = "dp_corrected" )
   zeroLine->Draw( "same" );
   if( SAVE_IMAGES )
     {
-      TString name = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/plotMacros/images/";
+      TString name = "./images/";
       name += particle;
-      name += "/sqrtYellowBlueTTest.png";
+      name += "/YellowBlue/";
+      name += "sqrtYellowBlueTTest.png";
       c40->SaveAs( name );
     }
 }

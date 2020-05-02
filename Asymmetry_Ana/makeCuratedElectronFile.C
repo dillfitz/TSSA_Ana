@@ -170,6 +170,7 @@ void makeCuratedElectronFile()
       ptBin = findBin( NUM_VALUE_BINS, VALUE_BINS, pt ) ;
       if( ptBin >= 0 )
 	newTree->Fill();
+      
 
     }
 
