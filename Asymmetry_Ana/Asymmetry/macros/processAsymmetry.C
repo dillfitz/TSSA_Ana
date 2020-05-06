@@ -231,9 +231,9 @@ void processAsymmetry( const char* particle = "ohfe",
   TGraphAsymmErrors *graphSqrt = 
     new TGraphAsymmErrors( NUM_VALUE_BINS, BIN_CENTERS, asymmetrySqrt, 
 			   ptLow, ptHigh, asymmetrySqrtErr, asymmetrySqrtErr );
-  graphSqrt->SetName( "sqrt0" );
-  graphSqrt->SetTitle( "sqrt0" );
-  graphSqrt->Write( "sqrt0" );
+  graphSqrt->SetName( "sqrt" );
+  graphSqrt->SetTitle( "sqrt" );
+  graphSqrt->Write( "sqrt" );
   graphSqrt->Delete();
 
   outFile->Close();

@@ -54,11 +54,11 @@ const int NUM_CUT_OFF = 10;
 //const int NUM_FILL_BINS = 142;
 const int NUM_FILLS_IN_GROUP = 2;
 const int NUM_FILL_BINS = 71;
-const int NUM_VALUE_BINS = 4;
+const int NUM_VALUE_BINS = 6;
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
-  {1.5, 1.8, 2.1, 2.7, 6.0 };
+  { 1.0, 1.25, 1.5, 1.8, 2.1, 2.7, 6.0 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 1.65, 1.95, 2.4, 4.35 }; 
+  { 1.125, 1.375, 1.65, 1.95, 2.4, 4.35 }; 
 
 /*
 //pi0 pt
