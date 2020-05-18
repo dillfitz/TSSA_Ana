@@ -8,18 +8,17 @@ using namespace std;
 #include "../../../Constants.h"
 #include "../../../findBin.h"
 
-const bool ISOLATED = true;
-void findPhiBinCenter( const char* particle = "dp" )
+const bool ISOLATED = false;
+void findPhiBinCenter( const char* particle = "ohfe" )
 {
-  if( particle != "dp" && particle != "pi0" && particle != "eta" )
+  if( particle != "ohfe" && particle != "dp" && particle != "pi0" && particle != "eta" )
     cout << "Error! particle can only be dp, pi0, or eta!  You are calculating nonsense " << endl;
 
-  TString inputDataFileName = "../curated_";
+  TString inputDataFileName = "../../../curated_";
   inputDataFileName += particle;
-  inputDataFileName += "_file.root";
+  inputDataFileName += ".root";
 
-  TString inputTreeNameInFile = particle;
-  inputTreeNameInFile += "_tree";
+  TString inputTreeNameInFile = "e_svx_tree";
 
   TString outputFileName = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/dataFiles/";
   outputFileName += particle;
@@ -33,12 +32,21 @@ void findPhiBinCenter( const char* particle = "dp" )
   cout << "Loading " << inputTreeNameInFile << " from " << inputDataFileName 
        << endl;
   int arm;
-  float px, py, px1, px2, py1, py2, energy1, energy2, coneEnergy1;
+  float pt, phi, px, py, px1, px2, py1, py2, energy1, energy2, coneEnergy1;
   dataTree->SetBranchAddress( "arm",         &arm );
+/*
   if( particle == "dp" )
     {
       dataTree->SetBranchAddress( "px",         &px );
       dataTree->SetBranchAddress( "py",         &py );
+    }
+  else if (particle == "ohfe" )
+    {
+*/
+      dataTree->SetBranchAddress( "phi", &phi );
+      dataTree->SetBranchAddress( "pt",         &pt );
+
+/*
     }
   else
     {
@@ -47,6 +55,7 @@ void findPhiBinCenter( const char* particle = "dp" )
       dataTree->SetBranchAddress( "py1",         &py1 );
       dataTree->SetBranchAddress( "py2",         &py2 );
     }
+*/
   float phiTotal[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ];
   int counts[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ];
   for( int a = 0; a < NUM_ARMS; a++ )
@@ -61,39 +70,49 @@ void findPhiBinCenter( const char* particle = "dp" )
   cout << "There are " << numEntries << " in tree " << endl;
   for( int i = 0; i < numEntries; i++ )
     {
+      //cout << phi << " " << pt << endl;
       dataTree->GetEntry(i);
       if( i%10000000 == 0 ) 
 	cout << "Processed " << i << " entries " << endl;
  
-      float pt; 
-      if( particle == "dp" )
-	pt = sqrt( px*px + py*py );
-      else
-	pt = sqrt( (px1 + px2)*(px1 + px2) + (py1 + py2)*(py1 + py2) );
-
       int ptBin = findBin( NUM_PT_BINS, PT_BINS, pt );
-
       ptTotal[ ptBin ] += pt;
-
-      float phi;
-      if( particle == "dp" )
-	phi = atan( py / px );
-      else
-	phi = atan( (py1 + py2) / (px1 + px2) );
-
+/*
       if( arm == 0 )  
-	phi = PI/2 - phi;
+        phi =  - ( PI/2 - phi );
       else if( arm == 1 )
-	phi = PI/2 + phi;
+        phi = PI/2 - phi;
+*/
+      if( arm == 0 )  
+        phi =  - ( PI/2 - phi );
+      else if( arm == 1 )
+        phi = PI/2 - phi;
+
+
+
       int phiBin = findBin( NUM_PHI_BINS, PHI_BINS, phi );
 
+      cout << "arm : " << arm << " pt : " << pt << " phi : " << phi << endl;
       if( ptBin >= 0 && phiBin >= 0 )//only acceptable bin values allowed!
 	{
 	  phiTotal[ arm ][ ptBin ][ phiBin ] += phi;
 	  counts[ arm ][ ptBin ][ phiBin ]++;
+          //cout << counts[arm][ptBin][phiBin] << endl;
 	}
 
     }
+
+  for( int a = 0; a < NUM_ARMS; a++ )
+    {
+      for( int ptBin = 0; ptBin < NUM_PT_BINS; ptBin++ )
+	{
+	  for( int phiBin = 0; phiBin < NUM_PHI_BINS; phiBin++ )
+            {
+              //cout << counts[a][ptBin][phiBin] << endl;
+            }
+        }
+    }
+            
 
   cout << setprecision(4);
   cout << "const double PT_BIN_CENTERS[ NUM_PT_BINS ] = " << endl << "  { ";
@@ -120,8 +139,8 @@ void findPhiBinCenter( const char* particle = "dp" )
 	  cout << "      { ";
 	  for( int phiBin = 0; phiBin < NUM_PHI_BINS; phiBin++ )
 	    {
-	      cout << phiTotal[a][ ptBin ][ phiBin ]
-		             / counts[a][ ptBin ][ phiBin ];
+              //cout << counts[a][ptBin][phiBin];
+	      cout << phiTotal[a][ ptBin ][ phiBin ] / counts[a][ ptBin ][ phiBin ];
 	      if( phiBin < NUM_PHI_BINS - 1 )
 		cout << ", ";
 	    }
@@ -138,4 +157,5 @@ void findPhiBinCenter( const char* particle = "dp" )
 	cout << "    }" << endl;
     }
   cout << "  };" << endl;
+
 }

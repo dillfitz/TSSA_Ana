@@ -35,7 +35,7 @@ void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
   cout << "~~~~~~~~~~~Gonna output everything into " << outputFileName 
        << "~~~~~~~~~~~" << endl;
 
-  TFile *fillFile = TFile::Open( "../fill.root" );
+  TFile *fillFile = TFile::Open( "../../../../fill.root" );
   TTree* fillTree = (TTree*)fillFile->Get( "fill_tree" );
   float polB, polErrB, polY, polErrY;
   Long64_t countsUpB, countsDownB, countsUpY, countsDownY;
@@ -117,10 +117,15 @@ void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
   dataTree->SetBranchAddress( "fillNumber",  &fillNumber );
   dataTree->SetBranchAddress( "arm",         &arm );
   dataTree->SetBranchAddress( "spinPattern", &spinPattern );
-  if( particle == "ohfe" || particle == "dp" )
+  if( particle == "ohfe" )
     {
       dataTree->SetBranchAddress( "pt",           &pt );
       dataTree->SetBranchAddress( "phi",          &phi );
+    }
+  else if( particle == "dp" )
+    {
+      dataTree->SetBranchAddress( "px",           &px );
+      dataTree->SetBranchAddress( "py",          &py );
     }
   else
     {
@@ -161,10 +166,17 @@ void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
       int ptBin = findBin( NUM_PT_BINS, PT_BINS, pt );
 
       //float phi = atan( py / px );
+      /*
       if( arm == 0 )  
 	phi = PI/2 - phi;
       else if( arm == 1 )
 	phi = PI/2 + phi;
+      */
+      // As before, use the mapping from the findPhiBinCenter // 
+      if( arm == 0 )  
+	phi = -(PI/2 - phi);
+      else if( arm == 1 )
+	phi = PI/2 - phi;
       int phiBin = findBin( NUM_PHI_BINS, PHI_BINS, phi );
 
       if( ptBin >= 0 && phiBin >= 0 )//only acceptable bin values allowed!
@@ -195,6 +207,8 @@ void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
     for( int option = 0; option < NUM_OPTIONS_PHI; option++ )
       for( int ptBin = 0; ptBin < NUM_PT_BINS; ptBin++ )
 	{
+
+/*
 	  TString title = BEAM_NAMES[b]; 
 	  title += OPTION_NAMES_PHI[ option ];
 	  title += " Asymmetry from p_{T} ";
@@ -208,6 +222,16 @@ void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
 	  name += PT_BINS[ ptBin ];
 	  name += "to";
 	  name += PT_BINS[ ptBin + 1 ];
+*/
+	  ostringstream title;
+	  title << BEAM_NAMES[ b ] << OPTION_NAMES[ option ] << PT_BINS[ ptBin ]
+	       << "to" << PT_BINS[ ptBin + 1 ] << " GeV; #phi; ";
+	  //cout << title.str().c_str() << endl;
+
+	  ostringstream name;
+	  name << BEAM_NAMES[ b ] << OPTION_NAMES[ option ] << PT_BINS[ ptBin ]
+	       << "to" << PT_BINS[ ptBin + 1 ];
+	  //cout << name.str().c_str() << endl;
 
 	  int arm = 0;
 	  if( ( b == YELLOW && option == 0 ) || ( b == BLUE && option == 1 ) )
@@ -230,8 +254,8 @@ void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
 	    = new TGraphAsymmErrors( NUM_PHI_BINS, phiArray, asymmetryArray,
 				     phiLow, phiHigh, 
 				     asymmeErrArray, asymmeErrArray );
-	  graph->SetTitle( title );
-	  graph->Write( name );
+	  graph->SetTitle( title.str().c_str() );
+	  graph->Write( name.str().c_str() );
 	  graph->Delete();
 	}
  
