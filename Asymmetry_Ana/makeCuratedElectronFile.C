@@ -25,12 +25,11 @@ void makeCuratedElectronFile()
   fillTree->SetBranchAddress( "triggerCounts", triggerCounts );
   fillTree->SetBranchAddress( "fillNumber",    &fillNumberFillTree );
 
-  //TFile *dataFile = TFile::Open( "ohfe.root" );
-  TFile *dataFile = TFile::Open("../AllRuns_754_ana640.root");
+  TFile *dataFile = TFile::Open("../AllRuns_754_ana644.root");
 
   // May need to add sector and energy content.. look into this. Will arm suffice instead of sector? //
   int fillnumber, run, event, xing, spinpattern, sector, arm; 
-  int triginfo, quality, nhit, hitpattern, n0, n1, ndf;
+  int charge, triginfo, quality, nhit, hitpattern, n0, n1, ndf;
   float pt, pz, phi, phi0, mom, dcat, dcal, chisq, phi0, phi, disp, dep, zed;
   float emcdphi, emcdz, emce, ecore, sigemcdphi, sigemcdz, npe0, prob;
   bool conversionveto2x, conversionveto10x;
@@ -40,6 +39,7 @@ void makeCuratedElectronFile()
   inputTree->SetBranchAddress("event", &event);
   inputTree->SetBranchAddress("spinpattern", &spinpattern);
   inputTree->SetBranchAddress("xing", &xing);
+  inputTree->SetBranchAddress("charge", &charge);
   inputTree->SetBranchAddress("triginfo", &triginfo);
   inputTree->SetBranchAddress("arm", &arm);
   inputTree->SetBranchAddress("dcat", &dcat); 
@@ -87,6 +87,7 @@ void makeCuratedElectronFile()
   newTree->Branch( "pt",             &pt,             "pt/F" );
   newTree->Branch( "pz",             &pz,             "pz/F" );
   newTree->Branch( "phi",            &phi,            "phi/F" );
+  newTree->Branch( "charge",         &charge,         "charge/I" );
   newTree->Branch( "triginfo",       &triginfo,       "triginfo/I" );
   newTree->Branch( "dcat",           &dcat,           "dcal/F" );
   newTree->Branch( "dcal",           &dcal,           "dcal/F" );
