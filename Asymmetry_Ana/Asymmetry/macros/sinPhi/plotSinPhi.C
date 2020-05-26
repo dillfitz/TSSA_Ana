@@ -1,9 +1,12 @@
 #include <iostream>
+#include <sstream>
 using namespace std;
 
+#include "TStyle.h"
 #include "TF1.h"
 #include "TFile.h"
 #include "TGraphAsymmErrors.h"
+#include "TGraph.h" 
 #include "TString.h"
 #include "TH1.h"
 #include "TH2.h"
@@ -16,9 +19,9 @@ using namespace std;
 
 const bool SAVE_PICTURES = true;
 const float YMIN[ NUM_PT_BINS ] = 
-  { -0.015, -0.02, -0.04, -0.07 };
+  { -0.25, -0.25, -0.25, -0.25, -0.25, -0.25 };
 const float YMAX[ NUM_PT_BINS ] = 
-  {  0.02,  0.02,  0.04,  0.08 };
+  {  0.25,  0.25,  0.25,  0.25, 0.25, 0.25 };
 const float AVE_YMIN = -0.025;
 const float AVE_YMAX =  0.035;
 
@@ -39,13 +42,12 @@ void plotSinPhi( const char* particle = "ohfe" )
     for( int op = 0; op < NUM_OPTIONS_PHI; op++ )
       for( int ptBin = 0; ptBin < NUM_PT_BINS; ptBin++ )
 	{
-	  TString name = BEAM_NAMES[b];
-	  name += OPTION_NAMES_PHI[ op ];
-	  name += PT_BINS[ ptBin ];
-	  name += "to";
-	  name += PT_BINS[ ptBin + 1 ];
 
-	  asGraphs[ b ][ op ][ ptBin ] = (TGraphAsymmErrors*)file->Get( name );
+	  ostringstream name;
+	  name << BEAM_NAMES[ b ] << OPTION_NAMES[ op ] << PT_BINS[ ptBin ]
+	       << "to" << PT_BINS[ ptBin + 1 ];
+
+	  asGraphs[ b ][ op ][ ptBin ] = (TGraphAsymmErrors*)file->Get( name.str().c_str() );
 	}
 
   TCanvas *canvases[ NUM_BEAMS ][ NUM_PT_BINS ];
@@ -101,27 +103,39 @@ void plotSinPhi( const char* particle = "ohfe" )
 	  }
 
 
-	TString name = BEAM_NAMES[b];
-	name += PT_BINS[ ptBin ];
-	name += "to";
-	name += PT_BINS[ ptBin + 1 ];
+	//TString name = BEAM_NAMES[b];
+	//name += PT_BINS[ ptBin ];
+	//name += "to";
+	//name += PT_BINS[ ptBin + 1 ];
+
+	ostringstream name;
+	name << BEAM_NAMES[ b ] << PT_BINS[ ptBin ]
+	     << "to" << PT_BINS[ ptBin + 1 ];
+
 	if( b == 0 )
-	  canvases[b][ ptBin ] = new TCanvas( name, name );
+	  canvases[b][ ptBin ] = new TCanvas( name.str().c_str(), name.str().c_str() );
 	else if( b == 1 )
-	  canvases[b][ ptBin ] = new TCanvas( name, name, 800, 0, 700, 500 );
+	  canvases[b][ ptBin ] = new TCanvas( name.str().c_str(), name.str().c_str(), 800, 0, 700, 500 );
 
 	TString frameName = "f";
 	frameName += b*10 + ptBin;
 	TH1 *frame = new TH2F( frameName, " ", 1, 0.0, 2*PI, 1, 
 			       YMIN[ ptBin ], YMAX[ ptBin ] );
 	frame->SetStats(0);
-	TString title = BEAM_NAMES[b];
-	title += " Asymetry for ";
-	title += PT_BINS[ ptBin ];
-	title += " < p_{T} <  ";
-	title += PT_BINS[ ptBin + 1 ];
-	title += " GeV ;#phi_{S};";
-	frame->SetTitle( title );
+	//TString title = BEAM_NAMES[b];
+	//title += " Asymmetry for ";
+	//title += PT_BINS[ ptBin ];
+	//title += " < p_{T} <  ";
+	//title += PT_BINS[ ptBin + 1 ];
+	//title += " GeV ;#phi_{S};";
+
+
+	ostringstream title;
+	title << BEAM_NAMES[ b ] <<  " Asymmetry for " << PT_BINS[ ptBin ]
+	     << " < p_{T} <  " << PT_BINS[ ptBin + 1 ] << " GeV ;#phi_{S};";
+
+	frame->SetTitle( title.str().c_str() );
+
 	if( SAVE_PICTURES  ) frame->SetTitle( ";#phi_{S};" );
 	frame->Draw( " " );
   
@@ -141,7 +155,7 @@ void plotSinPhi( const char* particle = "ohfe" )
 	    TString pictureName = "images/";
 	    pictureName += particle;
 	    pictureName += "/sinPhi";
-	    pictureName += name;
+	    pictureName += name.str().c_str();
 	    pictureName += ".png";
 	    canvases[b][ ptBin ]->SaveAs( pictureName );
 	  }
@@ -160,9 +174,10 @@ void plotSinPhi( const char* particle = "ohfe" )
     }
   double *asymmetry = amp[ YELLOW ];
   double *asymmetryErr = ampErr[ YELLOW ];
+  cout << " asymmetryErr " << asymmetryErr << endl;
   TGraphAsymmErrors *yellow = 
-    new TGraphAsymmErrors( NUM_PT_BINS, PT_BIN_CENTERS, asymmetry,
-			   ptLow, ptHigh, asymmetryErr, asymmetryErr );
+    new TGraphAsymmErrors( NUM_PT_BINS, PT_BIN_CENTERS, asymmetry, 
+                           ptLow, ptHigh, asymmetryErr, asymmetryErr );
   yellow->SetMarkerColor( kOrange );
   yellow->SetMarkerStyle( kFullDiamond );
   asymmetry = amp[ BLUE ];

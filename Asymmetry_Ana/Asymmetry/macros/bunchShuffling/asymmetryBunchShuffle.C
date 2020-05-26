@@ -19,7 +19,7 @@ const int NUM_POLARIZED = 111; // what is this number for?
 const int histoNumBins = 100;
 const float histoMin = -5;
 const float histoMax = +5;
-const float SQRT_ACC_CORR = 0.903699; // this could potentially change!
+const float SQRT_ACC_CORR = 0.896681; // this could potentially change!
 
 const char *inputDataFileName = "../../../curated_ohfe.root";
 const char *inputTreeNameInFile = "e_svx_tree";
@@ -63,7 +63,7 @@ int asymmetryBunchShuffle( float seed = 2,
 				   histoNumBins, histoMin, histoMax );
     }
 
-  TFile *fillFile = TFile::Open("../fill.root");
+  TFile *fillFile = TFile::Open("../../../../fill.root");
   TTree* fillTree = (TTree*)fillFile->Get("fill_tree");
   int fillNumberFillTree;
   float polB, polErrB, polY, polErrY;
