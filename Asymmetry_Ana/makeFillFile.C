@@ -48,6 +48,7 @@ void makeFillFile()
 
   TFile *polFile = TFile::Open("../AllRuns_736_ana644.root");
   //TFile *polFile = TFile::Open("../AllRuns_754_ana640.root");
+
   TTree* pol_tree = (TTree*)polFile->Get("pol_tree");
   pol_tree->SetBranchAddress( "fillnumber",    &fillNumber );
   pol_tree->SetBranchAddress( "run",           &runNumber );
@@ -81,7 +82,7 @@ void makeFillFile()
   int lastRunNumber = 0;
   int lastFillNumber = 0;
 
-  TFile *outFile = new TFile( "fill.root", "RECREATE");
+  TFile *outFile = new TFile( "../fill.root", "RECREATE");
   float relLumB, relLumY;
   float polarizationB, polarizationErrB, polarizationY, polarizationErrY;
   Long64_t countsUpB   = 0;

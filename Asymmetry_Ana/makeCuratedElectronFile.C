@@ -18,28 +18,28 @@ void makeCuratedElectronFile()
   TString treeName = "e_svx_tree";
   cout << "Saving " << treeName << " in " << outFileName << endl;
 
-  TFile *fillFile = TFile::Open( "fill.root" );
+  TFile *fillFile = TFile::Open( "../fill.root" );
   TTree *fillTree = (TTree*)fillFile->Get( "fill_tree" );
   int fillNumberFillTree;
   Long64_t triggerCounts[ NUM_XINGS ];
   fillTree->SetBranchAddress( "triggerCounts", triggerCounts );
   fillTree->SetBranchAddress( "fillNumber",    &fillNumberFillTree );
 
-  //TFile *dataFile = TFile::Open( "ohfe.root" );
-  TFile *dataFile = TFile::Open("../AllRuns_754_ana640.root");
+  TFile *dataFile = TFile::Open("../AllRuns_754_ana644.root");
 
   // May need to add sector and energy content.. look into this. Will arm suffice instead of sector? //
   int fillnumber, run, event, xing, spinpattern, sector, arm; 
-  int triginfo, quality, nhit, hitpattern, n0, n1, ndf;
+  int charge, triginfo, quality, nhit, hitpattern, n0, n1, ndf;
   float pt, pz, phi, phi0, mom, dcat, dcal, chisq, phi0, phi, disp, dep, zed;
   float emcdphi, emcdz, emce, ecore, sigemcdphi, sigemcdz, npe0, prob;
-  bool conversionveto2x;
+  bool conversionveto2x, conversionveto10x;
   TTree *inputTree = (TTree*)dataFile->Get( treeName );
   inputTree->SetBranchAddress("fillnumber", &fillnumber );
   inputTree->SetBranchAddress("run", &run);
   inputTree->SetBranchAddress("event", &event);
   inputTree->SetBranchAddress("spinpattern", &spinpattern);
   inputTree->SetBranchAddress("xing", &xing);
+  inputTree->SetBranchAddress("charge", &charge);
   inputTree->SetBranchAddress("triginfo", &triginfo);
   inputTree->SetBranchAddress("arm", &arm);
   inputTree->SetBranchAddress("dcat", &dcat); 
@@ -68,6 +68,7 @@ void makeCuratedElectronFile()
   inputTree->SetBranchAddress("npe0", &npe0); 
   inputTree->SetBranchAddress("prob", &prob); 
   inputTree->SetBranchAddress("conversionveto2x", &conversionveto2x); 
+  inputTree->SetBranchAddress("conversionveto10x", &conversionveto10x); 
 
   int eventsRun;
   TTree *eventsTree = (TTree*)dataFile->Get( "events_tree" );
@@ -86,6 +87,7 @@ void makeCuratedElectronFile()
   newTree->Branch( "pt",             &pt,             "pt/F" );
   newTree->Branch( "pz",             &pz,             "pz/F" );
   newTree->Branch( "phi",            &phi,            "phi/F" );
+  newTree->Branch( "charge",         &charge,         "charge/I" );
   newTree->Branch( "triginfo",       &triginfo,       "triginfo/I" );
   newTree->Branch( "dcat",           &dcat,           "dcal/F" );
   newTree->Branch( "dcal",           &dcal,           "dcal/F" );
@@ -143,8 +145,8 @@ void makeCuratedElectronFile()
       lastFillNumber = fillnumber;
 
       // Analysis Quality Cuts
-      if (pt<=1.5 || pt >= 6.0)                     {continue;}
-      if (conversionveto2x==0)                      {continue;}
+      if (pt <= 1.0 || pt >= 6.0)                     {continue;}
+      if (conversionveto10x==0)                      {continue;}
       if (abs(dep)>=2.)                             {continue;}
       if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {continue;}
       if (abs(zed)>= 75)                            {continue;}

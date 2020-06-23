@@ -181,6 +181,31 @@ bool Asymmetry::incrementCountsByXing( const int f,
       return false;
     }
 
+  if( arm == WEST )//west arm: yellow right, blue left
+    {
+      if( spinDirection[ YELLOW ][f][ xing ] == SPIN_UP )
+	numUR[ YELLOW ][f][ valueBin ]++;
+      else if( spinDirection[ YELLOW ][f][ xing ] == SPIN_DOWN )
+	numDR[ YELLOW ][f][ valueBin ]++;
+
+      if( spinDirection[ BLUE ][f][ xing ] == SPIN_UP )
+	numUL[ BLUE ][f][ valueBin ]++;
+      else if( spinDirection[ BLUE ][f][ xing ] == SPIN_DOWN )
+	numDL[ BLUE ][f][ valueBin ]++;
+    }
+  else if( arm == EAST )//east arm: yellow left, blue right
+    {
+      if( spinDirection[ YELLOW ][f][ xing ] == SPIN_UP )
+	numUL[ YELLOW ][f][ valueBin ]++;
+      else if( spinDirection[ YELLOW ][f][ xing ] == SPIN_DOWN )
+	numDL[ YELLOW ][f][ valueBin ]++;
+
+      if( spinDirection[ BLUE ][f][ xing ] == SPIN_UP )
+	numUR[ BLUE ][f][ valueBin ]++;
+      else if( spinDirection[ BLUE ][f][ xing ] == SPIN_DOWN )
+	numDR[ BLUE ][f][ valueBin ]++;
+
+/*
   if( arm == 0 )//west arm: yellow right, blue left
     {
       if( spinDirection[ YELLOW ][f][ xing ] == SPIN_UP )
@@ -204,6 +229,7 @@ bool Asymmetry::incrementCountsByXing( const int f,
 	numUR[ BLUE ][f][ valueBin ]++;
       else if( spinDirection[ BLUE ][f][ xing ] == SPIN_DOWN )
 	numDR[ BLUE ][f][ valueBin ]++;
+*/
     }
 
   return true;
@@ -219,7 +245,53 @@ bool Asymmetry::incrementCounts( const int f,
       cout << "-->Asymmetry::incrementCounts()" << endl;
       return false;
     }
-
+  if( arm == WEST )//west arm: yellow right, blue left
+    {
+      if( spinPattern == 0 )//yellow down, blue down
+	{
+	  numDR[ YELLOW ][f][ valueBin ]++;
+	  numDL[ BLUE   ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 1 )//yellow up, blue down
+	{
+	  numUR[ YELLOW ][f][ valueBin ]++;
+	  numDL[ BLUE   ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 2 )//yellow down, blue up
+	{
+	  numDR[ YELLOW ][f][ valueBin ]++;
+	  numUL[ BLUE   ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 3 )//yellow up, blue up
+	{
+	  numUR[ YELLOW ][f][ valueBin ]++;
+	  numUL[ BLUE   ][f][ valueBin ]++;
+	}
+    }
+  else if( arm == EAST )//east arm: yellow left, blue right
+    {
+      if( spinPattern == 0 )//yellow down, blue down
+	{
+	  numDL[ YELLOW ][f][ valueBin ]++;
+	  numDR[ BLUE   ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 1 )//yellow up, blue down
+	{
+	  numUL[ YELLOW ][f][ valueBin ]++;
+	  numDR[ BLUE   ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 2 )//yellow down, blue up
+	{
+	  numDL[ YELLOW ][f][ valueBin ]++;
+	  numUR[ BLUE   ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 3 )//yellow up, blue up
+	{
+	  numUL[ YELLOW ][f][ valueBin ]++;
+	  numUR[ BLUE   ][f][ valueBin ]++;
+	}
+    }
+/*
   if( arm == 0 )//west arm: yellow right, blue left
     {
       if( spinPattern == 0 )//yellow down, blue down
@@ -266,6 +338,7 @@ bool Asymmetry::incrementCounts( const int f,
 	  numUR[ BLUE   ][f][ valueBin ]++;
 	}
     }
+*/
 
   return true;
 }
