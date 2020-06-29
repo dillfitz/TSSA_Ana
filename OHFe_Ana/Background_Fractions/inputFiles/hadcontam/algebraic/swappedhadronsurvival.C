@@ -1,34 +1,30 @@
 void swappedhadronsurvival()
 {
 
-  TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_whadrons.root"); 
-  TNtuple* ntphsvx = (TNtuple*)infile->Get("ntpshsvx");
+  //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_whadrons.root"); 
+  //TNtuple* ntphsvx = (TNtuple*)infile->Get("ntpshsvx");
 
-
-
-  float chisq,ndf,dep,quality,hitpat,nhit,zed,sigemcdphi,sigemcdz,conveto,prob,n0,disp,sdips,pt,triginfo,ecore,mom,pc3dphi,spc3dphi,pc3dz,spc3dz;
-  ntphsvx->SetBranchAddress("chisq",&chisq);
-  ntphsvx->SetBranchAddress("ndf",&ndf);
-  ntphsvx->SetBranchAddress("dep",&dep);
-  ntphsvx->SetBranchAddress("quality",&quality);
-  ntphsvx->SetBranchAddress("hitpat",&hitpat);
-  ntphsvx->SetBranchAddress("nhit",&nhit);
-  ntphsvx->SetBranchAddress("zed",&zed);
-  ntphsvx->SetBranchAddress("sigemcdphi",&sigemcdphi);
-  ntphsvx->SetBranchAddress("sigemcdz",&sigemcdz);
-  ntphsvx->SetBranchAddress("conversionveto2x",&conveto);
-  ntphsvx->SetBranchAddress("prob",&prob);
-  ntphsvx->SetBranchAddress("sn0",&n0);
-  ntphsvx->SetBranchAddress("sdisp",&disp);
-  ntphsvx->SetBranchAddress("triginfo",&triginfo);
-  ntphsvx->SetBranchAddress("pt",&pt);
-  ntphsvx->SetBranchAddress("ecore",&ecore);
-  ntphsvx->SetBranchAddress("mom",&mom);
-  ntphsvx->SetBranchAddress("pc3dphi",&pc3dphi);
-  ntphsvx->SetBranchAddress("spc3dphi",&spc3dphi);
-  ntphsvx->SetBranchAddress("pc3dz",&pc3dz);
-  ntphsvx->SetBranchAddress("spc3dz",&spc3dz);
-
+  TFile*infile = TFile::Open("../../../../../AllRuns_736_ana644.root"); 
+  TNtuple* shSvxTree = (TTree*)infile->Get("sh_svx_tree");
+  
+  int ndf, quality, hitpat, nhit, n0, triginfo;
+  float chisq,dep,zed,sigemcdphi,sigemcdz,prob,disp,sdips,pt,ecore,mom;
+  shSvxTree->SetBranchAddress("chisq",&chisq);
+  shSvxTree->SetBranchAddress("ndf",&ndf);
+  shSvxTree->SetBranchAddress("dep",&dep);
+  shSvxTree->SetBranchAddress("quality",&quality);
+  shSvxTree->SetBranchAddress("hitpattern",&hitpat);
+  shSvxTree->SetBranchAddress("nhit",&nhit);
+  shSvxTree->SetBranchAddress("zed",&zed);
+  shSvxTree->SetBranchAddress("sigemcdphi",&sigemcdphi);
+  shSvxTree->SetBranchAddress("sigemcdz",&sigemcdz);
+  shSvxTree->SetBranchAddress("prob",&prob);
+  shSvxTree->SetBranchAddress("sn0",&n0);
+  shSvxTree->SetBranchAddress("sdisp",&disp);
+  shSvxTree->SetBranchAddress("triginfo",&triginfo);
+  shSvxTree->SetBranchAddress("pt",&pt);
+  shSvxTree->SetBranchAddress("ecore",&ecore);
+  shSvxTree->SetBranchAddress("mom",&mom);
 
   TH1F* dep1 = new TH1F("dep1","",150,-10,5);
   TH1F* dep2 = new TH1F("dep2","",150,-10,5);
@@ -99,9 +95,9 @@ void swappedhadronsurvival()
 
 
 
-for ( int i = 0; i < ntphsvx->GetEntries();i++)
+for ( int i = 0; i < shSvxTree->GetEntries();i++)
     {
-      ntphsvx->GetEntry(i);
+      shSvxTree->GetEntry(i);
       if ((quality == 31 || quality == 63) && (hitpat&3) == 3 && nhit > 2 && chisq/ndf <= 3 && fabs(zed) <= 75 && fabs(sigemcdphi) <= 3 && fabs(sigemcdz) <= 3 && disp <= 5)
   	{
 
@@ -172,6 +168,7 @@ for ( int i = 0; i < ntphsvx->GetEntries();i++)
     }
 
  TFile* outfile = new TFile("dataFiles/swappedhadrondepstudy.root","RECREATE");
+ cout << " outputting swapped hadron information (from data) into : dataFiles/swappedhadronstudy.root" << endl;
  // hptno0->Write();
  // hptn00->Write();
  // hptn01->Write();
@@ -191,7 +188,5 @@ for ( int i = 0; i < ntphsvx->GetEntries();i++)
  h_pt_n02->Write();
  h_pt_n03->Write();
  h_pt_n04->Write();
-
-
 
 }

@@ -2,6 +2,11 @@ void systematics_veto2x()
 {
 
   gStyle->SetOptStat(0);
+
+  const int nbins = 4;
+
+  double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0};
+
   //************************************
   // read in files and create histograms
   //************************************
@@ -9,16 +14,6 @@ void systematics_veto2x()
   //****
   // kp
   //****
-
-
-
-
-  double bins[11]  = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0};
-
-
-
-
-
 
   // for ( int fds = 0; fds < 10;fds++)
   // {
@@ -269,22 +264,22 @@ void systematics_veto2x()
 
 
 
-  TH1F* h_myfnp = new TH1F("h_myfnp",";pT;F_{np}",10,bins);
-  TH1F* h_myfnp_conveto = new TH1F("h_myfnp_conveto",";pT;F_{np}",10,bins);
+  TH1F* h_myfnp = new TH1F("h_myfnp",";pT;F_{np}",nbins,bins);
+  TH1F* h_myfnp_conveto = new TH1F("h_myfnp_conveto",";pT;F_{np}",nbins,bins);
 
-  TH1F* h_oldfnp_conveto = new TH1F("h_oldfnp_conveto",";pT;F_{np}",10,bins);
+  TH1F* h_oldfnp_conveto = new TH1F("h_oldfnp_conveto",";pT;F_{np}",nbins,bins);
 
 
   //------------------------------------
   //--Define histograms for iterations--
   //------------------------------------
 
-  TH1F* h_sysfnp[10];
-  TH1F* h_syspizn[10];
-  TH1F* h_sysetan[10];
-  TH1F* h_syske3n[10];
-  TH1F* h_sysjpsin[10];
-  TH1F* h_sysphotonn[10];
+  TH1F* h_sysfnp[nbins];
+  TH1F* h_syspizn[nbins];
+  TH1F* h_sysetan[nbins];
+  TH1F* h_syske3n[nbins];
+  TH1F* h_sysjpsin[nbins];
+  TH1F* h_sysphotonn[nbins];
 
   float fnprange[] = {0.60,0.68,0.66,0.74,0.70,0.75,0.75,0.82,0.75,0.84,0.80,0.86,0.84,0.88,0.85,0.9,0.9,0.92,0.88,0.92};
   float piznormrange[] = {0.25,0.32,0.2,0.32,0.16,0.3,0.13,0.2,0.12,0.18,.08,0.17,0.05,0.15,0.05,0.13,0.05,0.1,0.05,0.13,0.05,0.13};
@@ -294,7 +289,7 @@ void systematics_veto2x()
   float photonnormrange[] = {0.,0.01,0.0,0.012,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02};
 
 
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < nbins; i++)
     {
       stringstream aa; 
       aa << "h_sysfnp"<<i;
@@ -868,21 +863,21 @@ void systematics_veto2x()
   // double bins[11]  = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0};
 
   // double bins[10]  = {1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0};
-  TH1F* h_ke3_pt = (TH1F*)h_ke3_pt->Rebin(10,"h_ke3_pt",bins);
-  TH1F* h_eta_pt = (TH1F*)h_eta_pt->Rebin(10,"h_eta_pt",bins);
-  TH1F* h_piz_pt = (TH1F*)h_piz_pt->Rebin(10,"h_piz_pt",bins);
-  TH1F* h_jpsi_pt = (TH1F*)h_jpsi_pt->Rebin(10,"h_jpsi_pt",bins);
-  TH1F* h_photon_pt = (TH1F*)h_photon_pt->Rebin(10,"h_photon_pt",bins);
+  TH1F* h_ke3_pt = (TH1F*)h_ke3_pt->Rebin(nbins,"h_ke3_pt",bins);
+  TH1F* h_eta_pt = (TH1F*)h_eta_pt->Rebin(nbins,"h_eta_pt",bins);
+  TH1F* h_piz_pt = (TH1F*)h_piz_pt->Rebin(nbins,"h_piz_pt",bins);
+  TH1F* h_jpsi_pt = (TH1F*)h_jpsi_pt->Rebin(nbins,"h_jpsi_pt",bins);
+  TH1F* h_photon_pt = (TH1F*)h_photon_pt->Rebin(nbins,"h_photon_pt",bins);
 
 
-  TH1F* h_piz_pt_con  = (TH1F*)h_piz_pt_con->Rebin(10,"h_piz_pt_con",bins);
-  TH1F* h_piz_pt_conveto  = (TH1F*)h_piz_pt_conveto->Rebin(10,"h_piz_pt_conveto",bins);
+  TH1F* h_piz_pt_con  = (TH1F*)h_piz_pt_con->Rebin(nbins,"h_piz_pt_con",bins);
+  TH1F* h_piz_pt_conveto  = (TH1F*)h_piz_pt_conveto->Rebin(nbins,"h_piz_pt_conveto",bins);
   
-  TH1F* h_eta_pt_con  = (TH1F*)h_eta_pt_con->Rebin(10,"h_eta_pt_con",bins);
-  TH1F* h_eta_pt_conveto  = (TH1F*)h_eta_pt_conveto->Rebin(10,"h_eta_pt_conveto",bins);
+  TH1F* h_eta_pt_con  = (TH1F*)h_eta_pt_con->Rebin(nbins,"h_eta_pt_con",bins);
+  TH1F* h_eta_pt_conveto  = (TH1F*)h_eta_pt_conveto->Rebin(nbins,"h_eta_pt_conveto",bins);
   
-  TH1F* h_photon_pt_con  = (TH1F*)h_photon_pt_con->Rebin(10,"h_photon_pt_con",bins);
-  TH1F* h_photon_pt_conveto  = (TH1F*)h_photon_pt_conveto->Rebin(10,"h_photon_pt_conveto",bins);
+  TH1F* h_photon_pt_con  = (TH1F*)h_photon_pt_con->Rebin(nbins,"h_photon_pt_con",bins);
+  TH1F* h_photon_pt_conveto  = (TH1F*)h_photon_pt_conveto->Rebin(nbins,"h_photon_pt_conveto",bins);
 
 
   // TLegend*l1 = new TLegend(0.65,0.7,0.9,0.9);
@@ -1090,7 +1085,7 @@ void systematics_veto2x()
 
 
 
-  for (int i = 1; i < 11;i++)
+  for (int i = 1; i <= nbins;i++)
     {
 
       float n_conveto_e = h_ept_conveto->GetBinContent(i);
@@ -1165,7 +1160,7 @@ void systematics_veto2x()
    TH1F* h_hadcontam_n = (TH1F*)h_hadroncontamwv->Clone("h_hadcontam_n");
 
 
-   for (int i = 1; i < 11; i ++) 
+   for (int i = 1; i <= nbins; i ++) 
      {
        float n_nv_e = h_ept_nv->GetBinContent(i);
 
@@ -1223,7 +1218,7 @@ void systematics_veto2x()
    // c4->SaveAs("plots/fnp_2x.png");
    // c5->SaveAs("plots/normalizations_2x.png");
 
-   for (int i = 0; i < 10;i++)
+   for (int i = 0; i < nbins;i++)
      {
        h_syspizn[i]->Fill(h_piz_n->GetBinContent(i+1));
        h_sysetan[i]->Fill(h_eta_n->GetBinContent(i+1));
@@ -1273,7 +1268,7 @@ void systematics_veto2x()
 
    TCanvas*ctmp = new TCanvas("ctmp","",900,900);
    ctmp->Divide(3,4);
-   for (int i = 1; i < 11;i++)
+   for (int i = 1; i <= nbins;i++)
      {
        ctmp->cd(i);
        h_syspizn[i-1]->Draw();
@@ -1281,21 +1276,21 @@ void systematics_veto2x()
 
    TCanvas*ctmp2 = new TCanvas("ctmp2","",900,900);
    ctmp2->Divide(3,4);
-   for (int i = 1; i < 11;i++)
+   for (int i = 1; i <= nbins;i++)
      {
        ctmp2->cd(i);
        h_sysetan[i-1]->Draw();
      }
    TCanvas*ctmp3 = new TCanvas("ctmp3","",900,900);
    ctmp3->Divide(3,4);
-   for (int i = 1; i < 11;i++)
+   for (int i = 1; i <= nbins;i++)
      {
        ctmp3->cd(i);
        h_sysjpsin[i-1]->Draw();
      }
   TCanvas*ctmp4 = new TCanvas("ctmp4","",900,900);
   ctmp4->Divide(3,4);
-   for (int i = 1; i < 11;i++)
+   for (int i = 1; i <= nbins;i++)
      {
        ctmp4->cd(i);
        h_sysfnp[i-1]->Draw();
@@ -1303,41 +1298,36 @@ void systematics_veto2x()
 
   TCanvas*ctmp5 = new TCanvas("ctmp5","",900,900);
   ctmp5->Divide(3,4);
-   for (int i = 1; i < 11;i++)
+   for (int i = 1; i <= nbins;i++)
      {
        ctmp5->cd(i);
        h_syske3n[i-1]->Draw();
      }
   TCanvas*ctmp6 = new TCanvas("ctmp6","",900,900);
   ctmp6->Divide(3,4);
-   for (int i = 1; i < 11;i++)
+   for (int i = 1; i <= nbins;i++)
      {
        ctmp6->cd(i);
        h_sysphotonn[i-1]->Draw();
      }
 
+   TH1F* h_sys_piz = new TH1F("h_sys_piz",";p_{T};",nbins,bins);
+   TH1F* h_sys_eta = new TH1F("h_sys_eta",";p_{T};",nbins,bins);
+   TH1F* h_sys_jpsi = new TH1F("h_sys_jpsi",";p_{T};",nbins,bins);
+   TH1F* h_sys_ke3 = new TH1F("h_sys_ke3",";p_{T};",nbins,bins);
+   TH1F* h_sys_photon = new TH1F("h_sys_photon",";p_{T};",nbins,bins);
+   TH1F* h_sys_fnp = new TH1F("h_sys_fnp",";p_{T};",nbins,bins);
 
 
+   TH1F* h_mean_piz = new TH1F("h_mean_piz",";p_{T};",nbins,bins);
+   TH1F* h_mean_eta = new TH1F("h_mean_eta",";p_{T};",nbins,bins);
+   TH1F* h_mean_jpsi = new TH1F("h_mean_jpsi",";p_{T};",nbins,bins);
+   TH1F* h_mean_ke3 = new TH1F("h_mean_ke3",";p_{T};",nbins,bins);
+   TH1F* h_mean_photon = new TH1F("h_mean_photon",";p_{T};",nbins,bins);
 
+   TH1F* h_fnp_mean = new TH1F("h_fnp_mean",";p_{T};",nbins,bins);
 
-
-   TH1F* h_sys_piz = new TH1F("h_sys_piz",";p_{T};",10,bins);
-   TH1F* h_sys_eta = new TH1F("h_sys_eta",";p_{T};",10,bins);
-   TH1F* h_sys_jpsi = new TH1F("h_sys_jpsi",";p_{T};",10,bins);
-   TH1F* h_sys_ke3 = new TH1F("h_sys_ke3",";p_{T};",10,bins);
-   TH1F* h_sys_photon = new TH1F("h_sys_photon",";p_{T};",10,bins);
-   TH1F* h_sys_fnp = new TH1F("h_sys_fnp",";p_{T};",10,bins);
-
-
-   TH1F* h_mean_piz = new TH1F("h_mean_piz",";p_{T};",10,bins);
-   TH1F* h_mean_eta = new TH1F("h_mean_eta",";p_{T};",10,bins);
-   TH1F* h_mean_jpsi = new TH1F("h_mean_jpsi",";p_{T};",10,bins);
-   TH1F* h_mean_ke3 = new TH1F("h_mean_ke3",";p_{T};",10,bins);
-   TH1F* h_mean_photon = new TH1F("h_mean_photon",";p_{T};",10,bins);
-
-   TH1F* h_fnp_mean = new TH1F("h_fnp_mean",";p_{T};",10,bins);
-
-   for (int i = 1; i < 11; i++)
+   for (int i = 1; i <= nbins; i++)
      {
        h_sys_piz->SetBinContent(i,h_syspizn[i-1]->GetRMS());
        h_sys_eta->SetBinContent(i,h_sysetan[i-1]->GetRMS());

@@ -4,6 +4,10 @@ void hadroncontam()
 
   gStyle->SetOptStat(0);
 
+  const int nbins = 4;
+
+  Double_t bins[nbins+1] = {1.5, 1.8, 2.1, 2.7, 5.0};
+
 
   if (nv)
     TFile*infile = TFile::Open("dataFiles/hadrondepstudy_noveto.root");
@@ -51,61 +55,54 @@ void hadroncontam()
   TH1F* h_hpt_n01 = (TH1F*)pions->Get("h_pt_n01");
 
 
+  TH1F* h_ptno0 = (TH1F*) h_ptno0->Rebin(nbins,"h_ptno0",bins);
+  TH1F* h_ptn00 = (TH1F*) h_ptn00->Rebin(nbins,"h_ptn00",bins);
+  TH1F* h_ptn01 = (TH1F*) h_ptn01->Rebin(nbins,"h_ptn01",bins);
+  TH1F* h_ptn03 = (TH1F*) h_ptn03->Rebin(nbins,"h_ptn03",bins);
+  TH1F* h_pt_non0 = (TH1F*) h_pt_non0->Rebin(nbins,"h_pt_non0",bins);
+  TH1F* h_pt_n01 = (TH1F*) h_pt_n01->Rebin(nbins,"h_pt_n01",bins);
+  TH1F* h_pt_n03 = (TH1F*) h_pt_n03->Rebin(nbins,"h_pt_n03",bins);
+
+  TH1F* h_dept_non0 = (TH1F*) h_dept_non0->Rebin(nbins,"h_dept_non0",bins);
+  TH1F* h_dept_n01 = (TH1F*) h_dept_n01->Rebin(nbins,"h_dept_n01",bins);
+  TH1F* h_dept_n03 = (TH1F*) h_dept_n03->Rebin(nbins,"h_dept_n03",bins);
 
 
 
+  TH1F* h_sh_non0 = (TH1F*) h_sh_non0->Rebin(nbins,"h_sh_non0",bins);
+  TH1F* h_sh_n00 = (TH1F*) h_sh_n00->Rebin(nbins,"h_sh_n00",bins);
+  TH1F* h_sh_n01 = (TH1F*) h_sh_n01->Rebin(nbins,"h_sh_n01",bins);
+  TH1F* h_sh_n03 = (TH1F*) h_sh_n03->Rebin(nbins,"h_sh_n03",bins);
 
-  Double_t bins[] = {1.5,1.8,2.1,2.4,2.7,3,3.5,4,4.5,5,6};
+  TH1F* h_ept_non0 = (TH1F*) h_ept_non0->Rebin(nbins,"h_ept_non0",bins);
+  TH1F* h_ept_n00 = (TH1F*) h_ept_n00->Rebin(nbins,"h_ept_n00",bins); 
+  TH1F* h_ept_n01 = (TH1F*) h_ept_n01->Rebin(nbins,"h_ept_n03",bins); 
+  TH1F* h_ept_n03 = (TH1F*) h_ept_n03->Rebin(nbins,"h_ept_n01",bins); 
 
-  TH1F* h_ptno0 = (TH1F*) h_ptno0->Rebin(10,"h_ptno0",bins);
-  TH1F* h_ptn00 = (TH1F*) h_ptn00->Rebin(10,"h_ptn00",bins);
-  TH1F* h_ptn01 = (TH1F*) h_ptn01->Rebin(10,"h_ptn01",bins);
-  TH1F* h_ptn03 = (TH1F*) h_ptn03->Rebin(10,"h_ptn03",bins);
-  TH1F* h_pt_non0 = (TH1F*) h_pt_non0->Rebin(10,"h_pt_non0",bins);
-  TH1F* h_pt_n01 = (TH1F*) h_pt_n01->Rebin(10,"h_pt_n01",bins);
-  TH1F* h_pt_n03 = (TH1F*) h_pt_n03->Rebin(10,"h_pt_n03",bins);
-
-  TH1F* h_dept_non0 = (TH1F*) h_dept_non0->Rebin(10,"h_dept_non0",bins);
-  TH1F* h_dept_n01 = (TH1F*) h_dept_n01->Rebin(10,"h_dept_n01",bins);
-  TH1F* h_dept_n03 = (TH1F*) h_dept_n03->Rebin(10,"h_dept_n03",bins);
-
-
-
-  TH1F* h_sh_non0 = (TH1F*) h_sh_non0->Rebin(10,"h_sh_non0",bins);
-  TH1F* h_sh_n00 = (TH1F*) h_sh_n00->Rebin(10,"h_sh_n00",bins);
-  TH1F* h_sh_n01 = (TH1F*) h_sh_n01->Rebin(10,"h_sh_n01",bins);
-  TH1F* h_sh_n03 = (TH1F*) h_sh_n03->Rebin(10,"h_sh_n03",bins);
-
-  TH1F* h_ept_non0 = (TH1F*) h_ept_non0->Rebin(10,"h_ept_non0",bins);
-  TH1F* h_ept_n00 = (TH1F*) h_ept_n00->Rebin(10,"h_ept_n00",bins); 
-  TH1F* h_ept_n01 = (TH1F*) h_ept_n01->Rebin(10,"h_ept_n03",bins); 
-  TH1F* h_ept_n03 = (TH1F*) h_ept_n03->Rebin(10,"h_ept_n01",bins); 
-
-  TH1F* h_hpt_non0 = (TH1F*) h_hpt_non0->Rebin(10,"h_hpt_non0",bins);
-  TH1F* h_hpt_n00 = (TH1F*) h_hpt_n00->Rebin(10,"h_hpt_n00",bins); 
-  TH1F* h_hpt_n01 = (TH1F*) h_hpt_n01->Rebin(10,"h_hpt_n03",bins); 
-  TH1F* h_hpt_n03 = (TH1F*) h_hpt_n03->Rebin(10,"h_hpt_n01",bins); 
+  TH1F* h_hpt_non0 = (TH1F*) h_hpt_non0->Rebin(nbins,"h_hpt_non0",bins);
+  TH1F* h_hpt_n00 = (TH1F*) h_hpt_n00->Rebin(nbins,"h_hpt_n00",bins); 
+  TH1F* h_hpt_n01 = (TH1F*) h_hpt_n01->Rebin(nbins,"h_hpt_n03",bins); 
+  TH1F* h_hpt_n03 = (TH1F*) h_hpt_n03->Rebin(nbins,"h_hpt_n01",bins); 
 
 
 
 
 
   //apply correction factor to swapped hadrons to account for downscale
-  for (int i = 1; i < 14;i++)
+  for (int i = 1; i < nbins+4;i++)
     {
-      if (i < 10 )
+      if ( i < nbins )
 	{
 	  h_sh_n00->SetBinContent(i,0.1*h_sh_n00->GetBinContent(i));
 	  h_sh_n01->SetBinContent(i,0.1*h_sh_n01->GetBinContent(i));
 	  h_sh_n03->SetBinContent(i,0.1*h_sh_n03->GetBinContent(i));
 	} 
-      if (i == 11 )
+      if ( i == nbins+1 )
 	{
 	  h_sh_n00->SetBinContent(i,0.5*h_sh_n00->GetBinContent(i));
 	  h_sh_n01->SetBinContent(i,0.5*h_sh_n01->GetBinContent(i));
 	  h_sh_n03->SetBinContent(i,0.5*h_sh_n03->GetBinContent(i));
 	} 
-
 
     }
 
@@ -193,11 +190,11 @@ void hadroncontam()
 
 
 
-  TH1F* h_hadron_contam_n01 = new TH1F("h_hadron_contam_n01",";p_{T};",10,bins);
-  TH1F* h_hadron_contam = new TH1F("h_hadron_contam",";p_{T};",10,bins);
-  TH1F* h_hadron_contam_n03 = new TH1F("h_hadron_contam_n03",";p_{T};",10,bins);
-  TH1F* h_hadron_contam_n01n03 = new TH1F("h_hadron_contam_n01n03",";p_{T};",10,bins);
-  TH1F* h_hadron_contam_n03n01 = new TH1F("h_hadron_contam_n03n01",";p_{T};",10,bins);
+  TH1F* h_hadron_contam_n01 = new TH1F("h_hadron_contam_n01",";p_{T};",nbins,bins);
+  TH1F* h_hadron_contam = new TH1F("h_hadron_contam",";p_{T};",nbins,bins);
+  TH1F* h_hadron_contam_n03 = new TH1F("h_hadron_contam_n03",";p_{T};",nbins,bins);
+  TH1F* h_hadron_contam_n01n03 = new TH1F("h_hadron_contam_n01n03",";p_{T};",nbins,bins);
+  TH1F* h_hadron_contam_n03n01 = new TH1F("h_hadron_contam_n03n01",";p_{T};",nbins,bins);
 
   // TH1F* h_numtmp = (TH1F*)h_ptno0->Clone("h_numtmp");
   // TH1F* h_denomtmp = (TH1F*)h_survival_h->Clone("h_denotmp");
@@ -207,7 +204,7 @@ void hadroncontam()
 
   // h_numtmp->Divide(h_denomtmp);
 
-  for (int i = 1; i < 14;i++)
+  for (int i = 1; i < nbins+4;i++)
     {
       float n_esurv = h_survival_e_n01->GetBinContent(i);
       float n_hsurv = h_survival_pi_n01->GetBinContent(i);
@@ -252,20 +249,26 @@ void hadroncontam()
       h_hadron_contam_n01->SetBinContent(i,n_fhadrons_n01);
 
       h_hadron_contam_n03n01->SetBinContent(i,n_fhadrons_n03);
-      if ( i < 10 ) 
+      // For 6 GeV Binning //
+      //if ( i < nbins ) 
+      // For 5 GeV Binning //
+      if ( i <= nbins ) 
 	{
 	  h_hadron_contam->SetBinContent(i,n_fhadrons_n01);
 	  h_hadron_contam->SetBinError(i,uc_nh);
 	}
-      if ( i >= 10) 
+      // This is not quite right... since the cut is in the middle of the bin this method will not work... going to have to proceed with binning up to 5 GeV for now // 
+      /*
+      // For 6 GeV Binning //
+      if ( i >= nbins) 
 	{
 	  h_hadron_contam->SetBinContent(i,n_fhadrons_n03);
 	  h_hadron_contam->SetBinError(i,uc_nh);
 
 	}
-
+      */
     }
-  for (int i = 1; i < 11;i++)
+  for (int i = 1; i <= nbins;i++)
     {
       float n_esurv = h_survival_e_n03->GetBinContent(i);
       float n_hsurv = h_survival_pi_n03->GetBinContent(i);
@@ -285,7 +288,7 @@ void hadroncontam()
  
 
 
-  for ( int i = 1 ; i < 11; i ++)
+  for ( int i = 1 ; i <= nbins; i ++)
     {
       float n_n01 = h_ptn01->GetBinContent(i);
       float n_n03 = h_ptn03->GetBinContent(i);
@@ -298,9 +301,6 @@ void hadroncontam()
       cout << n_e_n03/n_e_n01 << endl;
 
     }
-
-
-
 
 
   h_hadron_contam_n01n03->SetLineColor(kViolet);
@@ -339,13 +339,17 @@ void hadroncontam()
   c2->SaveAs("plots/n0study_hadroncontam.png");
   c3->SaveAs("plots/n03n01study.png");
 
+  TString outfileName = "dataFiles/algebraic_hadroncontam";
+
   if (nv)
-    TFile* outfile = new TFile("dataFiles/algerbraic_hadroncontam_noveto.root","RECREATE");
-  else
-    TFile* outfile = new TFile("dataFiles/algerbraic_hadroncontam.root","RECREATE");
+    outfileName += "_noveto";
+
+  outfileName += ".root";
+
+  TFile* outfile = new TFile(outfileName,"RECREATE");
+  cout << " outputting algebraic hadron contamination fractions into : " << outfileName << endl;
 
   h_hadron_contam_n01->Write();
-
   h_hadron_contam->Write();
   h_hadron_contam_n03->Write();
 }

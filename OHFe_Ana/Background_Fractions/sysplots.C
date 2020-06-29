@@ -4,7 +4,9 @@ void sysplots()
   gStyle->SetCanvasPreferGL(1);
   gStyle->SetOptStat(0);
 
-  TFile* infile1= TFile::Open("normalizations.root");
+  const int nbins = 4;
+
+  TFile* infile1= TFile::Open("outputFiles/normalizations.root");
 
   TH1F* h_piz_n = (TH1F*)infile1->Get("h_piz_n");
   TH1F* h_eta_n = (TH1F*)infile1->Get("h_eta_n");
@@ -15,7 +17,7 @@ void sysplots()
 
 
 
-  TFile* infile2 = TFile::Open("systematics.root");
+  TFile* infile2 = TFile::Open("outputFiles/systematics.root");
 
   TH1F* h_sys_piz = (TH1F*)infile2->Get("h_sys_piz");
   TH1F* h_sys_eta = (TH1F*)infile2->Get("h_sys_eta");
@@ -31,16 +33,16 @@ void sysplots()
   TH1F* h_sys_hadhigh = (TH1F*)infile3->Get("h_algebraic")->Clone("h_sys_hadhigh");
   TH1F* h_sys_hadnom = (TH1F*)infile3->Get("h_hadcontam")->Clone("h_sys_hadnom");
 
-  TBox* pizuc[10];
-  TBox* etauc[10];
-  TBox* jpsiuc[10];
-  TBox* ke3uc[10];
-  TBox* photonuc[10];
-  TBox* hadronuc[10];
+  TBox* pizuc[nbins];
+  TBox* etauc[nbins];
+  TBox* jpsiuc[nbins];
+  TBox* ke3uc[nbins];
+  TBox* photonuc[nbins];
+  TBox* hadronuc[nbins];
 
   // it appears that the pt array is here solely to determine the width of the systematic box //
-  float pt[] = {1.6,1.7,1.9,2,2.2,2.3,2.5,2.6,2.8,2.9,3.2,3.3,3.7,3.8,4.2,4.3,4.7,4.8,5.45,5.55};
-  for (int i = 0; i < 10;i++)
+  float pt[] = {1.6,1.7,1.9,2.0,2.35,2.45,3.8,3.9};
+  for (int i = 0; i < nbins;i++)
     {
       pizuc[i] = new TBox(pt[2*i],h_piz_n->GetBinContent(i+1)-h_sys_piz->GetBinContent(i+1),pt[2*i+1],h_piz_n->GetBinContent(i+1)+h_sys_piz->GetBinContent(i+1));
       etauc[i] = new TBox(pt[2*i],h_eta_n->GetBinContent(i+1)-h_sys_eta->GetBinContent(i+1),pt[2*i+1],h_eta_n->GetBinContent(i+1)+h_sys_eta->GetBinContent(i+1));
@@ -51,7 +53,7 @@ void sysplots()
 
     }
 
-  TLegend* legend = new TLegend(0.65,0.6,0.9,0.9);
+  TLegend* legend = new TLegend(0.65,0.65,0.9,0.9);
   legend->AddEntry(h_piz_n,"#pi0");
   legend->AddEntry(h_eta_n,"#eta");
   legend->AddEntry(h_jpsi_n,"j/#psi");
@@ -60,13 +62,12 @@ void sysplots()
   legend->AddEntry(h_hadcontam_n,"hadron contamination");
 
 
-
-  h_piz_n->SetAxisRange(0.0001,50,"Y");
+  h_piz_n->SetAxisRange(0.0001,10,"Y");
   h_piz_n->SetTitle(";p_{T};");
   TCanvas*c1 = new TCanvas("c1","",500,500);
   gPad->SetLogy();
   h_piz_n->Draw();
-  for( int i = 0; i < 10;i++)
+  for( int i = 0; i < nbins;i++)
     {
       pizuc[i]->SetFillColor(h_piz_n->GetLineColor());
       pizuc[i]->SetFillStyle(3001);

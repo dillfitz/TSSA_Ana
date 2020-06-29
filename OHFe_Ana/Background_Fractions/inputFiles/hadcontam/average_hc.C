@@ -1,6 +1,7 @@
 void average_hc()
 {
-  const bool nv = 0;
+  const bool nv = 1;
+  const int nbins = 4;
 
   if (nv)
     TFile* infile1 = TFile::Open("depfitting/dataFiles/hadronnorm_depfit_noveto.root");
@@ -10,9 +11,9 @@ void average_hc()
   TH1F* h_depfit = (TH1F*)infile1->Get("h_hadfrac")->Clone("h_depfit");
 
   if (nv)
-    TFile*infile2= TFile::Open("algebraic/dataFiles/algerbraic_hadroncontam_noveto.root");
+    TFile*infile2= TFile::Open("algebraic/dataFiles/algebraic_hadroncontam_noveto.root");
   else
-    TFile*infile2= TFile::Open("algebraic/dataFiles/algerbraic_hadroncontam.root");
+    TFile*infile2= TFile::Open("algebraic/dataFiles/algebraic_hadroncontam.root");
 
 
   TH1F* h_algebraic_high = (TH1F*)infile2->Get("h_hadron_contam_n03");
@@ -37,19 +38,19 @@ void average_hc()
 
   h_algebraic->SetAxisRange(0,0.1,"Y");
   h_depfit->SetAxisRange(0,0.1,"Y");
-  h_depfit->SetAxisRange(1,5.5,"X");
+  //h_depfit->SetAxisRange(1,5.5,"X");
   h_algebraic->SetTitle(";p_{T};n_{hadrons}/n_{ec}");
   TCanvas*c1 = new TCanvas("c1","",500,500);
   h_algebraic->SetTitleOffset(1.5,"Y");
   h_algebraic->Draw();
   h_depfit->Draw("SAME");
   h_shcontam->SetLineColor(kViolet);
-  h_shcontam->Draw("SAME");
+  //h_shcontam->Draw("SAME");
 
 
   TH1F* h_hadcontam = (TH1F*)h_depfit->Clone("h_hadcontam");
 
-  for (int i = 1; i < 14;i++)
+  for (int i = 1; i <= nbins;i++)
     {
       float mean = (h_algebraic->GetBinContent(i)/h_algebraic->GetBinError(i) + h_depfit->GetBinContent(i)/h_depfit->GetBinError(i))/( 1/h_algebraic->GetBinError(i) + 1/h_depfit->GetBinError(i));
       h_hadcontam->SetBinContent(i,mean);
@@ -66,7 +67,7 @@ void average_hc()
 
   TLegend* l1 = new TLegend(0.1,0.80,0.4,0.9);
   l1->AddEntry(h_depfit,"dep fitting");
-  l1->AddEntry(h_shcontam,"swapped");
+  //l1->AddEntry(h_shcontam,"swapped");
   l1->AddEntry(h_algebraic,"algebraic");
   // l1->AddEntry(h_hadcontam,"average");
   l1->Draw();
@@ -75,8 +76,8 @@ void average_hc()
   h_hadcontam->SetTitle(";p_{T};n_{hadrons}/n_{ec}");
   h_hadcontam->SetTitleOffset(1.5,"Y");
 
-  TBox*box[20];
-  for (int i = 0; i < 10;i++)
+  TBox*box[nbins];
+  for (int i = 0; i < nbins ;i++)
     {
       box[i] = new TBox(h_hadcontam->GetBinCenter(i+1)-0.05,h_depfit->GetBinContent(i+1),h_hadcontam->GetBinCenter(i+1)+0.05,h_algebraic->GetBinContent(i+1));
       box[i]->SetFillColor(kYellow+2);
@@ -87,7 +88,7 @@ void average_hc()
 
   TCanvas*c2 = new TCanvas("c2","",500,500);
   h_hadcontam->Draw();
-  for (int i = 0; i < 10;i++)
+  for (int i = 0; i < nbins;i++)
     {
       box[i]->Draw("SAME");
     }
@@ -95,11 +96,14 @@ void average_hc()
   l2->AddEntry(h_hadcontam,"Hadron Contamination");
   l2->Draw();
 
-
+  TString outfileName = "../hadcontam";
   if (nv)
-    TFile* outfile = new TFile("../inputFiles/hadcontam_noveto.root","RECREATE");
-  else
-    TFile* outfile = new TFile("../inputFiles/hadcontam.root","RECREATE");
+    outfileName += "_noveto";
+
+  outfileName += ".root";
+
+  TFile* outfile = new TFile(outfileName,"RECREATE");
+  cout << " outputting hadron contamination calculations into : " << outfileName << endl;
     
   h_hadcontam->Write();
   h_algebraic->Write();

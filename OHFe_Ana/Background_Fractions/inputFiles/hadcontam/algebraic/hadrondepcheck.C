@@ -2,33 +2,36 @@ void hadrondepcheck()
 {
   const bool nv = 1;
 
-  TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root"); 
-  TNtuple* ntphsvx = (TNtuple*)infile->Get("ntphsvx");
+  //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root"); 
+  //TNtuple* ntphsvx = (TNtuple*)infile->Get("ntphsvx");
 
+  TFile*infile = TFile::Open("../../../../../AllRuns_736_ana644.root"); 
+  TTree* hSvxTree = (TTree*)infile->Get("h_svx_tree");
 
-
-  float chisq,ndf,dep,quality,hitpat,nhit,zed,sigemcdphi,sigemcdz,conveto,prob,n0,disp,sdips,pt,triginfo,ecore,mom,pc3dphi,spc3dphi,pc3dz,spc3dz;
-  ntphsvx->SetBranchAddress("chisq",&chisq);
-  ntphsvx->SetBranchAddress("ndf",&ndf);
-  ntphsvx->SetBranchAddress("dep",&dep);
-  ntphsvx->SetBranchAddress("quality",&quality);
-  ntphsvx->SetBranchAddress("hitpat",&hitpat);
-  ntphsvx->SetBranchAddress("nhit",&nhit);
-  ntphsvx->SetBranchAddress("zed",&zed);
-  ntphsvx->SetBranchAddress("sigemcdphi",&sigemcdphi);
-  ntphsvx->SetBranchAddress("sigemcdz",&sigemcdz);
-  ntphsvx->SetBranchAddress("conversionveto2x",&conveto);
-  ntphsvx->SetBranchAddress("prob",&prob);
-  ntphsvx->SetBranchAddress("n0",&n0);
-  ntphsvx->SetBranchAddress("disp",&disp);
-  ntphsvx->SetBranchAddress("triginfo",&triginfo);
-  ntphsvx->SetBranchAddress("pt",&pt);
-  ntphsvx->SetBranchAddress("ecore",&ecore);
-  ntphsvx->SetBranchAddress("mom",&mom);
-  ntphsvx->SetBranchAddress("pc3dphi",&pc3dphi);
-  ntphsvx->SetBranchAddress("spc3dphi",&spc3dphi);
-  ntphsvx->SetBranchAddress("pc3dz",&pc3dz);
-  ntphsvx->SetBranchAddress("spc3dz",&spc3dz);
+  bool conveto;
+  int ndf, hitpat, quality, nhit, n0,triginfo;
+  float chisq,dep,zed,sigemcdphi,sigemcdz,prob,disp,sdips,pt,ecore,mom,pc3dphi,spc3dphi,pc3dz,spc3dz;
+  hSvxTree->SetBranchAddress("chisq",&chisq);
+  hSvxTree->SetBranchAddress("ndf",&ndf);
+  hSvxTree->SetBranchAddress("dep",&dep);
+  hSvxTree->SetBranchAddress("quality",&quality);
+  hSvxTree->SetBranchAddress("hitpattern",&hitpat);
+  hSvxTree->SetBranchAddress("nhit",&nhit);
+  hSvxTree->SetBranchAddress("zed",&zed);
+  hSvxTree->SetBranchAddress("sigemcdphi",&sigemcdphi);
+  hSvxTree->SetBranchAddress("sigemcdz",&sigemcdz);
+  hSvxTree->SetBranchAddress("conversionveto2x",&conveto);
+  hSvxTree->SetBranchAddress("prob",&prob);
+  hSvxTree->SetBranchAddress("n0",&n0);
+  hSvxTree->SetBranchAddress("disp",&disp);
+  hSvxTree->SetBranchAddress("triginfo",&triginfo);
+  hSvxTree->SetBranchAddress("pt",&pt);
+  hSvxTree->SetBranchAddress("ecore",&ecore);
+  hSvxTree->SetBranchAddress("mom",&mom);
+  hSvxTree->SetBranchAddress("pc3dphi",&pc3dphi);
+  hSvxTree->SetBranchAddress("spc3dphi",&spc3dphi);
+  hSvxTree->SetBranchAddress("pc3dz",&pc3dz);
+  hSvxTree->SetBranchAddress("spc3dz",&spc3dz);
 
 
   TH1F* dep1 = new TH1F("dep1","",150,-10,5);
@@ -88,10 +91,6 @@ void hadrondepcheck()
   e_pt_n03->Sumw2();
   e_pt_n04->Sumw2();
 
-
-
-
-
   dep1->Sumw2();
   dep2->Sumw2();
   dep3->Sumw2();
@@ -117,9 +116,9 @@ void hadrondepcheck()
   eop9->Sumw2();
 
 
-for ( int i = 0; i < ntphsvx->GetEntries();i++)
+for ( int i = 0; i < hSvxTree->GetEntries();i++)
     {
-      ntphsvx->GetEntry(i);
+      hSvxTree->GetEntry(i);
       int trigger = triginfo;
       if (nv)
 	{
@@ -280,10 +279,14 @@ for ( int i = 0; i < ntphsvx->GetEntries();i++)
 	}
     }
  
+ TString outfileName = "dataFiles/hadrondepstudy";
  if (nv)
-   TFile* outfile = new TFile("dataFiles/hadrondepstudy_noveto.root","RECREATE");
- else  
-   TFile* outfile = new TFile("dataFiles/hadrondepstudy.root","RECREATE");
+   outfileName += "_noveto";
+
+ outfileName += ".root";
+
+ TFile* outfile = new TFile(outfileName,"RECREATE");
+ cout << " outputting hadron dep info (from data) into : " << outfileName <<  endl;
 
  hptno0->Write();
  hptn00->Write();

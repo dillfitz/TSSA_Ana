@@ -1,5 +1,6 @@
 void datasurvival()
 {
+  const int nbins = 4;
   gStyle->SetOptStat(0);
   TFile*infile1 = TFile::Open("../../../../AllRuns_736_ana644.root");
 
@@ -15,21 +16,22 @@ void datasurvival()
   TH1F* hadnotconversions4 = (TH1F*) infile1->Get("hadnotconversions_4");
   TH1F* hadnotconversions5 = (TH1F*) infile1->Get("hadnotconversions_5");
 
-  // double bins[10]  = {1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0};
-  // double bins[16]  = {1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0, 8.0, 10.0};
-  double bins[16]  = {1.0, 1.2, 1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0, 8.0, 10.0};
+  // If binning up to 6 GeV //
+  //double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 6.0};
+  // If binning only up to 5 GeV //
+  double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0};
 
-  TH1F* hadconversions = (TH1F*)hadconversions->Rebin(14,"hadconversions",bins);
-  TH1F* hadconversions2 = (TH1F*)hadconversions2->Rebin(14,"hadconversions2",bins);
-  TH1F* hadconversions3 = (TH1F*)hadconversions3->Rebin(14,"hadconversions3",bins);
-  TH1F* hadconversions4 = (TH1F*)hadconversions4->Rebin(14,"hadconversions4",bins);
-  TH1F* hadconversions5 = (TH1F*)hadconversions5->Rebin(14,"hadconversions5",bins);
+  TH1F* hadconversions = (TH1F*)hadconversions->Rebin(nbins,"hadconversions",bins);
+  TH1F* hadconversions2 = (TH1F*)hadconversions2->Rebin(nbins,"hadconversions2",bins);
+  TH1F* hadconversions3 = (TH1F*)hadconversions3->Rebin(nbins,"hadconversions3",bins);
+  TH1F* hadconversions4 = (TH1F*)hadconversions4->Rebin(nbins,"hadconversions4",bins);
+  TH1F* hadconversions5 = (TH1F*)hadconversions5->Rebin(nbins,"hadconversions5",bins);
 
-  TH1F* hadnotconversions = (TH1F*)hadnotconversions->Rebin(14,"hadnotconversions",bins);
-  TH1F* hadnotconversions2 = (TH1F*)hadnotconversions2->Rebin(14,"hadnotconversions2",bins);
-  TH1F* hadnotconversions3 = (TH1F*)hadnotconversions3->Rebin(14,"hadnotconversions3",bins);
-  TH1F* hadnotconversions4 = (TH1F*)hadnotconversions4->Rebin(14,"hadnotconversions4",bins);
-  TH1F* hadnotconversions5 = (TH1F*)hadnotconversions5->Rebin(14,"hadnotconversions5",bins);
+  TH1F* hadnotconversions = (TH1F*)hadnotconversions->Rebin(nbins,"hadnotconversions",bins);
+  TH1F* hadnotconversions2 = (TH1F*)hadnotconversions2->Rebin(nbins,"hadnotconversions2",bins);
+  TH1F* hadnotconversions3 = (TH1F*)hadnotconversions3->Rebin(nbins,"hadnotconversions3",bins);
+  TH1F* hadnotconversions4 = (TH1F*)hadnotconversions4->Rebin(nbins,"hadnotconversions4",bins);
+  TH1F* hadnotconversions5 = (TH1F*)hadnotconversions5->Rebin(nbins,"hadnotconversions5",bins);
 
 
 
@@ -97,7 +99,7 @@ void datasurvival()
   h_survival3->SetAxisRange(0.5,1,"Y");
   h_survival3->SetLineColor(1);
   TCanvas*c2 = new TCanvas("c2","",500,500);
-  h_survival3->SetAxisRange(1.5,5.5,"X");
+  // h_survival3->SetAxisRange(1.5,5.5,"X");
   h_survival3->Draw();
 
 

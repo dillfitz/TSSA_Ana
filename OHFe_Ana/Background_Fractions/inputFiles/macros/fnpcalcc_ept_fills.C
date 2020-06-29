@@ -8,12 +8,13 @@ using namespace std;
 
 #include "../../../../Asymmetry_Ana/Constants.h"
 
+const int nbins = 4;
+// If binning to 6 GeV // 
+//double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 6.0};
 
-//const int NUM_PT_BINS = NUM_VALUE_BINS;
-//const float PT_BINS[ NUM_PT_BINS + 1 ] = { 1.5, 1.8, 2.1, 2.7, 6.0 };
+// If binning to 5 GeV // 
+double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0};
 
-const int nbins = 10;
-double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5, 5.0, 6.0};
 
 void fnpcalcc_ept_fills()
 {
@@ -131,7 +132,7 @@ void fnpcalcc_ept_fills()
       
 
       // Analysis Quality Cuts
-      if (pt < 1.5 || pt > 6)                       {continue;}
+      if (pt < 1.5 || pt > 5)                       {continue;}
       if (abs(dep)>=2.)                             {continue;}
       if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {continue;}
       if (abs(zed)>= 75)                            {continue;}
@@ -148,7 +149,7 @@ void fnpcalcc_ept_fills()
 	if (prob <= 0.01)                            {continue;}
        }
       else {
-	if (n0 <=3 )                                {continue;}
+	if (n0 <=3 )                                {cout << " a test... " <<endl; continue;}
 	if (prob <= 0.2)                            {continue;}
       }
       if( triggerCounts[ xing ] < 10000 )           {continue;}

@@ -5,13 +5,28 @@ void fitdep()
   gStyle->SetOptStat(0);
   gStyle->SetOptFit(0);
 
-  if (nv)
-    TFile* infile1 = TFile::Open("dataFiles/depstudy_noveto.root");
-  else
-    TFile* infile1 = TFile::Open("dataFiles/depstudy.root");
+  const int nbins = 4;
 
-  TH1F* h_dep[10];
-  for (int i = 0; i < 10; i ++)
+  // For binning out to 6 GeV in pT //
+  //float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,6.0};
+
+  // For binning out to 5 GeV in pT //
+  float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
+
+  TString outfileName = "dataFiles/hadronnorm_depfit";
+
+  if (nv)
+    {
+      TFile* infile1 = TFile::Open("dataFiles/depstudy_noveto.root");
+      outfileName += "_noveto";
+    }
+  else
+      TFile* infile1 = TFile::Open("dataFiles/depstudy.root");
+
+  outfileName += ".root";
+
+  TH1F* h_dep[nbins];
+  for (int i = 0; i < nbins; i ++)
     {
       stringstream aa;
       aa<< "h_dep"<<i;
@@ -20,8 +35,8 @@ void fitdep()
     }
 
   TFile* infile2 = TFile::Open("dataFiles/hadronfits.root");
-  TF1* f_hadfits[10];
-  for (int i = 0 ; i < 10 ; i++)
+  TF1* f_hadfits[nbins];
+  for (int i = 0 ; i < nbins ; i++)
     {
       stringstream aa;
       aa<< "fits"<<i;
@@ -29,8 +44,8 @@ void fitdep()
       f_hadfits[i] = (TF1*)infile2->Get(histname.c_str());
     }
 
-  TF1* f_ecfits[10];
-  for (int i = 0; i < 10;i++)
+  TF1* f_ecfits[nbins];
+  for (int i = 0; i < nbins;i++)
     {
       stringstream aa;
       aa << "("<<f_hadfits[i]->GetTitle()<<")*[7]+gaus(8)";
@@ -56,11 +71,7 @@ void fitdep()
       f_ecfits[i]->SetParameter(10,1);
     }
 
-
-  float ptrange[] = {1.5,1.8,2.1,2.4,2.7,3,3.5,4,4.5,5,6};
-
-
-  for (int i = 0; i < 10 ;i++)
+  for (int i = 0; i < nbins ;i++)
     {
       stringstream aa;
       aa <<ptrange[i] << " < p_{T} < " <<ptrange[i+1] << ";dep;";
@@ -79,7 +90,7 @@ void fitdep()
   c1->Divide(3,4);
 
 
-  for ( int i = 1 ; i < 11; i ++)
+  for ( int i = 1 ; i <= nbins; i ++)
     {
       // h_dep[i-1]->SetAxisRange(-7,5,"X");
       // if ( i > 10) { h_dep[i-1]->Rebin(2);h_dep[i-1]->SetAxisRange(-7,5,"X");}
@@ -96,14 +107,14 @@ void fitdep()
 
 
 
-  TF1* f_hadrons[10];
-  TF1* f_hadronsuc[10];
-  TF1* f_electrons[10];
+  TF1* f_hadrons[nbins];
+  TF1* f_hadronsuc[nbins];
+  TF1* f_electrons[nbins];
 
-  float ptbins[11] = {1.5,1.8,2.1,2.4,2.7,3,3.5,4,4.5,5,6};
-  TH1F* h_hadfrac = new TH1F("h_hadfrac",";p_{T};",10,ptbins);
+  // float ptbins[11] = {1.5,1.8,2.1,2.4,2.7,3,3.5,4,4.5,5,6};
+  TH1F* h_hadfrac = new TH1F("h_hadfrac",";p_{T};",nbins,ptrange);
 
-  for (int i = 0; i < 10; i ++)
+  for (int i = 0; i < nbins; i ++)
     {
       stringstream aa;
       aa << "("<<f_hadfits[i]->GetTitle()<<")*[7]";
@@ -142,20 +153,14 @@ void fitdep()
       h_hadfrac->SetBinError(i+1,fabs(n_hadfracuc-n_hadfrac));
     }
 
+  TFile* outfile = new TFile(outfileName,"RECREATE");
+  cout << " outputting depfit fractions into : " << outfileName << endl;
 
   TCanvas*c2 = new TCanvas("c2","",500,500);
   h_hadfrac->Draw();
-
-
-
-  if (nv)
-    TFile* outfile = new TFile("dataFiles/hadronnorm_depfit_noveto.root","RECREATE");
-  else
-    TFile* outfile = new TFile("dataFiles/hadronnorm_depfit.root","RECREATE");
-
   h_hadfrac->Write();
 
-  for (int i = 0; i < 10;i++)
+  for (int i = 0; i < nbins;i++)
     {
       f_hadrons[i]->Write();
       h_dep[i]->Write();

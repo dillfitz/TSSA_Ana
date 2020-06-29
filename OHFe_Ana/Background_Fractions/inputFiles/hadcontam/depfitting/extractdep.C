@@ -1,36 +1,62 @@
 void extractdep()
 {
-  const bool nv = 1;
+  const bool nv = 0;
 
-  TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root");
-  TNtuple*ntpesvx = (TNtuple*)infile->Get("ntpesvx");
-
-
-  float chisq,ndf,dep,quality,hitpat,nhit,zed,sigemcdphi,sigemcdz,conveto,prob,n0,disp,sdips,pt,triginfo,ecore,mom;
-  ntpesvx->SetBranchAddress("chisq",&chisq);
-  ntpesvx->SetBranchAddress("ndf",&ndf);
-  ntpesvx->SetBranchAddress("dep",&dep);
-  ntpesvx->SetBranchAddress("quality",&quality);
-  ntpesvx->SetBranchAddress("hitpat",&hitpat);
-  ntpesvx->SetBranchAddress("nhit",&nhit);
-  ntpesvx->SetBranchAddress("zed",&zed);
-  ntpesvx->SetBranchAddress("sigemcdphi",&sigemcdphi);
-  ntpesvx->SetBranchAddress("sigemcdz",&sigemcdz);
-  ntpesvx->SetBranchAddress("conversionveto2x",&conveto);
-  ntpesvx->SetBranchAddress("prob",&prob);
-  ntpesvx->SetBranchAddress("n0",&n0);
-  ntpesvx->SetBranchAddress("disp",&disp);
-  ntpesvx->SetBranchAddress("triginfo",&triginfo);
-  ntpesvx->SetBranchAddress("pt",&pt);
-  ntpesvx->SetBranchAddress("ecore",&ecore);
-  ntpesvx->SetBranchAddress("mom",&mom);
+  //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root");
+  // TNtuple*ntpesvx = (TNtuple*)infile->Get("ntpesvx");
 
 
-  TH1F* h_dep[20];
-  TH1F* h_eop[20];
+  TFile*infile = TFile::Open("../../../../../AllRuns_736_ana644.root");
+  TNtuple*eSvxTree = (TTree*)infile->Get("e_svx_tree");
+
+ TString outfileName = "dataFiles/depstudy";
+  if (nv)
+    {
+      outfileName += "_noveto";
+    }
+
+  outfileName += ".root";
+  cout << " outputting histograms into " << outfileName << endl;
+
+  TFile* outfile = new TFile(outfileName,"RECREATE");
+
+  bool conveto;
+  int ndf, quality,hitpat, nhit, n0, triginfo;
+  float chisq,dep,zed,sigemcdphi,sigemcdz,prob,disp,sdips,pt,ecore,mom;
+  eSvxTree->SetBranchAddress("chisq",&chisq);
+  eSvxTree->SetBranchAddress("ndf",&ndf);
+  eSvxTree->SetBranchAddress("dep",&dep);
+  eSvxTree->SetBranchAddress("quality",&quality);
+  eSvxTree->SetBranchAddress("hitpattern",&hitpat);
+  eSvxTree->SetBranchAddress("nhit",&nhit);
+  eSvxTree->SetBranchAddress("zed",&zed);
+  eSvxTree->SetBranchAddress("sigemcdphi",&sigemcdphi);
+  eSvxTree->SetBranchAddress("sigemcdz",&sigemcdz);
+  eSvxTree->SetBranchAddress("conversionveto2x",&conveto);
+  eSvxTree->SetBranchAddress("prob",&prob);
+  eSvxTree->SetBranchAddress("n0",&n0);
+  eSvxTree->SetBranchAddress("disp",&disp);
+  eSvxTree->SetBranchAddress("triginfo",&triginfo);
+  eSvxTree->SetBranchAddress("pt",&pt);
+  eSvxTree->SetBranchAddress("ecore",&ecore);
+  eSvxTree->SetBranchAddress("mom",&mom);
 
 
-  for (int i =0; i < 20;i++)
+
+  //double ptbins[16]  = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0};
+
+  const int nbins = 4;
+  // Binning out to 6 GeV in pT //
+  //double ptbins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 6.0};
+
+  // Binning out to 5 GeV in pT //
+  double ptbins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0};
+
+  TH1F* h_dep[nbins];
+  TH1F* h_eop[nbins];
+
+
+  for (int i =0; i < nbins;i++)
     {
       stringstream aa;
       aa << "h_dep"<<i;
@@ -46,12 +72,10 @@ void extractdep()
       h_eop[i]->Sumw2();
     }
 
-  // float ptbins[15] = {1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.5,4,4.5,5,6,8};
-  double ptbins[16]  = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0};
 
-  for ( int i = 0; i < ntpesvx->GetEntries();i++)
+  for ( int i = 0; i < eSvxTree->GetEntries();i++)
     {
-      ntpesvx->GetEntry(i);
+      eSvxTree->GetEntry(i);
       int trigger = triginfo;
       if (nv)
 	{
@@ -59,7 +83,7 @@ void extractdep()
 	    {
 	      if( prob > 0.01 && pt < 5 )
 		{
-		  for (int q = 0; q < 10;q++)
+		  for (int q = 0; q < nbins;q++)
 		    {
 		      if (pt > ptbins[q] && pt < ptbins[q+1])
 			{
@@ -70,7 +94,7 @@ void extractdep()
 		}
 	      if ( pt > 5 && prob > 0.2 && n0 > 3)
 		{
-		  for (int q = 0; q < 10;q++)
+		  for (int q = 0; q < nbins;q++)
 		    {
 		      if (pt > ptbins[q] && pt < ptbins[q+1])
 			{
@@ -89,7 +113,7 @@ void extractdep()
 	    {
 	      if( prob > 0.01 && pt < 5 )
 		{
-		  for (int q = 0; q < 10;q++)
+		  for (int q = 0; q < nbins;q++)
 		    {
 		      if (pt > ptbins[q] && pt < ptbins[q+1])
 			{
@@ -100,7 +124,7 @@ void extractdep()
 		}
 	      if ( pt > 5 && prob > 0.2 && n0 > 3)
 		{
-		  for (int q = 0; q < 10;q++)
+		  for (int q = 0; q < nbins;q++)
 		    {
 		      if (pt > ptbins[q] && pt < ptbins[q+1])
 			{
@@ -115,16 +139,9 @@ void extractdep()
     }
   
 
-  TCanvas*c1 = new TCanvas("c1","",500,500);
+  //TCanvas*c1 = new TCanvas("c1","",500,500);
 
-
-
-  if (nv)
-    TFile* outfile = new TFile("dataFiles/depstudy_noveto.root","RECREATE");
-  else
-    TFile* outfile = new TFile("dataFiles/depstudy.root","RECREATE");
-
-  for (int i = 0; i < 10;i++)
+  for (int i = 0; i < nbins;i++)
     {
       h_dep[i]->Write();
       h_eop[i]->Write();

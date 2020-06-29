@@ -3,18 +3,25 @@ void hadrondep()
 
   gStyle->SetOptStat(0);
 
-  TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root"); 
+  // TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root"); 
+  TFile*infile = TFile::Open("../../../../../AllRuns_736_ana644.root"); 
+
 
   TH2F* h_hadron_dep_pt = (TH2F*)infile->Get("h_hadron_dep_pt");
   // h_hadron_dep_pt->SetAxisRange(-7,5,"X");
 
-  TH1F* h_hadrondep[20];
+  const int nbins = 4;
+
+  // For binning out to 6 GeV in pT //
+  //float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,6.0};
+
+  // For binning out to 5 GeV in pT //
+  float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
+
+  TH1F* h_hadrondep[nbins];
   float bin[] = {16,18,19,21,22,24,25,27,28,30,31,35,36,40,41,45,46,50,51,60};
 
-
-  float ptrange[] = {1.5,1.8,2.1,2.4,2.7,3,3.5,4,4.5,5,6};
-
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < nbins; i++)
     {
       stringstream aa;
       aa << "h_hadrondep_"<<i;
@@ -27,7 +34,7 @@ void hadrondep()
 
 
   TF1* fits[14];
-  for (int i = 0; i < 10;i++)
+  for (int i = 0; i < nbins;i++)
     {
       stringstream bb;
       bb<< "fits"<<i;
@@ -56,7 +63,7 @@ void hadrondep()
 
   // h_hadrondep_9->SetTitle("7 < p_{T} < 8 ; dep;");
 
-  for ( int i = 0; i < 10; i++)
+  for ( int i = 0; i < nbins; i++)
     {
       h_hadrondep[i]->Fit(fits[i],"0","",-8,5);
     }
@@ -67,7 +74,7 @@ void hadrondep()
 
   TCanvas *c1 = new TCanvas("c1","",600,800);
   c1->Divide(3,4);
-  for ( int i = 1 ; i < 11; i ++)
+  for ( int i = 1 ; i <= nbins; i ++)
     {
       stringstream aa;
       aa <<ptrange[i-1] << " < p_{T} < " <<ptrange[i] << " GeV/c;dep;";
@@ -84,7 +91,7 @@ void hadrondep()
 
   TFile* outfile = new TFile("dataFiles/hadronfits.root","RECREATE");
 
-  for ( int i = 0; i < 10; i ++ )
+  for ( int i = 0; i < nbins; i ++ )
     {
       fits[i]->Write();
     }
