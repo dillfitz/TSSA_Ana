@@ -1,6 +1,6 @@
 void fitdep()
 {
-  const bool nv = 0;
+  const bool nv = 1;
 
   gStyle->SetOptStat(0);
   gStyle->SetOptFit(0);

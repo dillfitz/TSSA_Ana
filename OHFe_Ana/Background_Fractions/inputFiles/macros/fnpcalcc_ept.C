@@ -8,7 +8,7 @@ void fnpcalcc_ept()
   
   //const int nbins = 6;
   //double bins[nbins+1]  = {1.0, 1.25, 1.5, 1.8, 2.1, 2.7, 6.0};
-  //TFile*data = TFile::Open("/phenix/spin/phnxsp01/dillfitz/taxi/Run15pp200CAERTP108/AN_SAMPLE/16370/data/AllRuns_754_ana644.root");
+  //TFile*data = TFile::Open("/phenix/spin/phnxsp01/dillfitz/taxi/Run15pp200CAERTP108/AN_SAMPLE/16370/data/AllRuns_725_ana644.root");
   
 
 

@@ -4,7 +4,7 @@ void swappedhadronsurvival()
   //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_whadrons.root"); 
   //TNtuple* ntphsvx = (TNtuple*)infile->Get("ntpshsvx");
 
-  TFile*infile = TFile::Open("../../../../../AllRuns_736_ana644.root"); 
+  TFile*infile = TFile::Open("../../../../../AllRuns_725_ana644.root"); 
   TNtuple* shSvxTree = (TTree*)infile->Get("sh_svx_tree");
   
   int ndf, quality, hitpat, nhit, n0, triginfo;

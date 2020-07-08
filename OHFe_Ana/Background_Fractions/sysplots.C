@@ -61,8 +61,29 @@ void sysplots()
   legend->AddEntry(h_photon_n,"direct #gamma");
   legend->AddEntry(h_hadcontam_n,"hadron contamination");
 
+  h_jpsi_n->SetLineColor(6);
+  h_photon_n->SetLineColor(4);
+  h_hadcontam_n->SetLineColor(3);
+  h_ke3_n->SetLineColor(kOrange);
+  h_eta_n->SetLineColor(kOrange+7);
 
-  h_piz_n->SetAxisRange(0.0001,10,"Y");
+  h_piz_n->SetMarkerStyle(20);
+  h_jpsi_n->SetMarkerStyle(20);
+  h_photon_n->SetMarkerStyle(20);
+  h_hadcontam_n->SetMarkerStyle(20);
+  h_ke3_n->SetMarkerStyle(20);
+  h_eta_n->SetMarkerStyle(20);
+
+  h_piz_n->SetMarkerColor(h_piz_n->GetLineColor());
+  h_jpsi_n->SetMarkerColor(h_jpsi_n->GetLineColor());
+  h_photon_n->SetMarkerColor(h_photon_n->GetLineColor());
+  h_hadcontam_n->SetMarkerColor(h_hadcontam_n->GetLineColor());
+  h_ke3_n->SetMarkerColor(h_ke3_n->GetLineColor());
+  h_eta_n->SetMarkerColor(h_eta_n->GetLineColor());
+
+
+
+  h_piz_n->SetAxisRange(0.0005,300,"Y");
   h_piz_n->SetTitle(";p_{T};");
   TCanvas*c1 = new TCanvas("c1","",500,500);
   gPad->SetLogy();

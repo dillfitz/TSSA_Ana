@@ -11,7 +11,7 @@ using namespace std;
 
 #include "Constants.h"
 
-const int NUM_FILLS = 142;
+const int NUM_FILLS = 140;
 const int NUM_FILLS_IN_FILE = 165;
 
 void makeFillFile()
@@ -46,7 +46,7 @@ void makeFillFile()
   for( int i = 0; i < NUM_XINGS; i++ )
     triggerCounts[i] = spinBlue[i] = spinYellow[i] = 0;
 
-  TFile *polFile = TFile::Open("../AllRuns_736_ana644.root");
+  TFile *polFile = TFile::Open("../AllRuns_725_ana644.root");
   //TFile *polFile = TFile::Open("../AllRuns_754_ana640.root");
 
   TTree* pol_tree = (TTree*)polFile->Get("pol_tree");
@@ -127,7 +127,7 @@ void makeFillFile()
     {
       pol_tree->GetEntry(i);
 
-      if( fillNumber==18777 || fillNumber==18758 || fillNumber==18778) continue;
+      if( fillNumber==18777 || fillNumber==18758 || fillNumber==18778 || fillNumber==0) continue;
 
       //forgot about run 426319 before I merged files
 

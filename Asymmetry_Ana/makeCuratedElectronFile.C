@@ -25,7 +25,7 @@ void makeCuratedElectronFile()
   fillTree->SetBranchAddress( "triggerCounts", triggerCounts );
   fillTree->SetBranchAddress( "fillNumber",    &fillNumberFillTree );
 
-  TFile *dataFile = TFile::Open("../AllRuns_754_ana644.root");
+  TFile *dataFile = TFile::Open("../AllRuns_725_ana644.root");
 
   // May need to add sector and energy content.. look into this. Will arm suffice instead of sector? //
   int fillnumber, run, event, xing, spinpattern, sector, arm; 
@@ -101,6 +101,7 @@ void makeCuratedElectronFile()
   int eventsTreeIndex = 0;
   int lastRunNumber = -99;
   int cutval = 0;
+  int sixGeV = 0; int fiveGeV = 0;
   for( int i = 0; i < numEntries; i++ )
   {
       inputTree->GetEntry( i );
@@ -169,13 +170,17 @@ void makeCuratedElectronFile()
       if (ndf == 0 )                                {continue;}
       if( triggerCounts[ xing ] < 10000 )           {continue;}
 
+      if (pt > 2.7 && pt < 6.0 ) {sixGeV++;} 
+      if (pt > 2.7 && pt < 5.0 ) {fiveGeV++;}
+
       ptBin = findBin( NUM_VALUE_BINS, VALUE_BINS, pt ) ;
       if( ptBin >= 0 )
 	newTree->Fill();
       
 
     }
-
+  cout << "Candidates passing cuts in the 2.7 < pT [GeV] < 5.0 range : " << fiveGeV << endl;
+  cout << "Candidates passing cuts in the 2.7 < pT [GeV] < 6.0 range : " << sixGeV << endl;
   outFile->cd();
   newTree->Write();
   newTree->Delete();

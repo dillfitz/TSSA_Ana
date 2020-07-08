@@ -1,12 +1,12 @@
 void extractdep()
 {
-  const bool nv = 0;
+  const bool nv = 1;
 
   //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root");
   // TNtuple*ntpesvx = (TNtuple*)infile->Get("ntpesvx");
 
 
-  TFile*infile = TFile::Open("../../../../../AllRuns_736_ana644.root");
+  TFile*infile = TFile::Open("../../../../../AllRuns_725_ana644.root");
   TNtuple*eSvxTree = (TTree*)infile->Get("e_svx_tree");
 
  TString outfileName = "dataFiles/depstudy";

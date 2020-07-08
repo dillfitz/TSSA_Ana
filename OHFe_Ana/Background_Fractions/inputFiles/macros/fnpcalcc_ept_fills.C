@@ -33,7 +33,7 @@ void fnpcalcc_ept_fills()
 
   //TFile *dataFile = TFile::Open( "ohfe.root" );
 
-  TFile *dataFile = TFile::Open("../../../../AllRuns_736_ana644.root");
+  TFile *dataFile = TFile::Open("../../../../AllRuns_725_ana644.root");
 
   // May need to add sector and energy content.. look into this. Will arm suffice instead of sector? //
   int fillnumber, run, event, xing, spinpattern, sector, arm; 

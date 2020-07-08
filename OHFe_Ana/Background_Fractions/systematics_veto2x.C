@@ -1232,8 +1232,32 @@ void systematics_veto2x()
    }
   }
 
-   TFile* outfile = new TFile("outputFiles/normalizations.root","RECREATE");
+   h_piz_pt->SetAxisRange(0.0000000001,0.0001,"Y");
+   //h_ke3_n->SetAxisRange(1,7.5,"X");
+   TCanvas*c5 = new TCanvas("c5","",500,500);
+   gPad->SetLogy();
+   h_piz_pt->Draw();
+   h_ke3_pt->Draw("SAME");
+   h_eta_pt->Draw("SAME");
+   h_photon_pt->Draw("SAME");
+   h_jpsi_pt->Draw("SAME");
+   // h_hadcontam_pt->Draw("SAME");
 
+   TLegend*l5 = new TLegend(0.65,0.65,0.9,0.9);
+   l5->AddEntry(h_ke3_pt,"ke3");
+   l5->AddEntry(h_piz_pt,"pi0");
+   l5->AddEntry(h_jpsi_pt,"jpsi");
+   l5->AddEntry(h_eta_pt,"eta");
+   l5->AddEntry(h_photon_pt,"gamma");
+   
+   // l5->AddEntry(h_hadcontam_n,"Hadrons");
+   l5->Draw();
+
+
+   // c4->SaveAs("plots/fnp_2x.png");
+   c5->SaveAs("normalizations.png"); 
+
+   TFile* outfile = new TFile("outputFiles/normalizations.root","RECREATE");
 
    h_ke3_n->Write();
    h_piz_n->Write();
@@ -1310,6 +1334,7 @@ void systematics_veto2x()
        ctmp6->cd(i);
        h_sysphotonn[i-1]->Draw();
      }
+
 
    TH1F* h_sys_piz = new TH1F("h_sys_piz",";p_{T};",nbins,bins);
    TH1F* h_sys_eta = new TH1F("h_sys_eta",";p_{T};",nbins,bins);

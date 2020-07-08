@@ -1,6 +1,6 @@
 void average_hc()
 {
-  const bool nv = 1;
+  const bool nv = 0;
   const int nbins = 4;
 
   if (nv)
