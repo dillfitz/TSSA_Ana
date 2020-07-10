@@ -46,9 +46,9 @@ void makeFillFile()
   for( int i = 0; i < NUM_XINGS; i++ )
     triggerCounts[i] = spinBlue[i] = spinYellow[i] = 0;
 
-  TFile *polFile = TFile::Open("../AllRuns_725_ana644.root");
-  //TFile *polFile = TFile::Open("../AllRuns_754_ana640.root");
 
+
+  TFile *polFile = TFile::Open("../AllRuns_725_ana644.root");
   TTree* pol_tree = (TTree*)polFile->Get("pol_tree");
   pol_tree->SetBranchAddress( "fillnumber",    &fillNumber );
   pol_tree->SetBranchAddress( "run",           &runNumber );
@@ -82,7 +82,7 @@ void makeFillFile()
   int lastRunNumber = 0;
   int lastFillNumber = 0;
 
-  TFile *outFile = new TFile( "../fill.root", "RECREATE");
+  TFile *outFile = new TFile( "fill.root", "RECREATE");
   float relLumB, relLumY;
   float polarizationB, polarizationErrB, polarizationY, polarizationErrY;
   Long64_t countsUpB   = 0;
@@ -126,6 +126,7 @@ void makeFillFile()
   for( int i = 0; i < numEntries; i++ )
     {
       pol_tree->GetEntry(i);
+
 
       if( fillNumber==18777 || fillNumber==18758 || fillNumber==18778 || fillNumber==0) continue;
 

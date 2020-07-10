@@ -63,7 +63,7 @@ int asymmetryBunchShuffle( float seed = 2,
 				   histoNumBins, histoMin, histoMax );
     }
 
-  TFile *fillFile = TFile::Open("../../../../fill.root");
+  TFile *fillFile = TFile::Open("../../../fill.root");
   TTree* fillTree = (TTree*)fillFile->Get("fill_tree");
   int fillNumberFillTree;
   float polB, polErrB, polY, polErrY;

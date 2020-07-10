@@ -1,6 +1,6 @@
 void hadroncontam()
 {
-  const bool nv = 1;
+  const bool nv = 0;
 
   gStyle->SetOptStat(0);
 

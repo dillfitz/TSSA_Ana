@@ -18,7 +18,7 @@ void makeCuratedElectronFile()
   TString treeName = "e_svx_tree";
   cout << "Saving " << treeName << " in " << outFileName << endl;
 
-  TFile *fillFile = TFile::Open( "../fill.root" );
+  TFile *fillFile = TFile::Open( "fill.root" );
   TTree *fillTree = (TTree*)fillFile->Get( "fill_tree" );
   int fillNumberFillTree;
   Long64_t triggerCounts[ NUM_XINGS ];
@@ -147,7 +147,7 @@ void makeCuratedElectronFile()
 
       // Analysis Quality Cuts
       if (pt <= 1.0 || pt >= 6.0)                     {continue;}
-      if (conversionveto10x==0)                      {continue;}
+      if (conversionveto2x==0)                      {continue;}
       if (abs(dep)>=2.)                             {continue;}
       if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {continue;}
       if (abs(zed)>= 75)                            {continue;}

@@ -1,6 +1,6 @@
 void extractdep()
 {
-  const bool nv = 1;
+  const bool nv = 0;
 
   //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root");
   // TNtuple*ntpesvx = (TNtuple*)infile->Get("ntpesvx");

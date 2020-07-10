@@ -23,7 +23,7 @@ using namespace std;
 //E_gamma & 10% > E_cone - E_pair
 //
 
-void asymmetry( const char* particle = "ohfe",
+void asymmetryPlus( const char* particle = "ohfe",
 		const bool dpBackground = false, 
 		const bool isolated = false )//both must be set to false for dp
 {
@@ -45,7 +45,7 @@ void asymmetry( const char* particle = "ohfe",
 
   TString outputFileName = "./dataFiles/";
   outputFileName += particle;
-  outputFileName += "_AN_fills.root";
+  outputFileName += "_AN_fills_plus.root";
 
   // TString outputFileName = "/direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/dataFiles/";
   // outputFileName += particle;
@@ -149,12 +149,13 @@ void asymmetry( const char* particle = "ohfe",
   TTree* dataTree = (TTree*)dataFile->Get( inputTreeNameInFile );
   cout << "~~~~~~~~~~~Loading " << inputTreeNameInFile << " from " 
        << inputDataFileName << "~~~~~~~~~~" << endl;
-  int fillNumber, arm, spinPattern, ptBin, pt1Bin;
+  int fillNumber, arm, spinPattern, ptBin, pt1Bin, charge;
   float energy1, energy2, coneEnergy1;
   dataTree->SetBranchAddress( "fillNumber",  &fillNumber );
   dataTree->SetBranchAddress( "arm",         &arm );
+  dataTree->SetBranchAddress( "charge",      &charge );
   dataTree->SetBranchAddress( "spinPattern", &spinPattern );
-  dataTree->SetBranchAddress( "ptBin",  &ptBin );
+  dataTree->SetBranchAddress( "ptBin",       &ptBin );
 
   float px, py, px1, py1, px2, py2, pt, phi;
   if( particle == "ohfe" )
@@ -183,13 +184,14 @@ void asymmetry( const char* particle = "ohfe",
   for( int i = 0; i < numEntries; i++ )
     {
       dataTree->GetEntry(i);
+      if (charge == -1) 
+	continue;
+
       if( i%50000 == 0 ) cout << "Processed " << i << " entries " << endl;
 
       if( fillNumber != lastFillNumber )
 	{
 	  fillBin = fillIndex / NUM_FILLS_IN_GROUP;
-	  //cout << "Fill " << fillNumber << " fill index " << fillIndex
-	  //     << " fill bin " << fillBin << endl;
 	  fillIndex++;
 	}
       lastFillNumber = fillNumber;
@@ -211,23 +213,6 @@ void asymmetry( const char* particle = "ohfe",
 	  accCorr.increment( arm, ptBin, px, py );
 	  asymmetry.incrementCounts( fillBin, ptBin, arm, spinPattern );
 	}
-      /*
-      else if( !isolated && !dpBackground && particle != "dp"
-	       && ptBin >= 0 ) //regular old asymmetry pi0 or eta
-	{
-	  asymmetry.incrementCounts( fillBin, ptBin, arm, spinPattern );
-	  accCorr.increment( arm, ptBin, px1 + px2, py1 + py2 );
-	}
-      else if( isolated && dpBackground && particle != "dp" 
-	  && pt1Bin >= 0 && (energy1 * 0.1 > (coneEnergy1 - energy2)) )
-	{
-	  accCorr.increment( arm, pt1Bin, px1, py1 );
-	  asymmetry.incrementCounts( fillBin, pt1Bin, arm, spinPattern );
-
-	  //cout << "Entry " << i << " pt1bin " << pt1Bin << endl;
-	}
-      */
-      /**/
     }//end looping through pairs
   cout << "The last fill number was " << fillNumber << " with fill bin "
        << fillBin << endl;
@@ -295,13 +280,13 @@ void asymmetry( const char* particle = "ohfe",
       for( int o = 0; o < NUM_OPTIONS; o++ )
 	{
 	  ostringstream title;
-	  title << BEAM_NAMES[ beam ] << OPTION_NAMES[o] 
+	  title << BEAM_NAMES[ beam ] << OPTION_NAMES[o] << " Plus " 
 		<< " Asymmetry from p_{T} " << VALUE_BINS[ ptBin ] << " to "
 		<< VALUE_BINS[ ptBin + 1 ] << " GeV; Fill Group Index; ";
 
 	  ostringstream name;
-	  name << BEAM_NAMES[ beam ] << OPTION_NAMES[o] << VALUE_BINS[ ptBin ]
-	       << "to" << VALUE_BINS[ ptBin + 1 ];
+	  name << BEAM_NAMES[ beam ] << OPTION_NAMES[o] << "_Plus_" 
+               << VALUE_BINS[ ptBin ] << "to" << VALUE_BINS[ ptBin + 1 ];
 	  cout << name.str().c_str() << endl;
 
 	  float *asPtr = asArray[ ptBin ][ beam ][o];
