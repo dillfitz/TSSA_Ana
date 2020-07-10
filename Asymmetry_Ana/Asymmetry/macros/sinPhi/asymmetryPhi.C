@@ -35,7 +35,7 @@ void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
   cout << "~~~~~~~~~~~Gonna output everything into " << outputFileName 
        << "~~~~~~~~~~~" << endl;
 
-  TFile *fillFile = TFile::Open( "../../../../fill.root" );
+  TFile *fillFile = TFile::Open( "../../../fill.root" );
   TTree* fillTree = (TTree*)fillFile->Get( "fill_tree" );
   float polB, polErrB, polY, polErrY;
   Long64_t countsUpB, countsDownB, countsUpY, countsDownY;

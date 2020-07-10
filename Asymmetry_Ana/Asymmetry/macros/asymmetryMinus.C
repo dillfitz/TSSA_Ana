@@ -54,7 +54,7 @@ void asymmetryMinus( const char* particle = "ohfe",
   cout << "~~~~~~~~~~~Gonna output everything into " << outputFileName 
        << "~~~~~~~~~~~" << endl;
 
-  TFile *fillFile = TFile::Open( "../../../fill.root" );
+  TFile *fillFile = TFile::Open( "../../fill.root" );
   TTree* fillTree = (TTree*)fillFile->Get( "fill_tree" );
   int fillNumberInFillTree;
   float polB, polErrB, polY, polErrY;

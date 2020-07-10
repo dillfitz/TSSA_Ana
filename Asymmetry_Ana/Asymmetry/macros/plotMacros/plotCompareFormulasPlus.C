@@ -14,7 +14,7 @@ using namespace std;
 
 const int SIZE = 2;
 const int numGraphs = 3;
-const char *names[6] = { "lumiY", "lumiB", "lumi", "sqrtY", "sqrtB",  "sqrt" };
+const char *names[6] = { "lumiY_plus", "lumiB_plus", "lumi_plus", "sqrtY_plus", "sqrtB_plus",  "sqrt_plus" };
 //const float MIN = -0.06;
 //const float MAX =  0.06;
 const float MIN = -0.07;
@@ -22,11 +22,11 @@ const float MAX =  0.07;
 
 const bool SAVE_IMAGES = true;
 
-void plotCompareFormulas( const char* particle = "ohfe" )
+void plotCompareFormulasPlus( const char* particle = "ohfe" )
 {
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;
-  inputFileName += "_AN";
+  inputFileName += "_AN_plus";
   inputFileName += ".root";
 
   cout << "Inputting file " << inputFileName << endl;
@@ -96,7 +96,7 @@ void plotCompareFormulas( const char* particle = "ohfe" )
 	  TString name = "./images/";
 	  name += particle; 
 	  name += "/CompareFormulas/";
-	  name += "compareSqrtLumi";
+	  name += "compareSqrtLumiPlus";
 	  name += marph[i];
 
 	  TString title = name;

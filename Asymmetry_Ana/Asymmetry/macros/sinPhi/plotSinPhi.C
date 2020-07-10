@@ -19,11 +19,11 @@ using namespace std;
 
 const bool SAVE_PICTURES = true;
 const float YMIN[ NUM_PT_BINS ] = 
-  { -0.25, -0.25, -0.25, -0.25, -0.25, -0.25 };
+  { -0.25, -0.25, -0.25, -0.25 };
 const float YMAX[ NUM_PT_BINS ] = 
-  {  0.25,  0.25,  0.25,  0.25, 0.25, 0.25 };
-const float AVE_YMIN = -0.025;
-const float AVE_YMAX =  0.035;
+  {  0.25,  0.25,  0.25,  0.25 };
+const float AVE_YMIN = -0.045;
+const float AVE_YMAX =  0.045;
 
 void plotSinPhi( const char* particle = "ohfe" )
 {
@@ -204,9 +204,9 @@ void plotSinPhi( const char* particle = "ohfe" )
       c30->SaveAs( pictureName );
     }
  
-  TString graphFileName = "../dataFiles/graphs_";
+  TString graphFileName = "../dataFiles/";
   graphFileName += particle;
-  graphFileName += ".root";
+  graphFileName += "_AN.root";
   TFile *otherFile = TFile::Open( graphFileName );
   cout << "Opening original asymmetry graph file " << graphFileName << endl;
   TGraphAsymmErrors* otherYellow = (TGraphAsymmErrors*)otherFile->Get("lumiY");
