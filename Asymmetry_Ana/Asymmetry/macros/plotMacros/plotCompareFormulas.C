@@ -14,7 +14,7 @@ using namespace std;
 
 const int SIZE = 2;
 const int numGraphs = 3;
-const char *names[6] = { "lumiY", "lumiB", "lumi", "sqrtY", "sqrtB",  "sqrt" };
+const char *names[6] = { "lumiY", "lumiB", "lumi", "sqrtY", "sqrtB",  "sqrt0" };
 //const float MIN = -0.06;
 //const float MAX =  0.06;
 const float MIN = -0.07;
