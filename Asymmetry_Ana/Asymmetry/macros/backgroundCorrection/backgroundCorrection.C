@@ -1,10 +1,12 @@
 #include <cmath>
 #include "../../Constants.h"
+#include "../plotMacros/ttest.h"
 
 void backgroundCorrection()
 {
     int verbosity = 0;
-    bool jpsi = 1;
+	bool SAVE_IMAGES = 1;
+    bool jpsi = 0;
     bool hadron = 0;
     const int nbins = NUM_VALUE_BINS;
     double x_lumi[nbins], y_lumi[nbins], x_sqrt[nbins], y_sqrt[nbins];
@@ -116,13 +118,20 @@ void backgroundCorrection()
  
 	double ptLow[nbins];
 	double ptHigh[nbins];
+	TCanvas *can[2];
     for( int i = 0; i < NUM_VALUE_BINS; ++i )
     {
         ptLow[i]  = fabs( VALUE_BINS[i] - x_lumi[i] );
         ptHigh[i] = fabs( VALUE_BINS[i + 1] - x_lumi[i] );
     }
+
+	can[0] = new TCanvas( "c", "Corrected A_{N}" );
 	TGraphAsymmErrors *corrected_lumi = new TGraphAsymmErrors( nbins, x_lumi, y_corrected_lumi, ptLow, ptHigh, corrected_lumi_err, corrected_lumi_err); 
 	TGraphAsymmErrors *corrected_sqrt = new TGraphAsymmErrors( nbins, x_sqrt, y_corrected_sqrt, ptLow, ptHigh, corrected_sqrt_err, corrected_sqrt_err); 
+
+	TF1 *line = new TF1( "line", "0", 0, 20 );
+	line->SetLineColor( kBlack );
+	line->SetLineStyle( 2 );
 
 	if (hadron && jpsi )
 		corrected_sqrt->SetTitle("Background Corrected A_{N}");
@@ -147,7 +156,44 @@ void backgroundCorrection()
 
 	corrected_sqrt->Draw("AP");
 	corrected_lumi->Draw("P");
+    line->Draw( "same" );
+
 	legend->Draw();
+
+    if( SAVE_IMAGES )
+	{
+		TString name = "./images/";
+		name += "compareCorrectedSqrtLumi";
+		if (hadron && jpsi )
+			name += "HadJPsiCorr";
+		else if (hadron)
+			name += "HadCorr";
+		else if (jpsi)
+			name += "JPsiCorr";
+		else
+			name += "DilutionOnly";
+
+		TString ttestName = name;
+		name += ".png";
+		can[0]->SaveAs( name );
+
+	}
+
+	can[1] = new TCanvas( "c0", "Corrected A_{N} tTest" );
+	TGraph *tTest; 
+    tTest = ttest( corrected_sqrt, corrected_lumi, 1 );
+    tTest->SetMarkerColor( kBlack );
+    tTest->SetMarkerStyle( kFullCircle );
+    tTest->SetTitle( "; p_{T}[GeV];T" );
+    tTest->GetYaxis()->SetRangeUser( -3, 3 );
+    tTest->Draw( "AP" );
+    line->Draw( "same" );
 	//corrected_sqrt->Draw("SAME");
+
+    if( SAVE_IMAGES )
+	{
+		ttestName += "TTest.png";
+		can[1]->SaveAs( ttestName );
+	}
 
 }

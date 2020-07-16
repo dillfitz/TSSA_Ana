@@ -16,6 +16,7 @@ using namespace std;
 #include "../../../Constants.h"
 #include "../plotMacros/weightedAverage.h"
 #include "ConstantsSinPhi.h"
+#include "../plotMacros/ttest.h"
 
 const bool SAVE_PICTURES = true;
 const float YMIN[ NUM_PT_BINS ] = 
@@ -200,9 +201,27 @@ void plotSinPhi( const char* particle = "ohfe" )
       blue->SetTitle( " ;p_{T} [GeV]; " );
       TString pictureName = "images/";
       pictureName += particle;
-      pictureName += "/blueYellowSinPhi.png";
+      pictureName += "/blueYellowSinPhi";
+      TString ttestSinName = pictureName;
+      pictureName += ".png";
       c30->SaveAs( pictureName );
     }
+
+  TCanvas *tcanSin = new TCanvas( "tcanSin", "SinPhi A_{N} Yellow Blue tTest" );
+  TGraph *tTestSin; 
+  tTestSin = ttest(yellow, blue, 0 );
+  tTestSin->SetMarkerColor( kBlack );
+  tTestSin->SetMarkerStyle( kFullCircle );
+  tTestSin->SetTitle( "; p_{T}[GeV];T" );
+  tTestSin->GetYaxis()->SetRangeUser( -6, 6 );
+  tTestSin->Draw( "AP" );
+  zeroLine->Draw( "same" );
+
+  if( SAVE_PICTURES )
+  {
+      ttestSinName += "TTest.png";
+      tcanSin->SaveAs( ttestSinName );
+  }
  
   TString graphFileName = "../dataFiles/";
   graphFileName += particle;
@@ -281,8 +300,26 @@ void plotSinPhi( const char* particle = "ohfe" )
       lumi->SetTitle( "; p_{T} [GeV];" );
       TString pictureName = "images/";
       pictureName += particle;
-      pictureName += "/finalCompareSinPhi.png";
+      pictureName += "/finalCompareSinPhi";
+      TString ttestName = pictureName;
+      pictureName += ".png";
       c52->SaveAs( pictureName );
+    }
+
+    TCanvas *tcan = new TCanvas( "tcan", "SinPhi A_{N} Comparison tTest" );
+    TGraph *tTest; 
+    tTest = ttest(lumi, otherLumi, 1 );
+    tTest->SetMarkerColor( kBlack );
+    tTest->SetMarkerStyle( kFullCircle );
+    tTest->SetTitle( "; p_{T}[GeV];T" );
+    tTest->GetYaxis()->SetRangeUser( -6, 6 );
+    tTest->Draw( "AP" );
+    zeroLine->Draw( "same" );
+
+    if( SAVE_PICTURES )
+    {
+        ttestName += "TTest.png";
+        tcan->SaveAs( ttestName );
     }
 
 }
