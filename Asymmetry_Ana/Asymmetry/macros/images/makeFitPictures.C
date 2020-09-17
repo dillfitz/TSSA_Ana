@@ -11,12 +11,12 @@
 
 //const bool PEAK = false;//true;//false for background
 
-void makeFitPictures( const char* particle = "dp" )
+void makeFitPictures( const char* particle = "ohfe" )
 {
   gStyle->SetOptFit();
 
   TString inputFileName = "../dataFiles/";
-  inputFileName += particle;
+  inputFileName += "ohfe_AN_fills";
   inputFileName += ".root";
   TFile *file = TFile::Open( inputFileName );
   /*
@@ -32,20 +32,26 @@ void makeFitPictures( const char* particle = "dp" )
     for( int beam = 0; beam < NUM_BEAMS; beam++ )
       for( int option = 0; option < NUM_OPTIONS; option++ )
 	{
-	  TString name =  BEAM_NAMES[ beam ];
-	  name += OPTION_NAMES[ option ];
- 	  name += VALUE_BINS[ ptBin ];
-	  name += "to";
-	  name += VALUE_BINS[ ptBin + 1 ];
+	  //TString name =  BEAM_NAMES[ beam ];
+	  //name += OPTION_NAMES[ option ];
+ 	  //name += VALUE_BINS[ ptBin ];
+	  //name += "to";
+	  //name += VALUE_BINS[ ptBin + 1 ];
+
+	  ostringstream name;
+	  name << BEAM_NAMES[ beam ] << OPTION_NAMES[option] << VALUE_BINS[ ptBin ]
+	       << "to" << VALUE_BINS[ ptBin + 1 ];
+	  cout << name.str().c_str() << endl;
 	
-	  TGraphErrors *graph = (TGraphErrors*)file->Get( name );
+	
+	  TGraphErrors *graph = (TGraphErrors*)file->Get( name.str().c_str() );
 	  //going to get rid of blank asymetries
 	  graph = removeBlanks( graph );
  
-	  canvases[ ptBin ][ beam ][ option ] = new TCanvas( name, name );
+	  canvases[ ptBin ][ beam ][ option ] = new TCanvas( name.str().c_str(), name.str().c_str() );
 	  TF1 *fit = new TF1( "fit", "[0]" );
 	  graph->Fit( "fit", "Q" );
-	  TString graphTitle = name;
+	  TString graphTitle = name.str().c_str();
 	  graphTitle += "GeV; Fill Index; " ;
 	  graph->SetTitle( ";FIll Group  Index;" );
 	  graph->Draw("A*" );
@@ -58,11 +64,12 @@ void makeFitPictures( const char* particle = "dp" )
 	  else
 	    pictureName += "backgroundAsymmetryVSFill/";
 	  */
-	  pictureName += VALUE_BINS[ ptBin ];
-	  pictureName += "to";
-	  pictureName += VALUE_BINS[ ptBin + 1 ];
-	  pictureName +=  BEAM_NAMES[ beam ];
-	  pictureName += OPTION_NAMES[ option ];
+	  //pictureName += VALUE_BINS[ ptBin ];
+	  //pictureName += "to";
+	  //pictureName += VALUE_BINS[ ptBin + 1 ];
+	  //pictureName +=  BEAM_NAMES[ beam ];
+	  //pictureName += OPTION_NAMES[ option ];
+	  pictureName += name.str().c_str();
 	  pictureName += ".png";
 
 	  canvases[ ptBin ][ beam ][ option ]->SaveAs( pictureName );

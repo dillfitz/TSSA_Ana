@@ -27,6 +27,7 @@ public :
    TTree           *t_esvx;      // pointer to the output tree
 
    TString hist_name = "";
+   TString hist_title = "";
 
    // Declaration of leaf types
    Int_t           fillnumber;
@@ -155,10 +156,10 @@ OHFe_Ana::OHFe_Ana(TTree *tree) : fChain(0)
 // used to generate this class and read the Tree.
    if (tree == 0) {
       //TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("AllRuns.root");
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("AllRuns_754_ana640.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../AllRuns_725_ana644.root");
       if (!f || !f->IsOpen()) {
         // f = new TFile("AllRuns.root");
-         f = new TFile("AllRuns_754_ana640.root");
+         f = new TFile("../AllRuns_725_ana644.root");
       }
       f->GetObject("e_svx_tree",tree);
 
@@ -284,7 +285,7 @@ void OHFe_Ana::Show(Long64_t entry)
 Int_t OHFe_Ana::Cut(Long64_t entry)
 {
  //This function may be called from Loop.
-   if (pt<=1.5 || pt >= 6.0)                     {return -1;}
+   if (pt<=1.5 || pt >= 5.0)                     {return -1;}
    if (conversionveto2x==0)                      {return -2;}
    if (abs(dep)>=2.)                             {return -3;}
    if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {return -4;}

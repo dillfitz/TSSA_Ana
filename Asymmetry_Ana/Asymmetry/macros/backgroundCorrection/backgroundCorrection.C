@@ -4,21 +4,27 @@
 
 void backgroundCorrection()
 {
-    int verbosity = 0;
+    int verbosity = 1;
 	bool SAVE_IMAGES = 1;
-    bool jpsi = 0;
-    bool hadron = 0;
+    bool jpsi = 1;
+    bool hadron = 1;
     const int nbins = NUM_VALUE_BINS;
     double x_lumi[nbins], y_lumi[nbins], x_sqrt[nbins], y_sqrt[nbins];
     double y_corrected_lumi[nbins], y_corrected_sqrt[nbins];
-	double corrected_lumi_err[nbins], corrected_sqrt_err[nbins];
+    double corrected_lumi_err[nbins], corrected_sqrt_err[nbins];
     double total_bg[nbins], had_AN[nbins], had_AN_err[nbins];
 
+    double jpsi_AN_val = -0.065;
+    double jpsi_AN_errVal = 0.158;
     // Taken from previous 200 GeV PHENIX measurements //
-    double jpsi_AN[nbins] = {-0.068, -0.068, -0.068, -0.068};
-    double jpsi_AN_err[nbins] = {0.188, 0.188, 0.188, 0.188};
+    double jpsi_AN[nbins] = {0.437*jpsi_AN_val, 0.671*jpsi_AN_val, 0.785*jpsi_AN_val, 0.868*jpsi_AN_val  };
+    double jpsi_AN_err[nbins] = {0.437*jpsi_AN_errVal, 0.671*jpsi_AN_errVal, 0.785*jpsi_AN_errVal, 0.868*jpsi_AN_errVal  };
+
+
+
     double hadminus_AN[nbins] = {-0.0012, -0.0012, -0.021, -0.021};
     double hadminus_AN_err[nbins] = {0.0082, 0.0082, 0.027, 0.027};
+
     double hadplus_AN[nbins] = {-0.0054, -0.0054, -0.031, -0.031};
     double hadplus_AN_err[nbins] = {0.0078, 0.0078, 0.026, 0.026};
 
@@ -75,9 +81,10 @@ void backgroundCorrection()
         sqrt0->GetPoint(i, x_sqrt[i], y_sqrt[i]);
         if ( verbosity == 1 )
         {
-            cout << "minus fraction : " << minus_fraction[i] << endl;
-            cout << "charged hadron AN : " << had_AN[i] << " err : " << had_AN_err[i] << endl;
-            cout << "lumi : " << y_lumi[i] << endl;
+            //cout << "minus fraction : " << minus_fraction[i] << endl;
+            //cout << "charged hadron AN : " << had_AN[i] << " err : " << had_AN_err[i] << endl;
+            cout << "lumi : " << i << " "<< y_lumi[i] << endl;
+            cout << "lumi err : " << i << " " << lumi->GetErrorYhigh(i) << endl;
         }
 	    //total_bg[i] = h_piz_n->GetBinContent(i+1) + h_eta_n->GetBinContent(i+1) + h_photon_n->GetBinContent(i+1) + h_jpsi_n->GetBinContent(i+1) + h_hadcontam_n->GetBinContent(i+1) + h_ke3_n->GetBinContent(i+1);
 	    total_bg[i] = h_piz_n->GetBinContent(i+1) + h_eta_n->GetBinContent(i+1) + h_photon_n->GetBinContent(i+1) + h_jpsi_n->GetBinContent(i+1) + h_hadcontam_n->GetBinContent(i+1);
@@ -110,8 +117,11 @@ void backgroundCorrection()
 			corrected_sqrt_err[i] = sqrt0->GetErrorYhigh(i)/(1-total_bg[i]);
 		}
 
-        if ( verbosity == 1 )	
-	        cout << "corrected lumi : " << y_corrected_lumi[i] << endl;
+        if ( verbosity == 1 )
+		{	
+	        	cout << "corrected lumi " << i << " "<< y_corrected_lumi[i] << endl;
+			cout << "corrected lumi error " << i << " "<< corrected_lumi_err[i] << endl;
+		}
 
         //corrected_lumi->SetPoint(x_lumi[i], y_corrected_lumi[i]);
     } 

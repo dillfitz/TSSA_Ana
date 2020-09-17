@@ -162,7 +162,7 @@ void hadroncontam()
 
   TLegend* l1 = new TLegend(0.7,0.77,0.9,0.9);
   l1->AddEntry(h_survival_pi_n01,"#epsilon_{n0>1}");
-  l1->AddEntry(h_survival_pi_n03,"#epsilon_{n0>3}");
+  //l1->AddEntry(h_survival_pi_n03,"#epsilon_{n0>3}");
   // l1->AddEntry(h_survival_pi_n01n03,"n0 > 3/n0 > 1");
 
 
@@ -175,7 +175,7 @@ void hadroncontam()
 
   c1->cd(1);
   h_survival_e_n01->Draw();
-  h_survival_e_n03->Draw("SAME");
+  //h_survival_e_n03->Draw("SAME");
 
   // h_survival_de_n01n03->Draw("SAME");
   // h_survival_e_n01n03->Draw("SAME");
@@ -184,7 +184,7 @@ void hadroncontam()
   c1->cd(2);
   gPad->SetLogy();
   h_survival_pi_n01->Draw();
-  h_survival_pi_n03->Draw("SAME");
+  //h_survival_pi_n03->Draw("SAME");
   // h_survival_pi_n01n03->Draw("SAME");
   l1->Draw();
 

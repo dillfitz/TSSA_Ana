@@ -32,6 +32,7 @@ const  int OPTIONS[ NUM_OPTIONS ] =
     { LEFT_LUMINOSITY, RIGHT_LUMINOSITY, SQUARE_ROOT };
 const string OPTION_NAMES[ NUM_OPTIONS ] = { "Left", "Right", "Sqrt" };
 
+
 const int NUM_ARMS = 2;
 const int LEFT = 0;
 const int RIGHT = 1;
@@ -40,8 +41,10 @@ const int WEST = 1;
 const int SQRT = 2;
 const string ARM_NAMES[ NUM_ARMS ] = { "East", "West" };
 
-/*
+
+
 // Note that the mapping to east and west is opposite for an old EMCAL analysis (i.e. use below for dp, eta, pi0)
+/*
 const int NUM_ARMS = 2;
 const int LEFT = 0;
 const int RIGHT = 1;

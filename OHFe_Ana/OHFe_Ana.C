@@ -4,8 +4,8 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
-#include "Constants.h"
-#include "findBin.h"
+//#include "Constants.h"
+//#include "findBin.h"
 
 
 void OHFe_Ana::Loop()
@@ -92,8 +92,7 @@ void OHFe_Ana::Loop()
    // Declaration of output histograms 
    bool cut_eff = 0; // Set this to fill histogram for determining cut efficiency.
    int cutval = 0;
-   const int nPt_bins = 10;
-   double bins[11]  = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0};
+   const int nPt_bins = 4;
 
    TH1F *e_dcat_binned[nPt_bins], *e_dep_binned[nPt_bins]; 
    TH1F *e_prob_binned[nPt_bins], *e_chisq_ndf_binned[nPt_bins];
@@ -102,43 +101,51 @@ void OHFe_Ana::Loop()
    TH1F *e_ecore, *e_prob, *e_chisq_ndf, *cuts;
    TH1I *e_n0, *e_nhit;
    
-   float Pt_bins_low[nPt_bins] = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5, 5.0};
-   float Pt_bins_high[nPt_bins] = {1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5, 5.0, 6.0};
+   float Pt_bins_low[nPt_bins] = {1.5, 1.8, 2.1, 2.7};
+   float Pt_bins_high[nPt_bins] = {1.8, 2.1, 2.7, 5.0};
 
-   TString hist_labels[nPt_bins] = { "_15_18","_18_21", "_21_24", "_24_27", "_27_30", "_30_35", "_35_40", "_40_45", "_45_50", "_50_60"};
+   TString hist_labels[nPt_bins] = { "_1.5_1.8","_1.8_2.1", "_2.1_2.7", "_2.7_5.0"};
+   TString hist_titles[nPt_bins] = { "1.5 < p_{T} < 1.8","1.8 < p_{T} < 2.1", "2.1 < p_{T} < 2.7", "2.7 < p_{T} < 5.0"};
 
 
    // Initialize some histograms //
    for (int i=0; i<nPt_bins; i++) {
       hist_name = "dcat" + hist_labels[i];
-      e_dcat_binned[i] = new TH1F(hist_name, hist_name, 80, -0.2, 0.2);
+      hist_title =  hist_titles[i] + ";DCA_{T} [cm];"; 
+      cout << hist_title << endl;
+      e_dcat_binned[i] = new TH1F(hist_name, hist_title, 80, -0.2, 0.2);
       e_dcat_binned[i]->Sumw2();
 
       hist_name = "dep" + hist_labels[i];
-      e_dep_binned[i] = new TH1F(hist_name, hist_name, 50, -5., 5.);
+      hist_title =  hist_titles[i] + ";dep;"; 
+      e_dep_binned[i] = new TH1F(hist_name, hist_title, 50, -5., 5.);
       e_dep_binned[i]->Sumw2();
 
       hist_name = "prob" + hist_labels[i];
-      e_prob_binned[i] = new TH1F(hist_name, hist_name, 20, 0., 1.);
+      hist_title =  hist_titles[i] + ";prob;"; 
+      e_prob_binned[i] = new TH1F(hist_name, hist_title, 20, 0., 1.);
       e_prob_binned[i]->Sumw2();
 
       hist_name = "chisq_ndf" + hist_labels[i];
-      e_chisq_ndf_binned[i] = new TH1F(hist_name, hist_name, 50, 0., 10.);
+      hist_title =  hist_titles[i] + ";#chi^{2}/ndf;"; 
+      e_chisq_ndf_binned[i] = new TH1F(hist_name, hist_title, 50, 0., 10.);
       e_chisq_ndf_binned[i]->Sumw2();
 
       hist_name = "n0" + hist_labels[i];
-      e_n0_binned[i] = new TH1I(hist_name, hist_name, 20, 0, 20);
+      hist_title =  hist_titles[i] + ";n0;"; 
+      e_n0_binned[i] = new TH1I(hist_name, hist_title, 20, 0, 20);
       e_n0_binned[i]->Sumw2();
 
       hist_name = "nhits" + hist_labels[i];
-      e_nhit_binned[i] = new TH1I(hist_name, hist_name, 20, 0, 20);
+      hist_title =  hist_titles[i] + ";nhits;"; 
+      e_nhit_binned[i] = new TH1I(hist_name, hist_title, 20, 0, 20);
       e_nhit_binned[i]->Sumw2();      
    }
     
    e_dcat = new TH1F("dcat","dcat", 80, -0.2, 0.2);
    e_dcat->Sumw2();
 
-   e_pt = new TH1F("pt","pt", 45, 1.5, 6.);
+   e_pt = new TH1F("pt","pt", 45, 1.5, 5.);
    e_pt->Sumw2();
 
    e_dep = new TH1F("dep","dep", 50, -5., 5.);
@@ -195,7 +202,7 @@ void OHFe_Ana::Loop()
       
       // Fill cuts hist to determine efficiency of selection criteria //
       if (cut_eff) {
-         if (pt>1.5 && pt < 6.0)                     {cuts->Fill(-1);}
+         if (pt>1.5 && pt < 5.0)                     {cuts->Fill(-1);}
          if (conversionveto2x==1)                    {cuts->Fill(-2);}
          if (abs(dep)<2.)                            {cuts->Fill(-3);}
          if (abs(sigemcdphi)<3.&& abs(sigemcdz)<3.)  {cuts->Fill(-4);}

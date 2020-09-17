@@ -1,28 +1,48 @@
 void fitdep()
 {
   const bool nv = 0;
+  const bool inclusive = 1;
 
   gStyle->SetOptStat(0);
   gStyle->SetOptFit(0);
 
-  const int nbins = 4;
+
 
   // For binning out to 6 GeV in pT //
   //float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,6.0};
 
-  // For binning out to 5 GeV in pT //
-  float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
+  if (inclusive)
+  {
+    const int nbins = 5;
+    float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0,8.0};
+  }
+  else
+  {
+    // For binning out to 5 GeV in pT //
+    const int nbins = 4;
+    float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
+  }
 
+ 
   TString outfileName = "dataFiles/hadronnorm_depfit";
+  if (inclusive)
+    outfileName += "_inclusive";
 
   if (nv)
     {
-      TFile* infile1 = TFile::Open("dataFiles/depstudy_noveto.root");
+      if (inclusive)
+        TFile* infile1 = TFile::Open("dataFiles/depstudyInclusive_noveto.root");
+      else
+        TFile* infile1 = TFile::Open("dataFiles/depstudy_noveto.root");
       outfileName += "_noveto";
     }
   else
-      TFile* infile1 = TFile::Open("dataFiles/depstudy.root");
-
+    {
+      if (inclusive)
+        TFile* infile1 = TFile::Open("dataFiles/depstudyInclusive.root");
+      else
+        TFile* infile1 = TFile::Open("dataFiles/depstudy.root");
+    }
   outfileName += ".root";
 
   TH1F* h_dep[nbins];
@@ -34,7 +54,11 @@ void fitdep()
       h_dep[i] = (TH1F*)infile1->Get(histname.c_str());
     }
 
-  TFile* infile2 = TFile::Open("dataFiles/hadronfits.root");
+  if (inclusive)
+    TFile* infile2 = TFile::Open("dataFiles/hadronfitsInclusive.root");
+  else
+    TFile* infile2 = TFile::Open("dataFiles/hadronfits.root");
+
   TF1* f_hadfits[nbins];
   for (int i = 0 ; i < nbins ; i++)
     {

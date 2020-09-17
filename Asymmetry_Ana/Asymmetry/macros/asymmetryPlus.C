@@ -247,7 +247,7 @@ void asymmetryPlus( const char* particle = "ohfe",
 	  }
 	TGraph *accCorrGraph;
 	float acceptanceCorrection[ NUM_VALUE_BINS ];
-	if( particle != "ohfe" ) // check this
+	if( particle == "ohfe" ) // check this
  	  {
 	    accCorr.calculate( accCorrOption, acceptanceCorrection );
 	    accCorrGraph = accCorr.graph( accCorrOption );

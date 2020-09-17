@@ -11,6 +11,7 @@ using namespace std;
 #include "TF1.h"
 
 #include "ttest.h"
+#include "ttestNew.h"
 
 const int SIZE = 2;
 const int numGraphs = 3;

@@ -12,9 +12,9 @@ using namespace std;
 const int nbins = NUM_VALUE_BINS;
 const float bins[ nbins + 1 ] = { 1.5, 1.8, 2.1, 2.7, 5.0 };
 
-void makeCuratedElectronFile()
+void makeCuratedInclusiveElectronFile()
 {
-  TString outFileName = "curated_ohfe.root";
+  TString outFileName = "curated_e.root";
   TString treeName = "e_svx_tree";
   cout << "Saving " << treeName << " in " << outFileName << endl;
 
@@ -112,7 +112,7 @@ void makeCuratedElectronFile()
   int eventsTreeIndex = 0;
   int lastRunNumber = -99;
   int cutval = 0;
-  int sixGeV = 0; int fiveGeV = 0;
+  int bin4 = 0; int bin5_8 = 0; int bin5_10 = 0;
   for( int i = 0; i < numEntries; i++ )
   {
       inputTree->GetEntry( i );
@@ -157,7 +157,7 @@ void makeCuratedElectronFile()
       lastFillNumber = fillnumber;
 
       // Analysis Quality Cuts
-      if (pt <= 1.5 || pt >= 5.0)                   {continue;}
+      if (pt <= 1.5 || pt >= 10.0)                   {continue;}
       if (conversionveto2x==0)                      {continue;}
       if (abs(dep)>=2.)                             {continue;}
       if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {continue;}
@@ -170,21 +170,20 @@ void makeCuratedElectronFile()
       if (nhit <= 2 )                               {continue;}
       if (quality != 63 && quality !=31)            {continue;}
       if (!((hitpattern&3)==3))                     {continue;}
-      if (pt<5.) {
-         if (n0 <= 1 )                              {continue;}
-         if (prob <= 0.01)                          {continue;}
-      }
-      else {
-         if (n0 <=3 )                               {continue;}
-         if (prob <= 0.2)                           {continue;}
-      }
+
+       if (n0 <= 1 )                              {continue;}
+       if (prob <= 0.01)                          {continue;}
+
+
       if (ndf == 0 )                                {continue;}
 
       e_pt_noscaler->Fill(pt);
       if( triggerCounts[ xing ] < 10000 )           {continue;}
       e_pt->Fill(pt);
 
-      if (pt > 2.7 && pt < 5.0 ) {fiveGeV++;}
+      if (pt > 2.7 && pt < 5.0 ) {bin4++;} 
+      if (pt > 5.0 && pt < 8.0 ) {bin5_8++;}
+      if (pt > 5.0 && pt < 8.0 ) {bin5_10++;}
 
       if (arm==0)
       	phihistos[0]->Fill(phi);
@@ -196,7 +195,9 @@ void makeCuratedElectronFile()
       
 
     }
-  cout << "Candidates passing cuts in the 2.7 < pT [GeV] < 5.0 range : " << fiveGeV << endl;
+  cout << "Candidates passing cuts in the 2.7 < pT [GeV] < 5.0 range : " << bin4 << endl;
+  cout << "Candidates passing cuts in the 5.0 < pT [GeV] < 8.0 range : " << bin5_8 << endl;
+  cout << "Candidates passing cuts in the 5.0 < pT [GeV] < 10.0 range : " << bin5_10 << endl;
 
   outFile->cd();
   newTree->Write();

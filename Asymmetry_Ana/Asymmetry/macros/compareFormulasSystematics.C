@@ -11,8 +11,10 @@ void compareFormulasSystematics()
     lumi->GetPoint(i, x_lumi[i], y_lumi[i]);
     sqrt0->GetPoint(i, x_sqrt[i], y_sqrt[i]);
     diff[i] = y_lumi[i] - y_sqrt[i];
-
+    cout << "<pT> : " << x_lumi[i] << endl; 
     cout << "lumi result : " << y_lumi[i] << endl;
+    cout << "sqrt result : " << y_sqrt[i] << endl;
     cout << "lumi - sqrt sys error :" << diff[i] << endl;
+    cout << endl;
   }  
 }
