@@ -4,6 +4,7 @@
 
 void backgroundCorrectionSystematics()
 {
+	bool prelim = 0;
 	int verbosity = 1;
 	bool SAVE_IMAGES = 1;
 	bool jpsi = 1;
@@ -26,8 +27,8 @@ void backgroundCorrectionSystematics()
 	double jpsi_AN_val = -0.065; 
 	double jpsi_AN_errVal = 0.158;
 	double jpsi_AN[nbins] = {0.447*jpsi_AN_val, 0.688*jpsi_AN_val, 0.789*jpsi_AN_val, 0.871*jpsi_AN_val  };
-	double jpsi_AN_plus[nbins] = {0.435*(jpsi_AN_val+jpsi_AN_errVal), 0.701*(jpsi_AN_val+jpsi_AN_errVal), 0.794*(jpsi_AN_val+jpsi_AN_errVal), 0.871*(jpsi_AN_val+jpsi_AN_errVal)};
-	double jpsi_AN_minus[nbins] = {0.440*(jpsi_AN_val-jpsi_AN_errVal), 0.693*(jpsi_AN_val-jpsi_AN_errVal), 0.793*(jpsi_AN_val-jpsi_AN_errVal), 0.871*(jpsi_AN_val-jpsi_AN_errVal)};
+	//double jpsi_AN_plus[nbins] = {0.435*(jpsi_AN_val+jpsi_AN_errVal), 0.701*(jpsi_AN_val+jpsi_AN_errVal), 0.794*(jpsi_AN_val+jpsi_AN_errVal), 0.871*(jpsi_AN_val+jpsi_AN_errVal)};
+	//double jpsi_AN_minus[nbins] = {0.440*(jpsi_AN_val-jpsi_AN_errVal), 0.693*(jpsi_AN_val-jpsi_AN_errVal), 0.793*(jpsi_AN_val-jpsi_AN_errVal), 0.871*(jpsi_AN_val-jpsi_AN_errVal)};
 	double jpsi_AN_err[nbins] = {0.447*jpsi_AN_errVal, 0.688*jpsi_AN_errVal, 0.789*jpsi_AN_errVal, 0.872*jpsi_AN_errVal  };
 	
 	double hadminus_AN[nbins] = {-0.0012, -0.0012, -0.021, -0.021};
@@ -107,21 +108,28 @@ void backgroundCorrectionSystematics()
 		corrected_lumi_err[i] = std::sqrt(std::pow(lumi->GetErrorYhigh(i), 2) + std::pow(h_jpsi_n->GetBinContent(i+1)*jpsi_AN_err[i],2) + std::pow(h_hadcontam_n->GetBinContent(i+1)*had_AN_err[i],2))/(1-total_bg[i]);
 		bg_sys_plus[i] = fabs(y_corrected_lumi[i] - (y_lumi[i] - (h_jpsi_n->GetBinContent(i+1)+h_sys_jpsi->GetBinContent(i+1))*jpsi_AN[i] - h_sys_hadhigh->GetBinContent(i+1)*had_AN[i])/(1-total_bg_plus[i]));
 		bg_sys_minus[i] = fabs(y_corrected_lumi[i] -(y_lumi[i] - (h_jpsi_n->GetBinContent(i+1)-h_sys_jpsi->GetBinContent(i+1))*jpsi_AN[i] - h_sys_hadlow->GetBinContent(i+1)*had_AN[i])/(1-total_bg_minus[i]));
-		jpsi_sys_plus[i] = fabs(y_corrected_lumi[i] - (y_lumi[i] - h_jpsi_n->GetBinContent(i+1)*jpsi_AN_plus[i] - h_sys_hadhigh->GetBinContent(i+1)*had_AN[i])/(1-total_bg_plus[i]));
-		jpsi_sys_minus[i] = fabs(y_corrected_lumi[i] -(y_lumi[i] - h_jpsi_n->GetBinContent(i+1)*jpsi_AN_minus[i] - h_sys_hadlow->GetBinContent(i+1)*had_AN[i])/(1-total_bg_minus[i]));
+		//jpsi_sys_plus[i] = fabs(y_corrected_lumi[i] - (y_lumi[i] - h_jpsi_n->GetBinContent(i+1)*jpsi_AN_plus[i] - h_sys_hadhigh->GetBinContent(i+1)*had_AN[i])/(1-total_bg_plus[i]));
+		//jpsi_sys_minus[i] = fabs(y_corrected_lumi[i] -(y_lumi[i] - h_jpsi_n->GetBinContent(i+1)*jpsi_AN_minus[i] - h_sys_hadlow->GetBinContent(i+1)*had_AN[i])/(1-total_bg_minus[i]));
 
 		cout << "sysFormulaDiff : " << sysFormulaDiff << endl;
-		sys_plus_tot[i] = std::sqrt(bg_sys_plus[i]*bg_sys_plus[i] + jpsi_sys_plus[i]*jpsi_sys_plus[i] + sysFormulaDiff*sysFormulaDiff);
-		sys_minus_tot[i] = std::sqrt(bg_sys_minus[i]*bg_sys_minus[i] + jpsi_sys_minus[i]*jpsi_sys_minus[i] + sysFormulaDiff*sysFormulaDiff);
+		//sys_plus_tot[i] = std::sqrt(bg_sys_plus[i]*bg_sys_plus[i] + jpsi_sys_plus[i]*jpsi_sys_plus[i] + sysFormulaDiff*sysFormulaDiff);
+		//sys_minus_tot[i] = std::sqrt(bg_sys_minus[i]*bg_sys_minus[i] + jpsi_sys_minus[i]*jpsi_sys_minus[i] + sysFormulaDiff*sysFormulaDiff);
+		sys_plus_tot[i] = std::sqrt(bg_sys_plus[i]*bg_sys_plus[i]  + sysFormulaDiff*sysFormulaDiff);
+		sys_minus_tot[i] = std::sqrt(bg_sys_minus[i]*bg_sys_minus[i] + sysFormulaDiff*sysFormulaDiff);
 
 		y_corrected_lumi_np[i] = (y_lumi[i] - h_hadcontam_n->GetBinContent(i+1)*had_AN[i])/(1-total_bg_np[i]);
 		corrected_lumi_err_np[i] = std::sqrt(std::pow(lumi->GetErrorYhigh(i), 2) + std::pow(h_hadcontam_n->GetBinContent(i+1)*had_AN_err[i],2))/(1-total_bg_np[i]);
 
-		bg_sys_plus_np[i] = fabs(y_corrected_lumi[i] - (y_lumi[i] - h_sys_hadhigh->GetBinContent(i+1)*had_AN[i])/(1-total_bg_np_plus[i]));
-		bg_sys_minus_np[i] = fabs(y_corrected_lumi[i] - (y_lumi[i] - h_sys_hadlow->GetBinContent(i+1)*had_AN[i])/(1-total_bg_np_minus[i]));
-		cout << "sysFormulaDiff : " << sysFormulaDiff << endl;
-		sys_plus_tot_np[i] = std::sqrt(bg_sys_plus[i]*bg_sys_plus[i] + sysFormulaDiff*sysFormulaDiff);
-		sys_minus_tot_np[i] = std::sqrt(bg_sys_minus[i]*bg_sys_minus[i] + sysFormulaDiff*sysFormulaDiff);
+		bg_sys_plus_np[i] = fabs(y_corrected_lumi_np[i] - (y_lumi[i] - h_sys_hadhigh->GetBinContent(i+1)*had_AN[i])/(1-total_bg_np_plus[i]));
+		bg_sys_minus_np[i] = fabs(y_corrected_lumi_np[i] - (y_lumi[i] - h_sys_hadlow->GetBinContent(i+1)*had_AN[i])/(1-total_bg_np_minus[i]));
+		sys_plus_tot_np[i] = std::sqrt(bg_sys_plus_np[i]*bg_sys_plus_np[i] + sysFormulaDiff*sysFormulaDiff);
+		sys_minus_tot_np[i] = std::sqrt(bg_sys_minus_np[i]*bg_sys_minus_np[i] + sysFormulaDiff*sysFormulaDiff);
+
+		cout << "total_bg_frac : " << total_bg[i] << " + " << total_bg_plus[i] << " - " << total_bg_minus[i] << endl;
+		cout << "total_bg_frac_np : " << total_bg_np[i] << " + " << total_bg_np_plus[i] << " - " << total_bg_np_minus[i] << endl;
+
+		cout << "sysBGfrac (ohfe) : " << " + " << bg_sys_plus[i] << " - " << bg_sys_minus[i] << endl;
+		cout << "sysBGfrac (np) : " << " + " << bg_sys_plus_np[i] << " - " << bg_sys_minus_np[i] << endl;
 
 
 		if ( verbosity == 1 )
@@ -144,24 +152,42 @@ void backgroundCorrectionSystematics()
 
 	}
 
-	gStyle->SetErrorX(0.05);
+	//gStyle->SetErrorX(0.05);
+   gStyle->SetEndErrorSize(4);
 	can[0] = new TCanvas( "c", "Corrected A_{N}" );
 
 	TGraphAsymmErrors *corrected_lumi = new TGraphAsymmErrors( nbins, x_high, y_corrected_lumi, ptLow, ptHigh, corrected_lumi_err, corrected_lumi_err); 
-	TGraphAsymmErrors *corrected_lumi_sys = new TGraphAsymmErrors( nbins, x_high, y_corrected_lumi, ptLow, ptHigh, sys_plus_tot, sys_minus_tot); 
+	TGraphAsymmErrors *corrected_lumi_sys = new TGraphAsymmErrors( nbins, x_high, y_corrected_lumi, ptLow, ptHigh, sys_minus_tot, sys_plus_tot); 
 
 	TGraphAsymmErrors *corrected_lumi_np = new TGraphAsymmErrors( nbins, x_low, y_corrected_lumi_np, ptLow, ptHigh, corrected_lumi_err_np, corrected_lumi_err_np); 
-	TGraphAsymmErrors *corrected_lumi_np_sys = new TGraphAsymmErrors( nbins, x_low, y_corrected_lumi_np, ptLow, ptHigh, sys_plus_tot_np, sys_minus_tot_np); 
+	TGraphAsymmErrors *corrected_lumi_np_sys = new TGraphAsymmErrors( nbins, x_low, y_corrected_lumi_np, ptLow, ptHigh, sys_minus_tot_np, sys_plus_tot_np); 
 	//TGraphAsymmErrors *corrected_lumi = new TGraphAsymmErrors( nbins, x_lumi, y_lumi, ptLow, ptHigh, lumi->GetErrorY(), lumi->GetErrorY()); 
+
+	corrected_lumi->GetXaxis()->SetRangeUser(0.0,5.0);
+	for (int i=0; i<nbins; ++i)
+	{
+		corrected_lumi->SetPointEXhigh(i,0.0); corrected_lumi->SetPointEXlow(i,0.0);
+		corrected_lumi_sys->SetPointEXhigh(i,0.075); corrected_lumi_sys->SetPointEXlow(i,0.075);
+		corrected_lumi_np->SetPointEXhigh(i,0.0); corrected_lumi_np->SetPointEXlow(i,0.0);
+		corrected_lumi_np_sys->SetPointEXhigh(i,0.075); corrected_lumi_np_sys->SetPointEXlow(i,0.075);
+		lumi->SetPointEXhigh(i,0.0); lumi->SetPointEXlow(i,0.0);
+	}
 
 	TF1 *line = new TF1( "line", "0", 0, 20 );
 	line->SetLineColor( kBlack );
 	line->SetLineStyle( 2 );
 
-	TLegend *legend = new TLegend( 0.55, 0.15, 0.80, 0.35 );
+	TLegend *legend = new TLegend( 0.50, 0.15, 0.86, 0.35 );
 	legend->SetLineColor(0);
 	legend->AddEntry(corrected_lumi, "Open Heavy Flavor e", "lep" );
-	legend->AddEntry(corrected_lumi_np, "Non Photonic e", "lep" );
+	legend->AddEntry(corrected_lumi_np, "Nonphotonic e", "lep" );
+
+	TLegend *legend2 = new TLegend( 0.1275, 0.6210, 0.4756, 0.850 );
+	legend2->SetLineColor(0);
+	legend2->AddEntry((TObject*)0, "p^{#uparrow}+p, #sqrt{s} = 200 GeV", "");
+	legend2->AddEntry((TObject*)0, "PHENIX Preliminary", "");
+
+
 	legend->AddEntry(lumi, "Before BG Correction", "lep" );
 
 	corrected_lumi->SetMarkerStyle(20);
@@ -171,9 +197,12 @@ void backgroundCorrectionSystematics()
 	
 	corrected_lumi_sys->SetFillColor(kBlue);
 	corrected_lumi_sys->SetFillStyle(3002);
-	corrected_lumi->SetTitle("Background Corrected A_{N} ; p_{T} [GeV]; A_{N}");
+	corrected_lumi->SetTitle("; p_{T} [GeV]; A_{N}");
+	corrected_lumi->GetXaxis()->SetTitleOffset(1.2);
+	corrected_lumi->GetYaxis()->SetTitleSize(0.045);
 	corrected_lumi->Draw("AP");
-  corrected_lumi_sys->Draw("5");
+	if (prelim)
+		corrected_lumi_sys->Draw("5");
 
 	corrected_lumi_np->SetMarkerStyle(21);
 	corrected_lumi_np->SetLineColor(kGreen+2); corrected_lumi_np_sys->SetLineColor(kGreen+2);
@@ -183,21 +212,28 @@ void backgroundCorrectionSystematics()
 	corrected_lumi_np_sys->SetFillColor(kGreen+2);
 	corrected_lumi_np_sys->SetFillStyle(3002);
 	corrected_lumi_np->Draw("P");
-  corrected_lumi_np_sys->Draw("5");
+	if (prelim)
+		corrected_lumi_np_sys->Draw("5");
 
 	lumi->SetMarkerStyle(22);
 	lumi->SetMarkerSize(1.25);
 	lumi->SetLineWidth(1.5);
-	lumi->Draw("P");
+	if (!prelim)
+		lumi->Draw("P");
 
 	line->Draw( "same" );
 	legend->Draw();
+	if (prelim)
+		legend2->Draw();
 
 	if( SAVE_IMAGES )
 	{
 		TString name = "./images/";
-		name += "compareCorrectedSqrtLumi.png";
-		TString ttestName = name;
+		if (prelim)
+			name += "prelim_AN";
+		else
+			name += "bgCorrected_AN";
+ 
 		name += ".png";
 		can[0]->SaveAs( name );
 
