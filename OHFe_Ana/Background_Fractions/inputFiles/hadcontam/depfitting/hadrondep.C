@@ -20,7 +20,7 @@ void hadrondep()
   if (inclusive)
   {
     const int nbins = 5;
-    float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0, 8.0};
+    float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0,10.0};
   }
   else
   {

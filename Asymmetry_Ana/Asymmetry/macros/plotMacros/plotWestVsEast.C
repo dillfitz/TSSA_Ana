@@ -12,8 +12,8 @@ using namespace std;
 
 const bool SAVE_PICTURES = true;//false;
 
+// Use this for the open heavy flavor electron measurement //
 void plotWestVsEast( const char* particle = "ohfe" )
-//_isolation_cut_commented_out" )
 {
   TF1* zeroLine = new TF1( "zeroLine", "0", 0, 20 );
   zeroLine->SetLineColor( kBlack );
@@ -41,7 +41,7 @@ void plotWestVsEast( const char* particle = "ohfe" )
       TString title = ARM_NAMES[ arm ];
       title += " Arm Asymmetries; p_{T} [GeV]; ";
       y[ arm ]->SetTitle( title );
-      y[ arm ]->GetYaxis()->SetRangeUser( -0.15, 0.25 );
+      y[ arm ]->GetYaxis()->SetRangeUser( -0.1, 0.1 );
       b[ arm ]->SetMarkerColor( kBlue );
       b[ arm ]->SetMarkerStyle( kFullDiamond );
       TString name = ARM_NAMES[ arm ];

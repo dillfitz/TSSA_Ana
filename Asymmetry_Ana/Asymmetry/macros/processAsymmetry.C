@@ -20,10 +20,10 @@ const int heightSqrt = 450;
 const int heightLumi = 900;
 
 //const int SQRT = 2;
-
 void processAsymmetry( const char* particle = "ohfe",
 		       const bool dpBackground = false, 
 		       const bool isolated = false )
+
 //both must be set to false for dp
 {
  // if( particle != "ohfe" && && particle != "dp" && particle != "pi0" && particle != "eta" )

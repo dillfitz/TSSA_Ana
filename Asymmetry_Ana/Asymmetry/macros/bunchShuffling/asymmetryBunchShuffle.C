@@ -14,24 +14,31 @@ using namespace std;
 
 int getRandom( const int min, const int max );
 
-const int NUM_FILLS = 142;  // should be 142 here right? Find where it is used!
+const int NUM_FILLS = 140;  // should be 142 here right? Find where it is used!
 const int NUM_POLARIZED = 111; // what is this number for?
 const int histoNumBins = 100;
 const float histoMin = -5;
 const float histoMax = +5;
-const float SQRT_ACC_CORR = 0.896681; // this could potentially change!
+//float SQRT_ACC_CORR[NUM_VALUE_BINS] = {0.889585, 0.891166, 0.893838, 0.896951, 0.901238};
+float SQRT_ACC_CORR[NUM_VALUE_BINS];   
 
-const char *inputDataFileName = "../../../curated_ohfe.root";
+
 const char *inputTreeNameInFile = "e_svx_tree";
 
 const int multiply = 111;
 
+// Use this for the open heavy flavor electron measurement //
 int asymmetryBunchShuffle( float seed = 2, 
 			   const int NUM_SHUFFLES = 10000,
-			   const char* outputFileName = "shuffled.root" )
+			   const char* outputFileName = "shuffled_ohfe.root")
+
 {
+
+
+  const char *inputDataFileName = "../../../curated_ohfe.root";
   gSystem->Load( "libppAsymmetry.so" );
   seed = seed * multiply;
+
   //  gSystem->ListLibraries();
 
   cout << "Doing " << NUM_SHUFFLES << " bunch shuffles at a time to file " 
@@ -40,6 +47,13 @@ int asymmetryBunchShuffle( float seed = 2,
       TH1F *bunchShuffled[ NUM_VALUE_BINS ];
   for( int i = 0; i < NUM_VALUE_BINS; i++ )
     {
+
+      SQRT_ACC_CORR[0] = 0.899258;
+      SQRT_ACC_CORR[1] = 0.901838;
+      SQRT_ACC_CORR[2] = 0.907891;
+      SQRT_ACC_CORR[3] = 0.911921;
+      cout << "acc corr val " << i << " " << SQRT_ACC_CORR[i] << endl;
+
 
       ostringstream name;
       name << "shuffled" << i;

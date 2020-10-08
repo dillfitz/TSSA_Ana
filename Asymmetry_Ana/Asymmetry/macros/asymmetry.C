@@ -17,18 +17,23 @@ using namespace std;
 #include "TTree.h"
 #include "TFile.h"
 
+const bool inclusive = true;
 //dpBackground = true allows the "pi0" and "eta" asymmetries to be evaluated as 
 //a function of photon pt instead of hadron pt
 //isolated  = true performs a pair isolation cut of "pi0" and "eta" photons:
 //E_gamma & 10% > E_cone - E_pair
 //
 
+// Use this for the ohfe measurement //
 void asymmetry( const char* particle = "ohfe",
-		const bool dpBackground = false, 
-		const bool isolated = false )//both must be set to false for dp
+		  const bool dpBackground = false, 
+		  const bool isolated = false )
+
 {
-   if( particle != "ohfe" && particle != "dp" && particle != "pi0" && particle != "eta" )
-    cout << "Error! particle can only be ohfe, dp, pi0, or eta!  "
+
+
+   if( particle != "ohfe" && particle != "e" && particle != "dp" && particle != "pi0" && particle != "eta" )
+    cout << "Error! particle can only be ohfe, e, dp, pi0, or eta!  "
 	 << "You are calculating nonsense " << endl;
 
   gSystem->Load( "libppAsymmetry.so" );
@@ -157,7 +162,7 @@ void asymmetry( const char* particle = "ohfe",
   dataTree->SetBranchAddress( "ptBin",  &ptBin );
 
   float px, py, px1, py1, px2, py2, pt, phi;
-  if( particle == "ohfe" )
+  if( particle == "ohfe" || particle == "e" )
     {    
       dataTree->SetBranchAddress( "pt", &pt );
       dataTree->SetBranchAddress( "phi", &phi );
@@ -204,7 +209,7 @@ void asymmetry( const char* particle = "ohfe",
 	}
       */
       //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      if( particle == "ohfe" && ptBin >= 0  )//direct photon regular old asymmetry
+      if( (particle == "ohfe" || particle == "e") && ptBin >= 0  )
 	{
            px = pt*cos(phi); 
            py = pt*sin(phi); 
@@ -262,7 +267,7 @@ void asymmetry( const char* particle = "ohfe",
 	  }
 	TGraph *accCorrGraph;
 	float acceptanceCorrection[ NUM_VALUE_BINS ];
-	if( particle == "ohfe" ) // check this
+	if( particle == "ohfe" || particle == "e" ) // check this
  	  {
 	    accCorr.calculate( accCorrOption, acceptanceCorrection );
 	    accCorrGraph = accCorr.graph( accCorrOption );

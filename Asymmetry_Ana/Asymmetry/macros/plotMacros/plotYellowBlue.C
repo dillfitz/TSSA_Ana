@@ -17,6 +17,8 @@ const float MIN = -0.04;
 const float MAX =  0.05;
 
 const bool SAVE_IMAGES = true;//false;
+
+// Use this for the open heavy flavor electron measurement //
 void plotYellowBlue( const char* particle = "ohfe" )
 {
   TString inputFileName = "../dataFiles/";

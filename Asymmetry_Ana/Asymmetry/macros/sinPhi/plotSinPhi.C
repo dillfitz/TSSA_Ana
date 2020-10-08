@@ -18,14 +18,19 @@ using namespace std;
 #include "ConstantsSinPhi.h"
 #include "../plotMacros/ttest.h"
 
-const bool SAVE_PICTURES = true;
-const float YMIN[ NUM_PT_BINS ] = 
-  { -0.25, -0.25, -0.25, -0.25 };
-const float YMAX[ NUM_PT_BINS ] = 
-  {  0.25,  0.25,  0.25,  0.25 };
-const float AVE_YMIN = -0.045;
-const float AVE_YMAX =  0.045;
 
+const bool SAVE_PICTURES = true;
+
+// Use this for the open heavy flavor electron measurement //
+const float YMIN[ NUM_PT_BINS ] = 
+  { -0.25, -0.25, -0.25, -0.25};
+const float YMAX[ NUM_PT_BINS ] = 
+  {  0.25,  0.25,  0.25,  0.25};
+
+const float AVE_YMIN = -0.1;
+const float AVE_YMAX =  0.1;
+
+// Use this for the open heavy flavor electron measurement //
 void plotSinPhi( const char* particle = "ohfe" )
 {
   gStyle->SetOptFit( true );

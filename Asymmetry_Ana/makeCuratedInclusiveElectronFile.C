@@ -9,8 +9,8 @@ using namespace std;
 #include "Constants.h"
 #include "findBin.h"
 
-const int nbins = NUM_VALUE_BINS;
-const float bins[ nbins + 1 ] = { 1.5, 1.8, 2.1, 2.7, 5.0 };
+//const int nbins = NUM_VALUE_BINS;
+//const float bins[ nbins + 1 ] = { 1.5, 1.8, 2.1, 2.7, 5.0 };
 
 void makeCuratedInclusiveElectronFile()
 {
@@ -100,9 +100,9 @@ void makeCuratedInclusiveElectronFile()
   newTree->Branch( "mom",            &mom,            "mom/F" );
   newTree->Branch( "ptBin",          &ptBin,          "ptBin/I" );
 
-  TH1F *e_pt_noscaler = new TH1F("pt_noscaler", ";p_{T} [GeV];", nbins, bins);
+  TH1F *e_pt_noscaler = new TH1F("pt_noscaler", ";p_{T} [GeV];", NUM_VALUE_BINS, VALUE_BINS);
   e_pt_noscaler->Sumw2();
-  TH1F *e_pt = new TH1F("pt", ";p_{T} [GeV];", nbins, bins);
+  TH1F *e_pt = new TH1F("pt", ";p_{T} [GeV];", NUM_VALUE_BINS, VALUE_BINS);
   e_pt->Sumw2();
  
   int numEntries = inputTree->GetEntries();
@@ -157,8 +157,8 @@ void makeCuratedInclusiveElectronFile()
       lastFillNumber = fillnumber;
 
       // Analysis Quality Cuts
-      if (pt <= 1.5 || pt >= 10.0)                   {continue;}
-      if (conversionveto2x==0)                      {continue;}
+      if (pt <= 1.5 || pt >= 12.0)                   {continue;}
+      //if (conversionveto2x==0)                      {continue;}
       if (abs(dep)>=2.)                             {continue;}
       if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {continue;}
       if (abs(zed)>= 75)                            {continue;}
@@ -167,9 +167,9 @@ void makeCuratedInclusiveElectronFile()
       // 3 in note, 2 in ppg
          if (chisq/ndf >= 3.)                       {continue;}      
       } 
-      if (nhit <= 2 )                               {continue;}
+      //if (nhit <= 2 )                               {continue;}
       if (quality != 63 && quality !=31)            {continue;}
-      if (!((hitpattern&3)==3))                     {continue;}
+      //if (!((hitpattern&3)==3))                     {continue;}
 
        if (n0 <= 1 )                              {continue;}
        if (prob <= 0.01)                          {continue;}
@@ -183,7 +183,7 @@ void makeCuratedInclusiveElectronFile()
 
       if (pt > 2.7 && pt < 5.0 ) {bin4++;} 
       if (pt > 5.0 && pt < 8.0 ) {bin5_8++;}
-      if (pt > 5.0 && pt < 8.0 ) {bin5_10++;}
+      if (pt > 5.0 && pt < 10.0 ) {bin5_10++;}
 
       if (arm==0)
       	phihistos[0]->Fill(phi);

@@ -14,9 +14,11 @@ using namespace std;
 #include "../../../findBin.h"
 #include "ConstantsSinPhi.h"
 
-void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
+
+// Use this for the open heavy flavor electron measurement //
+void asymmetryPhi( const char* particle = "ohfe" )
 {
-   if( particle != "ohfe" && particle != "dp" && particle != "pi0" && particle != "eta" )
+   if( particle != "ohfe" && particle != "e" && particle != "dp" && particle != "pi0" && particle != "eta" )
     cout << "Error! particle can only be dp, pi0, or eta!  You are calculating nonsense " << endl;
 
   gSystem->Load( "libppAsymmetry.so" );
@@ -117,7 +119,7 @@ void asymmetryPhi( const char* particle = "ohfe" )//must be set to false for dp
   dataTree->SetBranchAddress( "fillNumber",  &fillNumber );
   dataTree->SetBranchAddress( "arm",         &arm );
   dataTree->SetBranchAddress( "spinPattern", &spinPattern );
-  if( particle == "ohfe" )
+  if( particle == "ohfe" || particle == "e" )
     {
       dataTree->SetBranchAddress( "pt",           &pt );
       dataTree->SetBranchAddress( "phi",          &phi );

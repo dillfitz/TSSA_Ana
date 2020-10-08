@@ -19,5 +19,8 @@ autom4te.cache/
 missing
 *.out 
 *.err
+install-sh
+ltmain.sh
+
 
 

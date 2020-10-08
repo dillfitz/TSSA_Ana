@@ -11,12 +11,14 @@
 
 //const bool PEAK = false;//true;//false for background
 
+// Use this for the open heavy flavor electron measurement //
 void makeFitPictures( const char* particle = "ohfe" )
 {
   gStyle->SetOptFit();
 
   TString inputFileName = "../dataFiles/";
-  inputFileName += "ohfe_AN_fills";
+  inputFileName += particle;
+  inputFileName += "_AN_fills";
   inputFileName += ".root";
   TFile *file = TFile::Open( inputFileName );
   /*

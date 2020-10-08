@@ -4,7 +4,7 @@
 
 void backgroundCorrectionSystematics()
 {
-	bool prelim = 0;
+	bool prelim = 1;
 	int verbosity = 1;
 	bool SAVE_IMAGES = 1;
 	bool jpsi = 1;
@@ -111,7 +111,6 @@ void backgroundCorrectionSystematics()
 		//jpsi_sys_plus[i] = fabs(y_corrected_lumi[i] - (y_lumi[i] - h_jpsi_n->GetBinContent(i+1)*jpsi_AN_plus[i] - h_sys_hadhigh->GetBinContent(i+1)*had_AN[i])/(1-total_bg_plus[i]));
 		//jpsi_sys_minus[i] = fabs(y_corrected_lumi[i] -(y_lumi[i] - h_jpsi_n->GetBinContent(i+1)*jpsi_AN_minus[i] - h_sys_hadlow->GetBinContent(i+1)*had_AN[i])/(1-total_bg_minus[i]));
 
-		cout << "sysFormulaDiff : " << sysFormulaDiff << endl;
 		//sys_plus_tot[i] = std::sqrt(bg_sys_plus[i]*bg_sys_plus[i] + jpsi_sys_plus[i]*jpsi_sys_plus[i] + sysFormulaDiff*sysFormulaDiff);
 		//sys_minus_tot[i] = std::sqrt(bg_sys_minus[i]*bg_sys_minus[i] + jpsi_sys_minus[i]*jpsi_sys_minus[i] + sysFormulaDiff*sysFormulaDiff);
 		sys_plus_tot[i] = std::sqrt(bg_sys_plus[i]*bg_sys_plus[i]  + sysFormulaDiff*sysFormulaDiff);
@@ -125,17 +124,24 @@ void backgroundCorrectionSystematics()
 		sys_plus_tot_np[i] = std::sqrt(bg_sys_plus_np[i]*bg_sys_plus_np[i] + sysFormulaDiff*sysFormulaDiff);
 		sys_minus_tot_np[i] = std::sqrt(bg_sys_minus_np[i]*bg_sys_minus_np[i] + sysFormulaDiff*sysFormulaDiff);
 
-		cout << "total_bg_frac : " << total_bg[i] << " + " << total_bg_plus[i] << " - " << total_bg_minus[i] << endl;
-		cout << "total_bg_frac_np : " << total_bg_np[i] << " + " << total_bg_np_plus[i] << " - " << total_bg_np_minus[i] << endl;
-
-		cout << "sysBGfrac (ohfe) : " << " + " << bg_sys_plus[i] << " - " << bg_sys_minus[i] << endl;
-		cout << "sysBGfrac (np) : " << " + " << bg_sys_plus_np[i] << " - " << bg_sys_minus_np[i] << endl;
-
+		//cout << "total_bg_frac : " << total_bg[i] << " + " << total_bg_plus[i] << " - " << total_bg_minus[i] << endl;
+		//cout << "total_bg_frac_np : " << total_bg_np[i] << " + " << total_bg_np_plus[i] << " - " << total_bg_np_minus[i] << endl;
 
 		if ( verbosity == 1 )
 		{	
+			cout << " AN values and statistical errors : " << endl;
 			cout << "corrected lumi " << i << " "<< y_corrected_lumi[i] << endl;
 			cout << "corrected lumi error " << i << " "<< corrected_lumi_err[i] << endl;
+			cout << "corrected lumi np  " << i << " "<< y_corrected_lumi_np[i] << endl;
+			cout << "corrected lumi np error " << i << " "<< corrected_lumi_err_np[i] << endl;
+
+			cout << " Systematic errors : " << endl;
+			cout << "sysFormulaDiff : " << sysFormulaDiff << endl;
+			cout << "sysBGfrac (ohfe) : " << " + " << bg_sys_plus[i] << " - " << bg_sys_minus[i] << endl;
+			cout << "sysBGfrac (np) : " << " + " << bg_sys_plus_np[i] << " - " << bg_sys_minus_np[i] << endl;
+			cout << "totalSys (ohfe) : " << " + " << sys_plus_tot[i] << " - " << sys_minus_tot[i] << endl;
+			cout << "totalSys (np) : " << " + " << sys_plus_tot_np[i] << " - " << sys_minus_tot_np[i] << endl;
+
 		}
 		//corrected_lumi->SetPoint(x_lumi[i], y_corrected_lumi[i]);
 	} 
@@ -187,8 +193,8 @@ void backgroundCorrectionSystematics()
 	legend2->AddEntry((TObject*)0, "p^{#uparrow}+p, #sqrt{s} = 200 GeV", "");
 	legend2->AddEntry((TObject*)0, "PHENIX Preliminary", "");
 
-
-	legend->AddEntry(lumi, "Before BG Correction", "lep" );
+	if (!prelim)
+		legend->AddEntry(lumi, "Before BG Correction", "lep" );
 
 	corrected_lumi->SetMarkerStyle(20);
 	corrected_lumi->SetLineColor(kBlue); corrected_lumi_sys->SetLineColor(kBlue);
@@ -197,7 +203,7 @@ void backgroundCorrectionSystematics()
 	
 	corrected_lumi_sys->SetFillColor(kBlue);
 	corrected_lumi_sys->SetFillStyle(3002);
-	corrected_lumi->SetTitle("; p_{T} [GeV]; A_{N}");
+	corrected_lumi->SetTitle("; p_{T} [GeV/c]; A_{N}");
 	corrected_lumi->GetXaxis()->SetTitleOffset(1.2);
 	corrected_lumi->GetYaxis()->SetTitleSize(0.045);
 	corrected_lumi->Draw("AP");

@@ -5,22 +5,20 @@
 void backgroundCorrection()
 {
     int verbosity = 1;
-	bool SAVE_IMAGES = 1;
-    bool jpsi = 1;
-    bool hadron = 1;
+    bool SAVE_IMAGES = 1;
+    bool jpsi = 0;
+    bool hadron = 0;
     const int nbins = NUM_VALUE_BINS;
     double x_lumi[nbins], y_lumi[nbins], x_sqrt[nbins], y_sqrt[nbins];
     double y_corrected_lumi[nbins], y_corrected_sqrt[nbins];
     double corrected_lumi_err[nbins], corrected_sqrt_err[nbins];
     double total_bg[nbins], had_AN[nbins], had_AN_err[nbins];
 
+    // Taken from previous 200 GeV PHENIX measurements (Run 6) //
     double jpsi_AN_val = -0.065;
     double jpsi_AN_errVal = 0.158;
-    // Taken from previous 200 GeV PHENIX measurements //
     double jpsi_AN[nbins] = {0.437*jpsi_AN_val, 0.671*jpsi_AN_val, 0.785*jpsi_AN_val, 0.868*jpsi_AN_val  };
     double jpsi_AN_err[nbins] = {0.437*jpsi_AN_errVal, 0.671*jpsi_AN_errVal, 0.785*jpsi_AN_errVal, 0.868*jpsi_AN_errVal  };
-
-
 
     double hadminus_AN[nbins] = {-0.0012, -0.0012, -0.021, -0.021};
     double hadminus_AN_err[nbins] = {0.0082, 0.0082, 0.027, 0.027};
@@ -164,8 +162,9 @@ void backgroundCorrection()
     corrected_sqrt->SetMarkerColor( kRed );
     corrected_sqrt->SetMarkerSize( 0.7* 2 );
 
-	corrected_sqrt->Draw("AP");
-	corrected_lumi->Draw("P");
+    corrected_sqrt->SetTitle(";p_{T} [GeV]; A_{N}");
+    corrected_sqrt->Draw("AP");
+    corrected_lumi->Draw("P");
     line->Draw( "same" );
 
 	legend->Draw();
@@ -189,8 +188,8 @@ void backgroundCorrection()
 
 	}
 
-	can[1] = new TCanvas( "c0", "Corrected A_{N} tTest" );
-	TGraph *tTest; 
+    can[1] = new TCanvas( "c0", "Corrected A_{N} tTest" );
+    TGraph *tTest; 
     tTest = ttest( corrected_sqrt, corrected_lumi, 1 );
     tTest->SetMarkerColor( kBlack );
     tTest->SetMarkerStyle( kFullCircle );

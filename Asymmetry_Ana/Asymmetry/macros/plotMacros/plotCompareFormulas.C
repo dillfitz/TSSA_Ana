@@ -18,11 +18,14 @@ const int numGraphs = 3;
 const char *names[6] = { "lumiY", "lumiB", "lumi", "sqrtY", "sqrtB",  "sqrt0" };
 //const float MIN = -0.06;
 //const float MAX =  0.06;
+
+// Use this for the open heavy flavor electron measurement //
 const float MIN = -0.07;
 const float MAX =  0.07;
 
 const bool SAVE_IMAGES = true;
 
+// Use this for the open heavy flavor electron measurement //
 void plotCompareFormulas( const char* particle = "ohfe" )
 {
   TString inputFileName = "../dataFiles/";
@@ -40,7 +43,7 @@ void plotCompareFormulas( const char* particle = "ohfe" )
   for( int i = 3; i < 6; i++ )
     sqrt[i - 3] = (TGraphAsymmErrors*)file->Get( names[i] );
 
-  TLegend *legend = new TLegend( 0.55, 0.9, 0.95, 0.7 );
+  TLegend *legend = new TLegend( 0.55, 0.1, 0.9, 0.3 );
   //TLegend *legend = new TLegend( 0.15,0.9, 0.53, 0.72 );
   legend->AddEntry( sqrt[0], "Square Root Formula", "lep" );
   legend->AddEntry( lumi[0], "Relative Luminosity Formula", "lep" );
@@ -88,7 +91,7 @@ void plotCompareFormulas( const char* particle = "ohfe" )
       ttests[i]->SetMarkerColor( kBlack );
       ttests[i]->SetMarkerStyle( kFullCircle );
       ttests[i]->SetTitle( "; p_{T}[GeV];T" );
-      ttests[i]->GetYaxis()->SetRangeUser( -3, 3 );
+      ttests[i]->GetYaxis()->SetRangeUser( -4, 4 );
       ttests[i]->Draw( "AP" );
       line->Draw( "same" );
 

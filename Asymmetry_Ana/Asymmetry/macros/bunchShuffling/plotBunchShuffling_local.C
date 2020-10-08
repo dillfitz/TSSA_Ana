@@ -16,13 +16,9 @@ const bool peak = false;//true;
 void plotBunchShuffling_local()
 {
   gStyle->SetOptFit();
-  TFile *file = TFile::Open( "shuffled.root" );
-/*
-  TFile *file = TFile::Open( "isoBunchShuffle.root" );
-  if( peak )
-    file = TFile::Open( "peakBunchShuffle.root" );
-  else
-  file = TFile::Open( "backgroundBunchShuffle.root" );*/
+  TFile *file = TFile::Open( "shuffled_ohfe.root" );
+  const char *particle = "ohfe";
+
   TCanvas *canvases[ NUM_VALUE_BINS ];
   TH1F *histos[ NUM_VALUE_BINS ];
   TF1 *fits[ NUM_VALUE_BINS ];
@@ -55,8 +51,8 @@ void plotBunchShuffling_local()
       if( SAVE_PICTURES )
 	{
 	  ostringstream name;
-	  name << "images/ohfe/";
-	  name << "shuffles" << VALUE_BINS[i] << "to" << VALUE_BINS[i + 1] 
+	  name << "images/" << particle;
+	  name << "/shuffles" << VALUE_BINS[i] << "to" << VALUE_BINS[i + 1] 
 	       << ".png";
 	  canvases[i]->SaveAs( name.str().c_str() );
 	}

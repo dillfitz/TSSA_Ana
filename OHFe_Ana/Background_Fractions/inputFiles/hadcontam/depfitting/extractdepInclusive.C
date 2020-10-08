@@ -50,7 +50,7 @@ void extractdepInclusive()
 
   // Binning out to 5 GeV in pT //
   const int nbins = 5;
-  double ptbins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0, 8.0};
+  double ptbins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0, 10.0};
 
   TH1F* h_dep[nbins];
   TH1F* h_eop[nbins];
@@ -81,10 +81,10 @@ void extractdepInclusive()
       int trigger = triginfo;
       if (nv)
 	{
-	  //if ((quality == 31 || quality == 63) && (hitpat&3) == 3 && nhit > 2 && chisq/ndf < 3 && fabs(zed) < 75 && fabs(sigemcdphi) < 3 && fabs(sigemcdz) < 3 && disp < 5 && n0 > 1 && prob > 0.01)
-          if ((quality == 31 || quality == 63) && chisq/ndf < 3 && fabs(zed) < 75 && fabs(sigemcdphi) < 3 && fabs(sigemcdz) < 3 && disp < 5 && n0 > 1 && prob > 0.01)
+	  if ((quality == 31 || quality == 63) && (hitpat&3) == 3 && nhit > 2 && chisq/ndf < 3 && fabs(zed) < 75 && fabs(sigemcdphi) < 3 && fabs(sigemcdz) < 3 && disp < 5 && n0 > 1 && prob > 0.01)
+          //if ((quality == 31 || quality == 63) && chisq/ndf < 3 && fabs(zed) < 75 && fabs(sigemcdphi) < 3 && fabs(sigemcdz) < 3 && disp < 5 && n0 > 1 && prob > 0.01)
 	    {
-                if (pt > 5 && n0 <=2) {continue;}
+                //if (pt > 5 && n0 <=2) {continue;}
                 for (int q = 0; q < nbins;q++)
 		{
 
@@ -102,10 +102,10 @@ void extractdepInclusive()
 
       else
 	{
-	  //if ((quality == 31 || quality == 63) && (hitpat&3) == 3 && nhit > 2 && chisq/ndf < 3 && fabs(zed) < 75 && fabs(sigemcdphi) < 3 && fabs(sigemcdz) < 3 && disp < 5 && n0 > 1 && prob > 0.01 && conveto==1)
-	  if ((quality == 31 || quality == 63) && chisq/ndf < 3 && fabs(zed) < 75 && fabs(sigemcdphi) < 3 && fabs(sigemcdz) < 3 && disp < 5 && n0 > 1 && prob > 0.01 && conveto==1 )
+	  if ((quality == 31 || quality == 63) && (hitpat&3) == 3 && nhit > 2 && chisq/ndf < 3 && fabs(zed) < 75 && fabs(sigemcdphi) < 3 && fabs(sigemcdz) < 3 && disp < 5 && n0 > 1 && prob > 0.01 && conveto==1)
+	  //if ((quality == 31 || quality == 63) && chisq/ndf < 3 && fabs(zed) < 75 && fabs(sigemcdphi) < 3 && fabs(sigemcdz) < 3 && disp < 5 && n0 > 1 && prob > 0.01 && conveto==1 )
 	    {
-                if (pt > 5 && n0 <=2) {continue;}
+                //if (pt > 5 && n0 <=2) {continue;}
                 for (int q = 0; q < nbins;q++)
 		{
 		    if (pt > ptbins[q] && pt < ptbins[q+1])

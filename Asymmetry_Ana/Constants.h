@@ -62,10 +62,11 @@ const int NUM_CUT_OFF = 10;
 //Set this number to 10 if you're doing things properly and set to 1 if you just
 //want your error bars not to blow up
 
-/* */
-//single electron p_T -- still need to figure out bins -- prob same fill bins as Nicole?
+
+//Binning for open heavy flavor electron analysis //
 //const int NUM_FILLS_IN_GROUP = 1;
 //const int NUM_FILL_BINS = 140;
+
 const int NUM_FILLS_IN_GROUP = 2;
 const int NUM_FILL_BINS = 70;
 const int NUM_VALUE_BINS = 4;

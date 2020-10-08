@@ -25,7 +25,8 @@ const int YELLOW_WEST = 1;
 const int BLUE_WEST = 2;
 const int BLUE_EAST = 3;
 
-void plotRelLumi( const char* particle = "ohfe" )//"eta_iso_dp_pt" )
+// Use this for the open heavy flavor electron measurement //
+void plotRelLumi( const char* particle = "ohfe" )
 {
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;
@@ -67,7 +68,7 @@ void plotRelLumi( const char* particle = "ohfe" )//"eta_iso_dp_pt" )
   lumi[ YELLOW_EAST ]->Draw("AP");
   lumi[ YELLOW_WEST ]->Draw("P");
   zeroLine->Draw( "same" );
-  TLegend *legend2 = new TLegend( 0.52,0.9, 0.9, 0.7 );
+  TLegend *legend2 = new TLegend( 0.52,0.1, 0.9, 0.3 );
   //TLegend *legend2 = new TLegend( 0.58,0.7, 0.96, 0.5 );
   legend2->AddEntry( lumi[ YELLOW_EAST ], "East Arm - Left Asymmetry", "lep" );
   legend2->AddEntry( lumi[ YELLOW_WEST ], "West Arm - Right Asymmetry", "lep" );
@@ -94,7 +95,7 @@ void plotRelLumi( const char* particle = "ohfe" )//"eta_iso_dp_pt" )
   lumi[ BLUE_EAST ]->Draw("AP");
   lumi[ BLUE_WEST ]->Draw("P");
   zeroLine->Draw( "same" );
-  TLegend *legend4 = new TLegend( 0.52,0.9, 0.9, 0.7 );
+  TLegend *legend4 = new TLegend( 0.52,0.1, 0.9, 0.3 );
   //TLegend *legend4 = new TLegend( 0.58,0.4, 0.96, 0.2 );
   legend4->AddEntry( lumi[ BLUE_EAST ], "East Arm - Right Asymmetry", "lep" );
   legend4->AddEntry( lumi[ BLUE_WEST ], "West Arm - Left Asymmetry", "lep" );
