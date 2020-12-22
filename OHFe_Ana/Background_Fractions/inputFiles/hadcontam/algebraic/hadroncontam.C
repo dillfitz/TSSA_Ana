@@ -1,12 +1,19 @@
+#include "../../../../../Asymmetry_Ana/Constants.h"
 void hadroncontam()
 {
-  const bool nv = 0;
+  const bool nv = 1;
 
   gStyle->SetOptStat(0);
 
-  const int nbins = 4;
+  const int nbins = NUM_VALUE_BINS;
 
-  Double_t bins[nbins+1] = {1.5, 1.8, 2.1, 2.7, 5.0};
+  Double_t bins[nbins+1];
+  for (int i=0; i<nbins+1; ++i)
+  {
+    bins[i] = VALUE_BINS[i];
+    std::cout << bins[i] << std::endl;
+  }
+
 
 
   if (nv)
@@ -47,12 +54,12 @@ void hadroncontam()
   TH1F* h_ept_n01 = (TH1F*)electrons->Get("h_pt_n01");
 
 
-  TFile* pions = TFile::Open("dataFiles/pionsurvival.root");
+  //TFile* pions = TFile::Open("dataFiles/pionsurvival.root");
 
-  TH1F* h_hpt_non0 = (TH1F*)pions->Get("h_pt_non0");
-  TH1F* h_hpt_n00 = (TH1F*)pions->Get("h_pt_n00");
-  TH1F* h_hpt_n03 = (TH1F*)pions->Get("h_pt_n03");
-  TH1F* h_hpt_n01 = (TH1F*)pions->Get("h_pt_n01");
+  //TH1F* h_hpt_non0 = (TH1F*)pions->Get("h_pt_non0");
+  //TH1F* h_hpt_n00 = (TH1F*)pions->Get("h_pt_n00");
+  //TH1F* h_hpt_n03 = (TH1F*)pions->Get("h_pt_n03");
+  //TH1F* h_hpt_n01 = (TH1F*)pions->Get("h_pt_n01");
 
 
   TH1F* h_ptno0 = (TH1F*) h_ptno0->Rebin(nbins,"h_ptno0",bins);
@@ -79,10 +86,10 @@ void hadroncontam()
   TH1F* h_ept_n01 = (TH1F*) h_ept_n01->Rebin(nbins,"h_ept_n03",bins); 
   TH1F* h_ept_n03 = (TH1F*) h_ept_n03->Rebin(nbins,"h_ept_n01",bins); 
 
-  TH1F* h_hpt_non0 = (TH1F*) h_hpt_non0->Rebin(nbins,"h_hpt_non0",bins);
-  TH1F* h_hpt_n00 = (TH1F*) h_hpt_n00->Rebin(nbins,"h_hpt_n00",bins); 
-  TH1F* h_hpt_n01 = (TH1F*) h_hpt_n01->Rebin(nbins,"h_hpt_n03",bins); 
-  TH1F* h_hpt_n03 = (TH1F*) h_hpt_n03->Rebin(nbins,"h_hpt_n01",bins); 
+  //TH1F* h_hpt_non0 = (TH1F*) h_hpt_non0->Rebin(nbins,"h_hpt_non0",bins);
+  //TH1F* h_hpt_n00 = (TH1F*) h_hpt_n00->Rebin(nbins,"h_hpt_n00",bins); 
+  //TH1F* h_hpt_n01 = (TH1F*) h_hpt_n01->Rebin(nbins,"h_hpt_n03",bins); 
+  //TH1F* h_hpt_n03 = (TH1F*) h_hpt_n03->Rebin(nbins,"h_hpt_n01",bins); 
 
 
 
@@ -116,7 +123,7 @@ void hadroncontam()
   TH1F* h_survival_e_n03 = (TH1F*)h_ept_n03->Clone("h_survival_ept_n03");
   TH1F* h_survival_e_n01n03 = (TH1F*)h_ept_n03->Clone("h_survival_ept_n01n03");
 
-  TH1F* h_survival_pi_n00 = (TH1F*)h_hpt_n00->Clone("h_survival_hpt_n00");
+  //TH1F* h_survival_pi_n00 = (TH1F*)h_hpt_n00->Clone("h_survival_hpt_n00");
   TH1F* h_survival_pi_n01 = (TH1F*)h_pt_n01->Clone("h_survival_hpt_n01");
   TH1F* h_survival_pi_n03 = (TH1F*)h_pt_n03->Clone("h_survival_hpt_n03");
   TH1F* h_survival_pi_n01n03 = (TH1F*)h_pt_n03->Clone("h_survival_pi_n01n03");
@@ -139,7 +146,7 @@ void hadroncontam()
   h_survival_e_n03->Divide(h_ept_non0);
   h_survival_e_n01n03->Divide(h_ept_n01);
 
-  h_survival_pi_n00->Divide(h_hpt_non0);
+  //h_survival_pi_n00->Divide(h_hpt_non0);
   // h_survival_pi_n01->Divide(h_hpt_non0);
   h_survival_pi_n01->Divide(h_pt_non0);
   h_survival_pi_n03->Divide(h_pt_non0);

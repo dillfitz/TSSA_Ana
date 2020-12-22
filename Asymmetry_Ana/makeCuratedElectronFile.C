@@ -9,8 +9,8 @@ using namespace std;
 #include "Constants.h"
 #include "findBin.h"
 
-const int nbins = NUM_VALUE_BINS;
-const float bins[ nbins + 1 ] = { 1.5, 1.8, 2.1, 2.7, 5.0 };
+//onst int nbins = NUM_VALUE_BINS;
+//const float bins[ nbins + 1 ] = { 1.5, 1.8, 2.1, 2.7, 5.0 };
 
 void makeCuratedElectronFile()
 {
@@ -24,13 +24,7 @@ void makeCuratedElectronFile()
   Long64_t triggerCounts[ NUM_XINGS ];
   fillTree->SetBranchAddress( "triggerCounts", triggerCounts );
   fillTree->SetBranchAddress( "fillNumber",    &fillNumberFillTree );
-  TString phinames[NUM_ARMS] = {"EAST", "WEST"};
 
-  TH1F *phihistos[NUM_ARMS];
-  phihistos[0] = new TH1F(phinames[0], phinames[0], 80, 2.0, 4.0);
-  phihistos[0]->Sumw2();
-  phihistos[1] = new TH1F(phinames[1], phinames[1], 80, -1.0, 1.0);
-  phihistos[1]->Sumw2();
   TFile *dataFile = TFile::Open("../AllRuns_725_ana644.root");
 
   // May need to add sector and energy content.. look into this. Will arm suffice instead of sector? //
@@ -100,9 +94,9 @@ void makeCuratedElectronFile()
   newTree->Branch( "mom",            &mom,            "mom/F" );
   newTree->Branch( "ptBin",          &ptBin,          "ptBin/I" );
 
-  TH1F *e_pt_noscaler = new TH1F("pt_noscaler", ";p_{T} [GeV];", nbins, bins);
+  TH1F *e_pt_noscaler = new TH1F("pt_noscaler", ";p_{T} [GeV];", NUM_VALUE_BINS, VALUE_BINS);
   e_pt_noscaler->Sumw2();
-  TH1F *e_pt = new TH1F("pt", ";p_{T} [GeV];", nbins, bins);
+  TH1F *e_pt = new TH1F("pt", ";p_{T} [GeV];", NUM_VALUE_BINS, VALUE_BINS);
   e_pt->Sumw2();
  
   int numEntries = inputTree->GetEntries();
@@ -157,7 +151,7 @@ void makeCuratedElectronFile()
       lastFillNumber = fillnumber;
 
       // Analysis Quality Cuts
-      if (pt <= 1.5 || pt >= 5.0)                   {continue;}
+      if (pt <= 1.0 || pt >= 5.0)                   {continue;}
       if (conversionveto2x==0)                      {continue;}
       if (abs(dep)>=2.)                             {continue;}
       if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {continue;}
@@ -186,10 +180,6 @@ void makeCuratedElectronFile()
 
       if (pt > 2.7 && pt < 5.0 ) {fiveGeV++;}
 
-      if (arm==0)
-      	phihistos[0]->Fill(phi);
-      if (arm==1)
-      	phihistos[1]->Fill(phi);
       ptBin = findBin( NUM_VALUE_BINS, VALUE_BINS, pt ) ;
       if( ptBin >= 0 )
 	newTree->Fill();
@@ -202,14 +192,11 @@ void makeCuratedElectronFile()
   newTree->Write();
   e_pt_noscaler->Write();
   e_pt->Write();
-  phihistos[0]->Write();
-  phihistos[1]->Write();
 
   newTree->Delete();
   e_pt_noscaler->Delete();
   e_pt->Delete();
-  phihistos[0]->Delete();
-  phihistos[1]->Delete();
+
 
  
   outFile->Close();

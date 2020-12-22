@@ -1,11 +1,17 @@
+#include "../../Asymmetry_Ana/Constants.h"
+
 void systematics_veto2x()
 {
 
   gStyle->SetOptStat(0);
 
-  const int nbins = 4;
+  const int nbins = NUM_VALUE_BINS;
 
-  double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0};
+  double bins[nbins+1]; 
+  for (int i=0; i<nbins+1; ++i)
+  {
+    bins[i] = VALUE_BINS[i];
+  }
 
   //************************************
   // read in files and create histograms
@@ -281,12 +287,20 @@ void systematics_veto2x()
   TH1F* h_sysjpsin[nbins];
   TH1F* h_sysphotonn[nbins];
 
+/*
   float fnprange[] = {0.60,0.68,0.66,0.74,0.70,0.75,0.75,0.82,0.75,0.84,0.80,0.86,0.84,0.88,0.85,0.9,0.9,0.92,0.88,0.92};
   float piznormrange[] = {0.25,0.32,0.2,0.32,0.16,0.3,0.13,0.2,0.12,0.18,.08,0.17,0.05,0.15,0.05,0.13,0.05,0.1,0.05,0.13,0.05,0.13};
   float etanormrange[] = {0.04,0.1,0.03,0.1,0.025,0.1,0.025,0.08,0.02,0.08,0.02,0.08,0.02,0.04,0.01,0.04,0.01,0.04,0.01,0.04};
   float jpsinormrange[] = {0,0.07,0.0,0.12,0.0,0.16,0.03,0.2,0.03,0.2,0.05,0.3,0.1,0.3,0.08,0.3,0.08,0.3,0.1,0.4,0.1,0.4};
   float ke3normrange[] = {0,0.008,0,0.006,0,0.006,0,0.006,0,0.006,0,0.006,0,0.006,0,0.006,0,0.006,0,0.008,0,0.008};
   float photonnormrange[] = {0.,0.01,0.0,0.012,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02};
+*/
+  float fnprange[]        = {0.60,0.68,  0.66,0.74,  0.70,0.82,  0.75,0.92};
+  float piznormrange[]    = {0.25,0.32,  0.2,0.32,  0.16,0.2,  0.12,0.1};
+  float etanormrange[]    = {0.04,0.1,  0.03,0.1,  0.025,0.08,  0.02,0.04};
+  float jpsinormrange[]   = {0.0,0.07,  0.0,0.12,  0.0,0.2,  0.03,0.3};
+  float ke3normrange[]    = {0.0,0.008,  0.0,0.006,  0.0,0.006,  0.0,0.006};
+  float photonnormrange[] = {0.0,0.01,  0.0,0.012,  0.0,0.02,  0.0,0.02};
 
 
   for (int i = 0; i < nbins; i++)

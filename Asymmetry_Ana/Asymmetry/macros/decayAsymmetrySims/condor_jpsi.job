@@ -1,0 +1,27 @@
+Universe        = vanilla
+Priority        = +10
+Notification    = Error
+Notify_user     = shlee@iastate.edu 
+Requirements    = (CPU_Experiment == "phenix")
+Rank            = CPU_Speed
+GetEnv          = True
+PeriodicHold    = (NumJobStarts>=1 && JobStatus == 1)
+
+Initialdir      = /phenix/spin/phnxsp01/shlee/polarization/sim/decays
+
+GroupNumber     = 9
+
+Arguments       = $(GroupNumber) $(Process)
+
+Executable      = $(Initialdir)/jobfile_jpsi.csh
+
+Output          = /phenix/scratch/shlee/logs/jpsi_$(GroupNumber)$(Process).out 
+Error           = /phenix/scratch/shlee/logs/jpsi_$(GroupNumber)$(Process).err 
+Log             = /phenix/scratch/shlee/logs/jpsi_$(GroupNumber)$(Process).log 
+
++Experiment     = "phenix"
++Job_Type       = "cas"
+
+Queue     10
+
+

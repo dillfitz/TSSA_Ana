@@ -218,7 +218,7 @@ void plotSinPhi( const char* particle = "ohfe" )
   tTestSin->SetMarkerColor( kBlack );
   tTestSin->SetMarkerStyle( kFullCircle );
   tTestSin->SetTitle( "; p_{T}[GeV];T" );
-  tTestSin->GetYaxis()->SetRangeUser( -6, 6 );
+  tTestSin->GetYaxis()->SetRangeUser( -10, 10 );
   tTestSin->Draw( "AP" );
   zeroLine->Draw( "same" );
 
@@ -317,7 +317,7 @@ void plotSinPhi( const char* particle = "ohfe" )
     tTest->SetMarkerColor( kBlack );
     tTest->SetMarkerStyle( kFullCircle );
     tTest->SetTitle( "; p_{T}[GeV];T" );
-    tTest->GetYaxis()->SetRangeUser( -6, 6 );
+    tTest->GetYaxis()->SetRangeUser( -10, 10 );
     tTest->Draw( "AP" );
     zeroLine->Draw( "same" );
 

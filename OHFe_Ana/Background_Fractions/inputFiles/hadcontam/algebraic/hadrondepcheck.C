@@ -1,6 +1,6 @@
 void hadrondepcheck()
 {
-  const bool nv = 1;
+  const bool nv = 0;
 
   //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root"); 
   //TNtuple* ntphsvx = (TNtuple*)infile->Get("ntphsvx");

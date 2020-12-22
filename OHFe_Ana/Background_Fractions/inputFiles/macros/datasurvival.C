@@ -1,6 +1,12 @@
+#include "../../../../Asymmetry_Ana/Constants.h"
 void datasurvival()
 {
-  const int nbins = 4;
+  const int nbins = NUM_VALUE_BINS;
+  double bins[nbins];
+  for (int i=0; i<nbins+1; ++i)
+  {
+    bins[i] = VALUE_BINS[i];
+  }
   gStyle->SetOptStat(0);
   TFile*infile1 = TFile::Open("../../../../AllRuns_725_ana644.root");
 
@@ -15,11 +21,6 @@ void datasurvival()
   TH1F* hadnotconversions3 = (TH1F*) infile1->Get("hadnotconversions_3");
   TH1F* hadnotconversions4 = (TH1F*) infile1->Get("hadnotconversions_4");
   TH1F* hadnotconversions5 = (TH1F*) infile1->Get("hadnotconversions_5");
-
-  // If binning up to 6 GeV //
-  //double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 6.0};
-  // If binning only up to 5 GeV //
-  double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0};
 
   TH1F* hadconversions = (TH1F*)hadconversions->Rebin(nbins,"hadconversions",bins);
   TH1F* hadconversions2 = (TH1F*)hadconversions2->Rebin(nbins,"hadconversions2",bins);
