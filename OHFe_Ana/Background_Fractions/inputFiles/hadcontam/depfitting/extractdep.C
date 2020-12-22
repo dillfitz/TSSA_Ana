@@ -1,15 +1,12 @@
+#include "../../../../../Asymmetry_Ana/Constants.h"
 void extractdep()
 {
-  const bool nv = 1;
-
-  //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root");
-  // TNtuple*ntpesvx = (TNtuple*)infile->Get("ntpesvx");
-
+  const bool nv = 0;
 
   TFile*infile = TFile::Open("../../../../../AllRuns_725_ana644.root");
   TNtuple*eSvxTree = (TTree*)infile->Get("e_svx_tree");
 
- TString outfileName = "dataFiles/depstudy";
+  TString outfileName = "dataFiles/depstudy";
   if (nv)
     {
       outfileName += "_noveto";
@@ -41,16 +38,7 @@ void extractdep()
   eSvxTree->SetBranchAddress("ecore",&ecore);
   eSvxTree->SetBranchAddress("mom",&mom);
 
-
-
-  //double ptbins[16]  = {1.5, 1.8, 2.1, 2.4, 2.7, 3.0, 3.5, 4.0, 4.5 , 5.0, 6.0};
-
-  const int nbins = 4;
-  // Binning out to 6 GeV in pT //
-  //double ptbins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 6.0};
-
-  // Binning out to 5 GeV in pT //
-  double ptbins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0};
+  const int nbins = NUM_VALUE_BINS;
 
   TH1F* h_dep[nbins];
   TH1F* h_eop[nbins];
@@ -85,7 +73,7 @@ void extractdep()
 		{
 		  for (int q = 0; q < nbins;q++)
 		    {
-		      if (pt > ptbins[q] && pt < ptbins[q+1])
+		      if (pt > VALUE_BINS[q] && pt < VALUE_BINS[q+1])
 			{
 			  h_dep[q]->Fill(dep);
 			  h_eop[q]->Fill(ecore/mom);
@@ -96,7 +84,7 @@ void extractdep()
 		{
 		  for (int q = 0; q < nbins;q++)
 		    {
-		      if (pt > ptbins[q] && pt < ptbins[q+1])
+		      if (pt > VALUE_BINS[q] && pt < VALUE_BINS[q+1])
 			{
 			  h_dep[q]->Fill(dep);
 			  h_eop[q]->Fill(ecore/mom);
@@ -115,7 +103,7 @@ void extractdep()
 		{
 		  for (int q = 0; q < nbins;q++)
 		    {
-		      if (pt > ptbins[q] && pt < ptbins[q+1])
+		      if (pt > VALUE_BINS[q] && pt < VALUE_BINS[q+1])
 			{
 			  h_dep[q]->Fill(dep);
 			  h_eop[q]->Fill(ecore/mom);
@@ -126,7 +114,7 @@ void extractdep()
 		{
 		  for (int q = 0; q < nbins;q++)
 		    {
-		      if (pt > ptbins[q] && pt < ptbins[q+1])
+		      if (pt > VALUE_BINS[q] && pt < VALUE_BINS[q+1])
 			{
 			  h_dep[q]->Fill(dep);
 			  h_eop[q]->Fill(ecore/mom);

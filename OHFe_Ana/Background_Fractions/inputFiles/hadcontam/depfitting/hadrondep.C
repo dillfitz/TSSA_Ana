@@ -1,11 +1,12 @@
+#include "../../../../../Asymmetry_Ana/Constants.h"
 void hadrondep()
 {
 
-  const bool inclusive=1;
+  //const bool inclusive=1;
   gStyle->SetOptStat(0);
 
   // TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root"); 
-  TFile*infile = TFile::Open("../../../../../AllRuns_725_ana644.root"); 
+  TFile*infile = TFile::Open("../../../../../AllRuns_725_ana651.root"); 
 
 
   TH2F* h_hadron_dep_pt = (TH2F*)infile->Get("h_hadron_dep_pt");
@@ -17,19 +18,23 @@ void hadrondep()
   //float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,6.0};
 
   // For binning out to 5 GeV in pT //
-  if (inclusive)
-  {
-    const int nbins = 5;
-    float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0,10.0};
-  }
-  else
-  {
-    const int nbins = 4;
-    float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
-  }
+ 
+  const int nbins = NUM_VALUE_BINS;
+  //float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
+
 
   TH1F* h_hadrondep[nbins];
-  float bin[] = {16,18,19,21,22,24,25,27,28,30,31,35,36,40,41,45,46,50,51,60};
+
+  if (nbins == 4)
+  {
+    float bin[] = {16,18,19,21,22,27,28,50};
+  }
+  else if (nbins == 6)
+  {
+    float bin[] = {11,13,14,15,16,18,19,21,22,27,28,50};
+  }
+  else
+    std::cout << "Invalid binning!" << std::endl;
 
   for (int i = 0; i < nbins; i++)
     {
@@ -87,7 +92,7 @@ void hadrondep()
   for ( int i = 1 ; i <= nbins; i ++)
     {
       stringstream aa;
-      aa <<ptrange[i-1] << " < p_{T} < " <<ptrange[i] << " GeV/c;dep;";
+      aa <<VALUE_BINS[i-1] << " < p_{T} < " <<VALUE_BINS[i] << " GeV/c;dep;";
       string histotitle = aa.str();
       h_hadrondep[i-1]->SetTitle(histotitle.c_str());
 
@@ -98,11 +103,7 @@ void hadrondep()
       fits[i-1]->Draw("SAME");
     }
 
-
-  if (inclusive)
-    TFile* outfile = new TFile("dataFiles/hadronfitsInclusive.root","RECREATE");
-  else
-    TFile* outfile = new TFile("dataFiles/hadronfits.root","RECREATE");
+  TFile* outfile = new TFile("dataFiles/hadronfits.root","RECREATE");
 
   for ( int i = 0; i < nbins; i ++ )
     {

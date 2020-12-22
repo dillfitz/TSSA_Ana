@@ -142,9 +142,10 @@ int asymmetryBunchShuffle( float seed = 2,
   TTree *dataTree = (TTree*)dataFile->Get( inputTreeNameInFile );
   cout << "Loading tree " << inputTreeNameInFile << " from file "
        << inputDataFileName << endl;
-  int fillNumber, arm, xing, ptBin;
+  int fillNumber, arm, xing, ptBin, charge;
   dataTree->SetBranchAddress( "fillNumber", &fillNumber );
   dataTree->SetBranchAddress( "arm",        &arm );
+  dataTree->SetBranchAddress( "charge",      &charge );
   dataTree->SetBranchAddress( "xing",       &xing );
   dataTree->SetBranchAddress( "ptBin",      &ptBin );
   int numEntries = dataTree->GetEntries();

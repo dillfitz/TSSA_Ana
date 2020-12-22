@@ -1,10 +1,12 @@
+#include "../../Asymmetry_Ana/Constants.h"
+
 void sysplots()
 {
 
   gStyle->SetCanvasPreferGL(1);
   gStyle->SetOptStat(0);
 
-  const int nbins = 4;
+  const int nbins = NUM_VALUE_BINS;
 
   TFile* infile1= TFile::Open("outputFiles/normalizations.root");
 
@@ -44,6 +46,7 @@ void sysplots()
   float pt[] = {1.6,1.7,1.9,2.0,2.35,2.45,3.8,3.9};
   for (int i = 0; i < nbins;i++)
     {
+      cout << pt[2*i] << endl;
       pizuc[i] = new TBox(pt[2*i],h_piz_n->GetBinContent(i+1)-h_sys_piz->GetBinContent(i+1),pt[2*i+1],h_piz_n->GetBinContent(i+1)+h_sys_piz->GetBinContent(i+1));
       etauc[i] = new TBox(pt[2*i],h_eta_n->GetBinContent(i+1)-h_sys_eta->GetBinContent(i+1),pt[2*i+1],h_eta_n->GetBinContent(i+1)+h_sys_eta->GetBinContent(i+1));
       jpsiuc[i] = new TBox(pt[2*i],h_jpsi_n->GetBinContent(i+1)-h_sys_jpsi->GetBinContent(i+1),pt[2*i+1],h_jpsi_n->GetBinContent(i+1)+h_sys_jpsi->GetBinContent(i+1));

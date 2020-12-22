@@ -1,7 +1,7 @@
+#include "../../../../../Asymmetry_Ana/Constants.h"
 void fitdep()
 {
   const bool nv = 0;
-  const bool inclusive = 1;
 
   gStyle->SetOptStat(0);
   gStyle->SetOptFit(0);
@@ -11,37 +11,24 @@ void fitdep()
   // For binning out to 6 GeV in pT //
   //float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,6.0};
 
-  if (inclusive)
-  {
-    const int nbins = 5;
-    float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0,10.0};
-  }
-  else
-  {
-    // For binning out to 5 GeV in pT //
-    const int nbins = 4;
-    float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
-  }
+
+
+  // For binning out to 5 GeV in pT //
+  const int nbins = NUM_VALUE_BINS;
+  float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
+
 
  
   TString outfileName = "dataFiles/hadronnorm_depfit";
-  if (inclusive)
-    outfileName += "_inclusive";
 
   if (nv)
     {
-      if (inclusive)
-        TFile* infile1 = TFile::Open("dataFiles/depstudyInclusive_noveto.root");
-      else
-        TFile* infile1 = TFile::Open("dataFiles/depstudy_noveto.root");
+      TFile* infile1 = TFile::Open("dataFiles/depstudy_noveto.root");
       outfileName += "_noveto";
     }
   else
     {
-      if (inclusive)
-        TFile* infile1 = TFile::Open("dataFiles/depstudyInclusive.root");
-      else
-        TFile* infile1 = TFile::Open("dataFiles/depstudy.root");
+      TFile* infile1 = TFile::Open("dataFiles/depstudy.root");
     }
   outfileName += ".root";
 
@@ -54,10 +41,7 @@ void fitdep()
       h_dep[i] = (TH1F*)infile1->Get(histname.c_str());
     }
 
-  if (inclusive)
-    TFile* infile2 = TFile::Open("dataFiles/hadronfitsInclusive.root");
-  else
-    TFile* infile2 = TFile::Open("dataFiles/hadronfits.root");
+  TFile* infile2 = TFile::Open("dataFiles/hadronfits.root");
 
   TF1* f_hadfits[nbins];
   for (int i = 0 ; i < nbins ; i++)
@@ -98,7 +82,7 @@ void fitdep()
   for (int i = 0; i < nbins ;i++)
     {
       stringstream aa;
-      aa <<ptrange[i] << " < p_{T} < " <<ptrange[i+1] << ";dep;";
+      aa <<VALUE_BINS[i] << " < p_{T} < " <<VALUE_BINS[i+1] << ";dep;";
       string histotitle = aa.str();
       h_dep[i]->SetTitle(histotitle.c_str());
       if ( i > 6)
@@ -126,6 +110,8 @@ void fitdep()
       f_ecfits[i-1]->Draw("SAME");
     }
 
+  if (nv == 0)
+    c1->SaveAs("electroncanddep.png");
 
 
 
@@ -136,7 +122,7 @@ void fitdep()
   TF1* f_electrons[nbins];
 
   // float ptbins[11] = {1.5,1.8,2.1,2.4,2.7,3,3.5,4,4.5,5,6};
-  TH1F* h_hadfrac = new TH1F("h_hadfrac",";p_{T};",nbins,ptrange);
+  TH1F* h_hadfrac = new TH1F("h_hadfrac",";p_{T};",nbins,VALUE_BINS);
 
   for (int i = 0; i < nbins; i ++)
     {

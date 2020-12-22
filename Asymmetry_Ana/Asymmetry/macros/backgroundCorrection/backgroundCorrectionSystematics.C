@@ -26,10 +26,13 @@ void backgroundCorrectionSystematics()
 	// Taken from previous 200 GeV PHENIX measurements (Run 6) //
 	double jpsi_AN_val = -0.065; 
 	double jpsi_AN_errVal = 0.158;
-	double jpsi_AN[nbins] = {0.447*jpsi_AN_val, 0.688*jpsi_AN_val, 0.789*jpsi_AN_val, 0.871*jpsi_AN_val  };
+	//double jpsi_dilutions[nbins] = {0.447, 0.688, 0.789, 0.871};
+        // recalculated with corrected detector accpetance // 
+	double jpsi_dilutions[nbins] = {0.489, 0.714, 0.808, 0.886};
+	double jpsi_AN[nbins] = {jpsi_dilutions[0]*jpsi_AN_val, jpsi_dilutions[1]*jpsi_AN_val, jpsi_dilutions[2]*jpsi_AN_val, jpsi_dilutions[3]*jpsi_AN_val  };
 	//double jpsi_AN_plus[nbins] = {0.435*(jpsi_AN_val+jpsi_AN_errVal), 0.701*(jpsi_AN_val+jpsi_AN_errVal), 0.794*(jpsi_AN_val+jpsi_AN_errVal), 0.871*(jpsi_AN_val+jpsi_AN_errVal)};
 	//double jpsi_AN_minus[nbins] = {0.440*(jpsi_AN_val-jpsi_AN_errVal), 0.693*(jpsi_AN_val-jpsi_AN_errVal), 0.793*(jpsi_AN_val-jpsi_AN_errVal), 0.871*(jpsi_AN_val-jpsi_AN_errVal)};
-	double jpsi_AN_err[nbins] = {0.447*jpsi_AN_errVal, 0.688*jpsi_AN_errVal, 0.789*jpsi_AN_errVal, 0.872*jpsi_AN_errVal  };
+	double jpsi_AN_err[nbins] = {jpsi_dilutions[0]*jpsi_AN_errVal, jpsi_dilutions[1]*jpsi_AN_errVal, jpsi_dilutions[2]*jpsi_AN_errVal, jpsi_dilutions[3]*jpsi_AN_errVal  };
 	
 	double hadminus_AN[nbins] = {-0.0012, -0.0012, -0.021, -0.021};
 	double hadminus_AN_err[nbins] = {0.0082, 0.0082, 0.027, 0.027};
@@ -154,7 +157,7 @@ void backgroundCorrectionSystematics()
 	{
 		ptLow[i]  = fabs( VALUE_BINS[i] - x_lumi[i] );
 		ptHigh[i] = fabs( VALUE_BINS[i + 1] - x_lumi[i] );
-		x_low[i] = x_lumi[i] - 0.05; x_high[i] = x_lumi[i] + 0.05;
+		x_low[i] = x_lumi[i] - 0.03; x_high[i] = x_lumi[i] + 0.03;
 
 	}
 
@@ -169,7 +172,8 @@ void backgroundCorrectionSystematics()
 	TGraphAsymmErrors *corrected_lumi_np_sys = new TGraphAsymmErrors( nbins, x_low, y_corrected_lumi_np, ptLow, ptHigh, sys_minus_tot_np, sys_plus_tot_np); 
 	//TGraphAsymmErrors *corrected_lumi = new TGraphAsymmErrors( nbins, x_lumi, y_lumi, ptLow, ptHigh, lumi->GetErrorY(), lumi->GetErrorY()); 
 
-	corrected_lumi->GetXaxis()->SetRangeUser(0.0,5.0);
+	corrected_lumi->GetXaxis()->SetLimits(0.5,6.5);
+	//corrected_lumi_np->GetXaxis()->SetRangeUser(0.0,7.0);
 	for (int i=0; i<nbins; ++i)
 	{
 		corrected_lumi->SetPointEXhigh(i,0.0); corrected_lumi->SetPointEXlow(i,0.0);
@@ -188,10 +192,18 @@ void backgroundCorrectionSystematics()
 	legend->AddEntry(corrected_lumi, "Open Heavy Flavor e", "lep" );
 	legend->AddEntry(corrected_lumi_np, "Nonphotonic e", "lep" );
 
-	TLegend *legend2 = new TLegend( 0.1275, 0.6210, 0.4756, 0.850 );
-	legend2->SetLineColor(0);
-	legend2->AddEntry((TObject*)0, "p^{#uparrow}+p, #sqrt{s} = 200 GeV", "");
-	legend2->AddEntry((TObject*)0, "PHENIX Preliminary", "");
+  if (prelim)
+  {
+		TLegend *legend2 = new TLegend( 0.12, 0.65, 0.4, 0.85 );
+		legend2->SetLineColor(0);
+		legend2->AddEntry((TObject*)0, "p^{#uparrow}+p, #sqrt{s} = 200 GeV", "");
+		legend2->AddEntry((TObject*)0, "PHENIX", "");
+
+		TLegend *legend3 = new TLegend( 0.5, 0.65, 0.85, 0.85 );
+		legend3->SetLineColor(0);
+		legend3->AddEntry((TObject*)0, "3.4% polarization uncertainty", "");
+		legend3->AddEntry((TObject*)0, "not included", "");
+  }
 
 	if (!prelim)
 		legend->AddEntry(lumi, "Before BG Correction", "lep" );
@@ -230,8 +242,10 @@ void backgroundCorrectionSystematics()
 	line->Draw( "same" );
 	legend->Draw();
 	if (prelim)
+  {
 		legend2->Draw();
-
+    legend3->Draw();
+  }
 	if( SAVE_IMAGES )
 	{
 		TString name = "./images/";

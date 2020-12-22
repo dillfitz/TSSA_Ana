@@ -8,14 +8,6 @@ using namespace std;
 
 #include "../../../../Asymmetry_Ana/Constants.h"
 
-const int nbins = 4;
-// If binning to 6 GeV // 
-//double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 6.0};
-
-// If binning to 5 GeV // 
-double bins[nbins+1]  = {1.5, 1.8, 2.1, 2.7, 5.0};
-
-
 void fnpcalcc_ept_fills()
 {
   TString outFileName = "../forfnp.root";
@@ -36,7 +28,7 @@ void fnpcalcc_ept_fills()
   TFile *dataFile = TFile::Open("../../../../AllRuns_725_ana644.root");
 
   // May need to add sector and energy content.. look into this. Will arm suffice instead of sector? //
-  int fillnumber, run, event, xing, spinpattern, sector, arm; 
+  int fillnumber, run, event, xing, spinpattern, sector, arm, charge; 
   int triginfo, quality, nhit, hitpattern, n0, n1, ndf;
   float pt, pz, phi, phi0, mom, dcat, dcal, chisq, phi0, phi, disp, dep, zed;
   float emcdphi, emcdz, emce, ecore, sigemcdphi, sigemcdz, npe0, prob;
@@ -76,6 +68,7 @@ void fnpcalcc_ept_fills()
   inputTree->SetBranchAddress("prob", &prob); 
   inputTree->SetBranchAddress("conversionveto2x", &conversionveto2x); 
   inputTree->SetBranchAddress("conversionveto10x", &conversionveto10x); 
+  inputTree->SetBranchAddress("charge", &charge); 
 
   int eventsRun;
   TTree *eventsTree = (TTree*)dataFile->Get( "events_tree" );
@@ -84,11 +77,25 @@ void fnpcalcc_ept_fills()
 
   TFile *outFile = new TFile( outFileName,  "RECREATE" );
 
-  TH1F* h_ept_conveto = new TH1F("h_ept_conveto",";pT;",nbins,bins);
+  TH1F* h_ept_conveto = new TH1F("h_ept_conveto",";pT;",NUM_VALUE_BINS,VALUE_BINS);
   h_ept_conveto->Sumw2();
 
-  TH1F* h_ept_noconveto = new TH1F("h_ept_nv",";pT;",nbins,bins);
+  TH1F* h_ept_noconveto = new TH1F("h_ept_nv",";pT;",NUM_VALUE_BINS,VALUE_BINS);
   h_ept_noconveto->Sumw2();
+
+  // + charge //
+  TH1F* h_ept_conveto_plus = new TH1F("h_ept_conveto_plus",";pT;",NUM_VALUE_BINS,VALUE_BINS);
+  h_ept_conveto_plus->Sumw2();
+
+  TH1F* h_ept_noconveto_plus = new TH1F("h_ept_nv_plus",";pT;",NUM_VALUE_BINS,VALUE_BINS);
+  h_ept_noconveto_plus->Sumw2();
+
+  // - charge //
+  TH1F* h_ept_conveto_minus = new TH1F("h_ept_conveto_minus",";pT;",NUM_VALUE_BINS,VALUE_BINS);
+  h_ept_conveto_minus->Sumw2();
+
+  TH1F* h_ept_noconveto_minus = new TH1F("h_ept_nv_minus",";pT;",NUM_VALUE_BINS,VALUE_BINS);
+  h_ept_noconveto_minus->Sumw2();
  
   int numEntries = inputTree->GetEntries();
   cout << "There are " << numEntries << " in the original electron tree " << endl;
@@ -132,7 +139,7 @@ void fnpcalcc_ept_fills()
       
 
       // Analysis Quality Cuts
-      if (pt < 1.5 || pt > 5)                       {continue;}
+      if (pt < 1.0 || pt > 5)                       {continue;}
       if (abs(dep)>=2.)                             {continue;}
       if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {continue;}
       if (abs(zed)>= 75)                            {continue;}
@@ -162,6 +169,23 @@ void fnpcalcc_ept_fills()
       if (conversionveto2x==1)
 	h_ept_conveto->Fill(pt);
       
+      // + charge //
+      if (charge == 1)
+      {
+        h_ept_noconveto_plus->Fill(pt);
+
+        if (conversionveto2x==1)
+	  h_ept_conveto_plus->Fill(pt);
+      }
+
+      // - charge //
+      if (charge == -1)
+      {
+        h_ept_noconveto_minus->Fill(pt);
+
+        if (conversionveto2x==1)
+	  h_ept_conveto_minus->Fill(pt);
+      }
              
 
     }
@@ -169,9 +193,17 @@ void fnpcalcc_ept_fills()
   outFile->cd();
   h_ept_noconveto->Write();
   h_ept_conveto->Write();
+  h_ept_noconveto_plus->Write();
+  h_ept_conveto_plus->Write();
+  h_ept_noconveto_minus->Write();
+  h_ept_conveto_minus->Write();
 
   h_ept_noconveto->Delete();
   h_ept_conveto->Delete();
+  h_ept_noconveto_plus->Delete();
+  h_ept_conveto_plus->Delete();
+  h_ept_noconveto_minus->Delete();
+  h_ept_conveto_minus->Delete();
 
   outFile->Close();
   outFile->Delete();

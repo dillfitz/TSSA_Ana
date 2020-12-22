@@ -1,7 +1,9 @@
+#include "../../../../Asymmetry_Ana/Constants.h"
+
 void average_hc()
 {
-  const bool nv = 1;
-  const int nbins = 4;
+  const bool nv = 0;
+  const int nbins = NUM_VALUE_BINS;
 
   if (nv)
     TFile* infile1 = TFile::Open("depfitting/dataFiles/hadronnorm_depfit_noveto.root");
@@ -46,6 +48,11 @@ void average_hc()
   h_depfit->Draw("SAME");
   h_shcontam->SetLineColor(kViolet);
   //h_shcontam->Draw("SAME");
+
+  if (nv==0)
+    c1->SaveAs("hadcontammethods.png");
+  else if (nv==1)
+    c1->SaveAs("hadcontammethods_noveto.png");
 
 
   TH1F* h_hadcontam = (TH1F*)h_depfit->Clone("h_hadcontam");
@@ -92,6 +99,11 @@ void average_hc()
     {
       box[i]->Draw("SAME");
     }
+  if (nv==0)
+    c2->SaveAs("hadcontam.png");
+  else if (nv==1)
+    c2->SaveAs("hadcontam_noveto.png");
+
   TLegend* l2 = new TLegend(0.1,0.83,0.6,0.9);
   l2->AddEntry(h_hadcontam,"Hadron Contamination");
   l2->Draw();
