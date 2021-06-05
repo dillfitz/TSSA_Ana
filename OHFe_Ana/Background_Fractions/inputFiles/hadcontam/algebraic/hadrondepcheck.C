@@ -5,7 +5,7 @@ void hadrondepcheck()
   //TFile*infile = TFile::Open("/phenix/hhj/trinn/run15pro108/combinedanataxi/combined_good_ert_100mevbins.root"); 
   //TNtuple* ntphsvx = (TNtuple*)infile->Get("ntphsvx");
 
-  TFile*infile = TFile::Open("../../../../../AllRuns_725_ana644.root"); 
+  TFile*infile = TFile::Open("../../../../../AllRuns_725_ana651.root"); 
   TTree* hSvxTree = (TTree*)infile->Get("h_svx_tree");
 
   bool conveto;

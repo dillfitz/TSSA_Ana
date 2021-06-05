@@ -19,11 +19,11 @@ const float MAX =  0.06;
 const bool SAVE_IMAGES = true;//false;
 
 // Use this for the open heavy flavor electron measurement //
-void plotYellowBlue( const char* particle = "ohfe" )
+void plotYellowBluePlus( const char* particle = "ohfe" )
 {
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;
-  inputFileName += "_AN";
+  inputFileName += "_AN_plus";
   inputFileName += ".root";
 
   TF1* zeroLine = new TF1( "zeroLine", "0", 0, 20 );
@@ -31,18 +31,18 @@ void plotYellowBlue( const char* particle = "ohfe" )
   zeroLine->SetLineStyle( 2 );
   cout << "Opening file " << inputFileName << endl;
   TFile *file = TFile::Open( inputFileName );
-  TGraphAsymmErrors* lumiY = (TGraphAsymmErrors*)file->Get("lumiY");
-  TGraphAsymmErrors* lumiB = (TGraphAsymmErrors*)file->Get("lumiB");
-  TGraphAsymmErrors* sqrtY = (TGraphAsymmErrors*)file->Get("sqrtY");
-  TGraphAsymmErrors* sqrtB = (TGraphAsymmErrors*)file->Get("sqrtB");
+  TGraphAsymmErrors* lumiY = (TGraphAsymmErrors*)file->Get("lumiY_plus");
+  TGraphAsymmErrors* lumiB = (TGraphAsymmErrors*)file->Get("lumiB_plus");
+  TGraphAsymmErrors* sqrtY = (TGraphAsymmErrors*)file->Get("sqrtY_plus");
+  TGraphAsymmErrors* sqrtB = (TGraphAsymmErrors*)file->Get("sqrtB_plus");
  
-  TCanvas *c29 = new TCanvas( "c2", "Lumi Blue Yellow" );
+  TCanvas *c29 = new TCanvas( "c2", "Lumi Blue Yellow, charge (+)" );
   lumiY->SetMarkerStyle( kFullSquare );
   lumiY->SetMarkerColor( kOrange );
   lumiY->SetMarkerSize( 0.7*SIZE );
   lumiY->GetYaxis()->SetRangeUser( MIN, MAX );
   if( !SAVE_IMAGES )
-    lumiY->SetTitle( "Relative Luminosity Blue and Yellow; p_{T} [GeV]; " );
+    lumiY->SetTitle( "Relative Luminosity Blue and Yellow, charge (+); p_{T} [GeV]; " );
   else
     lumiY->SetTitle( "; p_{T} [GeV]; " );
 
@@ -57,11 +57,11 @@ void plotYellowBlue( const char* particle = "ohfe" )
       TString name = "./images/";
       name += particle;
       name += "/YellowBlue/";
-      name += "lumiYellowBlue.png";
+      name += "lumiYellowBluePlus.png";
       c29->SaveAs( name );
     }
 
-  TCanvas *c30 = new TCanvas( "c3", "Lumi compare yellow blue", 
+  TCanvas *c30 = new TCanvas( "c3", "Lumi compare yellow blue, charge (+)", 
 			      800, 0, 700, 500 );
   c30->SetTicky();
   TGraph *ttestLumi = ttest( lumiY, lumiB, 0 );
@@ -76,17 +76,17 @@ void plotYellowBlue( const char* particle = "ohfe" )
       TString name = "./images/";
       name += particle;
       name += "/YellowBlue/";
-      name += "lumiYellowBlueTTest.png";
+      name += "lumiYellowBluePlusTTest.png";
       c30->SaveAs( name );
     }
 
-  TCanvas *c41 = new TCanvas( "c4", "Sqrt Blue Yellow " );
+  TCanvas *c41 = new TCanvas( "c4", "Sqrt Blue Yellow, charge (+) " );
   sqrtY->SetMarkerStyle( kFullSquare );
   sqrtY->SetMarkerColor( kOrange );
   sqrtY->SetMarkerSize( 0.7 * SIZE );
   sqrtY->GetYaxis()->SetRangeUser( MIN, MAX );
   if( !SAVE_IMAGES )
-    sqrtY->SetTitle( "Square Root Blue and Yellow; p_{T} [GeV]; " );
+    sqrtY->SetTitle( "Square Root Blue and Yellow, charge (+); p_{T} [GeV]; " );
   else
     sqrtY->SetTitle( "; p_{T} [GeV]; " );
 
@@ -101,11 +101,11 @@ void plotYellowBlue( const char* particle = "ohfe" )
       TString name = "./images/";
       name += particle;
       name += "/YellowBlue/";
-      name += "sqrtYellowBlue.png";
+      name += "sqrtYellowBluePlus.png";
       c41->SaveAs( name );
     }
 
-  TCanvas *c40 = new TCanvas( "c5", "Sqrt compare yellow blue ", 
+  TCanvas *c40 = new TCanvas( "c5", "Sqrt compare yellow blue, charge (+) ", 
 			      800, 0, 700, 500 );
   c40->SetTicky();
   TGraph *ttestSqrt = ttest( sqrtY, sqrtB, 0 );
@@ -120,7 +120,7 @@ void plotYellowBlue( const char* particle = "ohfe" )
       TString name = "./images/";
       name += particle;
       name += "/YellowBlue/";
-      name += "sqrtYellowBlueTTest.png";
+      name += "sqrtYellowBluePlusTTest.png";
       c40->SaveAs( name );
     }
 }

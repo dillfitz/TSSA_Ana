@@ -6,19 +6,9 @@ void fitdep()
   gStyle->SetOptStat(0);
   gStyle->SetOptFit(0);
 
-
-
-  // For binning out to 6 GeV in pT //
-  //float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,6.0};
-
-
-
-  // For binning out to 5 GeV in pT //
   const int nbins = NUM_VALUE_BINS;
-  float ptrange[nbins+1] = {1.5,1.8,2.1,2.7,5.0};
 
 
- 
   TString outfileName = "dataFiles/hadronnorm_depfit";
 
   if (nv)

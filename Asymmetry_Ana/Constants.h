@@ -62,14 +62,12 @@ const int NUM_CUT_OFF = 10;
 //Set this number to 10 if you're doing things properly and set to 1 if you just
 //want your error bars not to blow up
 
-
+/*
 //Binning for open heavy flavor electron analysis //
 //const int NUM_FILLS_IN_GROUP = 1;
 //const int NUM_FILL_BINS = 140;
-
 const int NUM_FILLS_IN_GROUP = 2;
 const int NUM_FILL_BINS = 70;
-
 //const int NUM_FILLS_IN_GROUP = 3;
 //const int NUM_FILL_BINS = 47;
 const int NUM_VALUE_BINS = 4;
@@ -77,18 +75,17 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 1.5, 1.8, 2.1, 2.7, 5.0 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 1.639, 1.936, 2.349, 3.29 };
-
+*/
 
 //Extending the pT range down to 1 GeV for the OHFe analysis //
-/*
 const int NUM_FILLS_IN_GROUP = 2;
 const int NUM_FILL_BINS = 70;
 const int NUM_VALUE_BINS = 6;
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
   { 1.0, 1.3, 1.5, 1.8, 2.1, 2.7, 5.0 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 1.15, 1.4, 1.639, 1.936, 2.349, 3.29 };
-*/
+  { 1.161, 1.398, 1.639, 1.936, 2.349, 3.29 };
+
 
 /*
 //pi0 pt

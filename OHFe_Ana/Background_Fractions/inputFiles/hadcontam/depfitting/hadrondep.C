@@ -25,6 +25,7 @@ void hadrondep()
 
   TH1F* h_hadrondep[nbins];
 
+  // bin mapping coming from .1 GeV per bin on pT axis (i.e. bin 16 = 1.5 GeV
   if (nbins == 4)
   {
     float bin[] = {16,18,19,21,22,27,28,50};
@@ -110,7 +111,7 @@ void hadrondep()
       fits[i]->Write();
     }
 
-  c1->SaveAs("hadrondep_ert_finebins.png");
+  c1->SaveAs("hadrondep.png");
 
 
 

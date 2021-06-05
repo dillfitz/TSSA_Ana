@@ -19,18 +19,18 @@ const float YMAX =  0.18;
 
 const int SIZE = 2;
 const int numGraphs = 4;
-const char *names[ numGraphs ] = { "lumiYL", "lumiYR", "lumiBL", "lumiBR"};
+const char *names[ numGraphs ] = { "lumiYL_plus", "lumiYR_plus", "lumiBL_plus", "lumiBR_plus"};
 const int YELLOW_EAST = 0;
 const int YELLOW_WEST = 1;
 const int BLUE_WEST = 2;
 const int BLUE_EAST = 3;
 
 // Use this for the open heavy flavor electron measurement //
-void plotRelLumi( const char* particle = "ohfe" )
+void plotRelLumiPlus( const char* particle = "ohfe" )
 {
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;
-  inputFileName += "_AN";
+  inputFileName += "_AN_plus";
   inputFileName += ".root";
   TF1* zeroLine = new TF1( "zeroLine", "0", 0, 20 );
   zeroLine->SetLineColor( kBlack );
@@ -81,7 +81,7 @@ void plotRelLumi( const char* particle = "ohfe" )
       TString name = directoryName;
       name += particle;
       name += "/RelLumi/";
-      name += "lumiLeftRightYellow.png";
+      name += "lumiLeftRightYellowPlus.png";
       c20->SaveAs( name );
     }
 
@@ -106,7 +106,7 @@ void plotRelLumi( const char* particle = "ohfe" )
       TString name = directoryName;
       name += particle;
       name += "/RelLumi/";
-      name += "lumiLeftRightBlue.png";
+      name += "lumiLeftRightBluePlus.png";
       c41->SaveAs( name );
     }
 
@@ -127,7 +127,7 @@ void plotRelLumi( const char* particle = "ohfe" )
       TString name = directoryName;
       name += particle;
       name += "/RelLumi/";
-      name += "lumiLeftRightYellowTTest.png";
+      name += "lumiLeftRightYellowPlusTTest.png";
       c35->SaveAs( name );
     }
 
@@ -147,7 +147,7 @@ void plotRelLumi( const char* particle = "ohfe" )
       TString name = directoryName;
       name += particle;
       name += "/RelLumi/";
-      name += "lumiLeftRightBlueTTest.png";
+      name += "lumiLeftRightBluePlusTTest.png";
       c45->SaveAs( name );
     }
 

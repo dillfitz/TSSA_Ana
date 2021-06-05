@@ -1,9 +1,9 @@
 #include "../../../../../Asymmetry_Ana/Constants.h"
 void extractdep()
 {
-  const bool nv = 0;
+  const bool nv = 1;
 
-  TFile*infile = TFile::Open("../../../../../AllRuns_725_ana644.root");
+  TFile*infile = TFile::Open("../../../../../AllRuns_725_ana651.root");
   TNtuple*eSvxTree = (TTree*)infile->Get("e_svx_tree");
 
   TString outfileName = "dataFiles/depstudy";

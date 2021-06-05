@@ -184,7 +184,7 @@ void asymmetryPhi( const char* particle = "ohfe" )
       if( ptBin >= 0 && phiBin >= 0 )//only acceptable bin values allowed!
 	asymmetry[ phiBin ].incrementCounts( fillBin, ptBin, arm, spinPattern );
 
-    }//end looping through etas
+    }//end looping through candidates
 
   float asArr[ NUM_BEAMS ][ NUM_OPTIONS_PHI ][ NUM_PHI_BINS ][ NUM_PT_BINS ];
   float asErrArr[ NUM_BEAMS ][ NUM_OPTIONS_PHI ][ NUM_PHI_BINS ][ NUM_PT_BINS ];

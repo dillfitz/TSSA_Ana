@@ -110,7 +110,7 @@ void hadrondep_plus()
       fits[i]->Write();
     }
 
-  c1->SaveAs("hadrondep_ert_finebins_plus.png");
+  c1->SaveAs("hadrondep_plus.png");
 
 
 

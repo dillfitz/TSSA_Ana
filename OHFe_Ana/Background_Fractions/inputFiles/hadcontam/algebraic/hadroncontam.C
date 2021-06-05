@@ -1,7 +1,7 @@
 #include "../../../../../Asymmetry_Ana/Constants.h"
 void hadroncontam()
 {
-  const bool nv = 1;
+  const bool nv = 0;
 
   gStyle->SetOptStat(0);
 
@@ -342,10 +342,12 @@ void hadroncontam()
 
 
 
-  c1->SaveAs("plots/n0survival.png");
-  c2->SaveAs("plots/n0study_hadroncontam.png");
-  c3->SaveAs("plots/n03n01study.png");
-
+  if (nv==0)
+  {
+    c1->SaveAs("n0survival.png");
+    c2->SaveAs("n0study_hadroncontam.png");
+    c3->SaveAs("n03n01study.png");
+  }
   TString outfileName = "dataFiles/algebraic_hadroncontam";
 
   if (nv)

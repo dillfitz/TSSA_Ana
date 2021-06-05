@@ -43,7 +43,14 @@ void sysplots()
   TBox* hadronuc[nbins];
 
   // it appears that the pt array is here solely to determine the width of the systematic box //
-  float pt[] = {1.6,1.7,1.9,2.0,2.35,2.45,3.8,3.9};
+  if (nbins == 4)
+  {
+    float pt[] = {1.6,1.7,1.9,2.0,2.35,2.45,3.85,3.95};
+  }
+  else if (nbins == 6)
+  {
+    float pt[] = {1.1, 1.2, 1.35, 1.45, 1.6,1.7,1.9,2.0,2.35,2.45,3.8,3.9};  
+  }
   for (int i = 0; i < nbins;i++)
     {
       cout << pt[2*i] << endl;

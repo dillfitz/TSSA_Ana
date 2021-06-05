@@ -1,7 +1,7 @@
 #include "../../../../../Asymmetry_Ana/Constants.h"
 void hadroncontam_minus()
 {
-  const bool nv = 0;
+  const bool nv = 1;
 
   gStyle->SetOptStat(0);
 

@@ -88,7 +88,8 @@ void plotCompareFormulasMinus( const char* particle = "ohfe" )
       ttests[i]->SetMarkerColor( kBlack );
       ttests[i]->SetMarkerStyle( kFullCircle );
       ttests[i]->SetTitle( "; p_{T}[GeV];T" );
-      ttests[i]->GetYaxis()->SetRangeUser( -8, 8 );
+      ttests[i]->GetYaxis()->SetRangeUser( -14, 14 );
+      ttests[i]->GetXaxis()->SetLimits( 0, 6 );
       ttests[i]->Draw( "AP" );
       line->Draw( "same" );
 

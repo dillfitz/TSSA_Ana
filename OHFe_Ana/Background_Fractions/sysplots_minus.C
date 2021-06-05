@@ -29,7 +29,7 @@ void sysplots_minus()
 
 
 
-  TFile* infile3 = TFile::Open("inputFiles/hadcontam.root");
+  TFile* infile3 = TFile::Open("inputFiles/hadcontam_minus.root");
 
   TH1F* h_sys_hadlow = (TH1F*)infile3->Get("h_depfit")->Clone("h_sys_hadlow");
   TH1F* h_sys_hadhigh = (TH1F*)infile3->Get("h_algebraic")->Clone("h_sys_hadhigh");
@@ -43,7 +43,14 @@ void sysplots_minus()
   TBox* hadronuc[nbins];
 
   // it appears that the pt array is here solely to determine the width of the systematic box //
-  float pt[] = {1.6,1.7,1.9,2.0,2.35,2.45,3.8,3.9};
+  if (nbins == 4)
+  {
+    float pt[] = {1.6,1.7,1.9,2.0,2.35,2.45,3.85,3.95};
+  }
+  else if (nbins == 6)
+  {
+    float pt[] = {1.1, 1.2, 1.35, 1.45, 1.6,1.7,1.9,2.0,2.35,2.45,3.8,3.9};  
+  }
   for (int i = 0; i < nbins;i++)
     {
       pizuc[i] = new TBox(pt[2*i],h_piz_n->GetBinContent(i+1)-h_sys_piz->GetBinContent(i+1),pt[2*i+1],h_piz_n->GetBinContent(i+1)+h_sys_piz->GetBinContent(i+1));
@@ -132,7 +139,7 @@ void sysplots_minus()
   legend->Draw();
 
 
-  //c1->SaveAs("normalizations_w_sys_minus.png");
+  c1->SaveAs("normalizations_w_sys_minus.png");
 
 
 }

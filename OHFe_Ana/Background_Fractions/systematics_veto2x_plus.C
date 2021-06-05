@@ -13,6 +13,17 @@ void systematics_veto2x_plus()
     bins[i] = VALUE_BINS[i];
   }
 
+  // For extra systematics in the 1-1.5 GeV pT region //
+  TH1F *h_fnp_sys2 = new TH1F("fnp_sys2","",nbins,bins);
+  TH1F *h_piz_sys2_up = new TH1F("piz_sys2u","",nbins,bins);
+  TH1F *h_piz_sys2_down = new TH1F("piz_sys2l","",nbins,bins);
+  TH1F *h_eta_sys2_up = new TH1F("eta_sys2u","",nbins,bins);
+  TH1F *h_eta_sys2_down = new TH1F("eta_sys2l","",nbins,bins);
+  TH1F *h_photon_sys2_up = new TH1F("gam_sys2u","",nbins,bins);
+  TH1F *h_photon_sys2_down = new TH1F("gam_sys2l","",nbins,bins);
+  TH1F *h_jpsi_sys2_up = new TH1F("jpsi_sys2u","",nbins,bins);
+  TH1F *h_jpsi_sys2_down = new TH1F("jpsi_sys2l","",nbins,bins);
+
   //************************************
   // read in files and create histograms
   //************************************
@@ -286,21 +297,28 @@ void systematics_veto2x_plus()
   TH1F* h_syske3n[nbins];
   TH1F* h_sysjpsin[nbins];
   TH1F* h_sysphotonn[nbins];
+  if (nbins == 4)
+  {
+    float fnprange[]        = {0.60,0.68,  0.66,0.74,  0.70,0.82,  0.75,0.92};
+    float piznormrange[]    = {0.25,0.32,  0.2,0.32,  0.16,0.2,  0.12,0.1};
+    float etanormrange[]    = {0.04,0.1,  0.03,0.1,  0.025,0.08,  0.02,0.04};
+    float jpsinormrange[]   = {0.0,0.07,  0.0,0.12,  0.0,0.2,  0.03,0.3};
+    float ke3normrange[]    = {0.0,0.008,  0.0,0.006,  0.0,0.006,  0.0,0.006};
+    float photonnormrange[] = {0.0,0.01,  0.0,0.012,  0.0,0.02,  0.0,0.02};
+  }
 
-/*
-  float fnprange[] = {0.60,0.68,0.66,0.74,0.70,0.75,0.75,0.82,0.75,0.84,0.80,0.86,0.84,0.88,0.85,0.9,0.9,0.92,0.88,0.92};
-  float piznormrange[] = {0.25,0.32,0.2,0.32,0.16,0.3,0.13,0.2,0.12,0.18,.08,0.17,0.05,0.15,0.05,0.13,0.05,0.1,0.05,0.13,0.05,0.13};
-  float etanormrange[] = {0.04,0.1,0.03,0.1,0.025,0.1,0.025,0.08,0.02,0.08,0.02,0.08,0.02,0.04,0.01,0.04,0.01,0.04,0.01,0.04};
-  float jpsinormrange[] = {0,0.07,0.0,0.12,0.0,0.16,0.03,0.2,0.03,0.2,0.05,0.3,0.1,0.3,0.08,0.3,0.08,0.3,0.1,0.4,0.1,0.4};
-  float ke3normrange[] = {0,0.008,0,0.006,0,0.006,0,0.006,0,0.006,0,0.006,0,0.006,0,0.006,0,0.006,0,0.008,0,0.008};
-  float photonnormrange[] = {0.,0.01,0.0,0.012,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02,0.0,0.02};
-*/
-  float fnprange[]        = {0.60,0.68,  0.66,0.74,  0.70,0.82,  0.75,0.92};
-  float piznormrange[]    = {0.25,0.32,  0.2,0.32,  0.16,0.2,  0.12,0.1};
-  float etanormrange[]    = {0.04,0.1,  0.03,0.1,  0.025,0.08,  0.02,0.04};
-  float jpsinormrange[]   = {0.0,0.07,  0.0,0.12,  0.0,0.2,  0.03,0.3};
-  float ke3normrange[]    = {0.0,0.008,  0.0,0.006,  0.0,0.006,  0.0,0.006};
-  float photonnormrange[] = {0.0,0.01,  0.0,0.012,  0.0,0.02,  0.0,0.02};
+  // will likely have to come back and adjust the first 4 bins here... //
+  
+  else if (nbins == 6)
+  {
+
+    float fnprange[]        = {0.40,0.50, 0.54,0.64, 0.60,0.68,  0.66,0.74,  0.70,0.82,  0.75,0.92};
+    float piznormrange[]    = {0.4,0.5, 0.28,0.38, 0.25,0.32,   0.2,0.32,  0.16,0.2,  0.12,0.1};
+    float etanormrange[]    = {0.04,0.1, 0.04,0.1, 0.04,0.1,  0.03,0.1,  0.025,0.08,  0.02,0.04};
+    float jpsinormrange[]   = {0.0,0.07, 0.0,0.07, 0.0,0.07,  0.0,0.12,  0.0,0.2,  0.03,0.3};
+    float ke3normrange[]    = {0.0,0.024, 0.0,0.016, 0.0,0.008,  0.0,0.006,  0.0,0.006,  0.0,0.006};
+    float photonnormrange[] = {0.0,0.01, 0.0,0.01, 0.0,0.01,  0.0,0.012,  0.0,0.02,  0.0,0.02};
+  }
 
 
   for (int i = 0; i < nbins; i++)
@@ -1199,7 +1217,71 @@ void systematics_veto2x_plus()
        h_eta_n->SetBinError(i,h_eta_n->GetBinContent(i)*TMath::Sqrt((h_eta_f->GetBinError(i)/h_eta_f->GetBinContent(i))**2+(h_oldfnp_conveto->GetBinError(i)/h_oldfnp_conveto->GetBinContent(i))**2));
        h_photon_n->SetBinError(i,h_photon_n->GetBinContent(i)*TMath::Sqrt((h_photon_f->GetBinError(i)/h_photon_f->GetBinContent(i))**2+(h_oldfnp_conveto->GetBinError(i)/h_oldfnp_conveto->GetBinContent(i))**2));
 
-     
+      // Need to add in another systematic for Fnp in the 1-1.5 GeV Region //
+	  if (nbins == 6 && i <= 2)
+      {
+        // case 1 : use next bin central value as upper bound of systematic (currently taking a symmetric systematic)
+        double Fnp_sys = fabs(h_oldfnp_conveto->GetBinContent(i+1) - h_oldfnp_conveto->GetBinContent(i));
+
+        // cases 2 & 3 : extrapolated values from fitting 1.5-5 GeV region
+        // case 2 : f(x) = a + b*sqrt(x) + c*log(x) -- f(1.161) = 0.508, f(1.398) = 0.586
+        //if (i==1)
+        //	double Fnp_sys = fabs(0.508 - h_oldfnp_conveto->GetBinContent(i)); 
+		//else if (i==2)
+        //	double Fnp_sys = fabs(0.586 - h_oldfnp_conveto->GetBinContent(i)); 	
+
+        //case 3 : g(x) = a*x/(1+b*x^2) -- g(1.161) = 0.538, g(1.398) = 0.601
+        //if (i==1)
+        //	double Fnp_sys = fabs(0.538 - h_oldfnp_conveto->GetBinContent(i)); 
+		//else if (i==2)
+        //	double Fnp_sys = fabs(0.601 - h_oldfnp_conveto->GetBinContent(i)); 	
+
+        double fnp_up = h_oldfnp_conveto->GetBinContent(i) +Fnp_sys;
+        double fnp_down = h_oldfnp_conveto->GetBinContent(i) - Fnp_sys;
+        h_fnp_sys2->SetBinContent(i,Fnp_sys);
+
+        cout << "bin number : " << i << endl;
+		cout << "hadcontam " << h_hadcontam_n->GetBinContent(i) << endl;
+		cout << "fnp " << h_oldfnp_conveto->GetBinContent(i) << endl;
+		cout << "piz_frac " << h_piz_n->GetBinContent(i) << endl;
+
+	    h_piz_sys2_up->SetBinContent(i, fabs(h_piz_n->GetBinContent(i) - (1-h_hadcontam_n->GetBinContent(i))*h_piz_f_veto->GetBinContent(i)*(1.0 - fnp_up)));
+	    h_piz_sys2_down->SetBinContent(i, fabs(h_piz_n->GetBinContent(i) - (1-h_hadcontam_n->GetBinContent(i))*h_piz_f_veto->GetBinContent(i)*(1.0 - fnp_down)));
+
+        h_eta_sys2_up->SetBinContent(i, fabs(h_eta_n->GetBinContent(i) - (1-h_hadcontam_n->GetBinContent(i))*h_eta_f_veto->GetBinContent(i)*(1.0 - fnp_up)));
+        h_eta_sys2_down->SetBinContent(i, fabs(h_eta_n->GetBinContent(i) - (1-h_hadcontam_n->GetBinContent(i))*h_eta_f_veto->GetBinContent(i)*(1.0 - fnp_down)));
+
+        h_photon_sys2_up->SetBinContent(i, fabs(h_photon_n->GetBinContent(i) - (1-h_hadcontam_n->GetBinContent(i))*h_photon_f_veto->GetBinContent(i)*(1.0 - fnp_up)));
+        h_photon_sys2_down->SetBinContent(i, fabs(h_photon_n->GetBinContent(i) - (1-h_hadcontam_n->GetBinContent(i))*h_photon_f_veto->GetBinContent(i)*(1.0 - fnp_down)));
+
+        h_jpsi_sys2_up->SetBinContent(i, fabs(h_jpsi_n->GetBinContent(i)*h_piz_n->GetBinContent(i) - (h_piz_n->GetBinContent(i)+h_piz_sys2_up->GetBinContent(i))*h_jpsi_n->GetBinContent(i)));
+        h_jpsi_sys2_down->SetBinContent(i, fabs(h_jpsi_n->GetBinContent(i)*h_piz_n->GetBinContent(i) - (h_piz_n->GetBinContent(i)-h_piz_sys2_down->GetBinContent(i))*h_jpsi_n->GetBinContent(i)));
+      }
+      else if (nbins==6 && i >=2)
+      {
+        h_fnp_sys2->SetBinContent(i,0.);
+        h_piz_sys2_up->SetBinContent(i, 0.);
+        h_piz_sys2_down->SetBinContent(i, 0.);
+        h_eta_sys2_up->SetBinContent(i, 0.);
+        h_eta_sys2_down->SetBinContent(i, 0.);
+        h_photon_sys2_up->SetBinContent(i, 0.);
+        h_photon_sys2_up->SetBinContent(i, 0.);
+        h_jpsi_sys2_up->SetBinContent(i, 0.);
+        h_jpsi_sys2_down->SetBinContent(i, 0.);
+          
+      }
+      else if (nbins == 4)
+      {
+        h_fnp_sys2->SetBinContent(i,0.);
+        h_piz_sys2_up->SetBinContent(i, 0.);
+        h_piz_sys2_down->SetBinContent(i, 0.);
+        h_eta_sys2_up->SetBinContent(i, 0.);
+        h_eta_sys2_down->SetBinContent(i, 0.);
+        h_photon_sys2_up->SetBinContent(i, 0.);
+        h_photon_sys2_up->SetBinContent(i, 0.);
+        h_jpsi_sys2_up->SetBinContent(i, 0.);
+        h_jpsi_sys2_down->SetBinContent(i, 0.);       
+      }
      }
 
    h_ke3_n->Multiply(h_piz_n);
@@ -1398,4 +1480,14 @@ void systematics_veto2x_plus()
    h_mean_ke3->Write();
    h_mean_jpsi->Write();
    h_mean_photon->Write();
+
+   h_fnp_sys2->Write();
+   h_piz_sys2_up->Write();
+   h_piz_sys2_down->Write();
+   h_eta_sys2_up->Write();
+   h_eta_sys2_down->Write();
+   h_photon_sys2_up->Write();
+   h_photon_sys2_down->Write();
+   h_jpsi_sys2_up->Write();
+   h_jpsi_sys2_down->Write();
 }
