@@ -47,12 +47,25 @@ int asymmetryBunchShufflePlus( float seed = 2,
       TH1F *bunchShuffled[ NUM_VALUE_BINS ];
   for( int i = 0; i < NUM_VALUE_BINS; i++ )
     {
+      if (NUM_VALUE_BINS == 6)
+      {
+      	SQRT_ACC_CORR[0] = 0.899549;
+      	SQRT_ACC_CORR[1] = 0.901102;
+      	SQRT_ACC_CORR[2] = 0.901456;
+      	SQRT_ACC_CORR[3] = 0.902052;
+     	SQRT_ACC_CORR[4] = 0.906980;
+      	SQRT_ACC_CORR[5] = 0.912428;
+      	cout << "acc corr val " << i << " " << SQRT_ACC_CORR[i] << endl;
+      }
+      else if (NUM_VALUE_BINS == 4)
+      {
+      	SQRT_ACC_CORR[0] = 0.901456;
+      	SQRT_ACC_CORR[1] = 0.902052;
+     	SQRT_ACC_CORR[2] = 0.906980;
+      	SQRT_ACC_CORR[3] = 0.912428;
+      	cout << "acc corr val " << i << " " << SQRT_ACC_CORR[i] << endl;
+      }
 
-      SQRT_ACC_CORR[0] = 0.901456;
-      SQRT_ACC_CORR[1] = 0.902052;
-      SQRT_ACC_CORR[2] = 0.906980;
-      SQRT_ACC_CORR[3] = 0.912428;
-      cout << "acc corr val " << i << " " << SQRT_ACC_CORR[i] << endl;
 
 
       ostringstream name;

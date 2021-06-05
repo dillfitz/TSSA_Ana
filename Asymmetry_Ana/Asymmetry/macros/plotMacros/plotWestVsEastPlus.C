@@ -13,7 +13,7 @@ using namespace std;
 const bool SAVE_PICTURES = true;//false;
 
 // Use this for the open heavy flavor electron measurement //
-void plotWestVsEast( const char* particle = "ohfe" )
+void plotWestVsEastPlus( const char* particle = "ohfe" )
 {
   TF1* zeroLine = new TF1( "zeroLine", "0", 0, 20 );
   zeroLine->SetLineColor( kBlack );
@@ -21,7 +21,7 @@ void plotWestVsEast( const char* particle = "ohfe" )
 
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;
-  inputFileName += "_AN";
+  inputFileName += "_AN_plus";
   inputFileName += ".root";
 
   cout << "Opening file " << inputFileName << endl;
@@ -30,10 +30,10 @@ void plotWestVsEast( const char* particle = "ohfe" )
   TGraphAsymmErrors *y[ NUM_ARMS ], *b[ NUM_ARMS ];
   TGraph *ttests[ NUM_ARMS ];
   TCanvas *canvases[2][ NUM_ARMS ];
-  y[ WEST ] = (TGraphAsymmErrors*)file->Get( "lumiYR" );
-  y[ EAST ] = (TGraphAsymmErrors*)file->Get( "lumiYL" );
-  b[ WEST ] = (TGraphAsymmErrors*)file->Get( "lumiBL" );
-  b[ EAST ] = (TGraphAsymmErrors*)file->Get( "lumiBR" );
+  y[ WEST ] = (TGraphAsymmErrors*)file->Get( "lumiYR_plus" );
+  y[ EAST ] = (TGraphAsymmErrors*)file->Get( "lumiYL_plus" );
+  b[ WEST ] = (TGraphAsymmErrors*)file->Get( "lumiBL_plus" );
+  b[ EAST ] = (TGraphAsymmErrors*)file->Get( "lumiBR_plus" );
   for( int arm = 0; arm < NUM_ARMS; arm++ )
     {
       y[ arm ]->SetMarkerColor( kOrange );
@@ -56,7 +56,7 @@ void plotWestVsEast( const char* particle = "ohfe" )
 	  pictureName += particle;
 	  pictureName += "/WestVsEast/";
 	  pictureName += ARM_NAMES[ arm ];
-	  pictureName += ".png";
+	  pictureName += "Plus.png";
 	  canvases[0][ arm ]->SaveAs( pictureName );
 	}
 
@@ -81,7 +81,7 @@ void plotWestVsEast( const char* particle = "ohfe" )
 	  pictureName += particle;
 	  pictureName += "/WestVsEast/";
 	  pictureName += ARM_NAMES[ arm ];
-	  pictureName += "TTest.png";
+	  pictureName += "PlusTTest.png";
 	  canvases[1][ arm ]->SaveAs( pictureName );
 	}
 

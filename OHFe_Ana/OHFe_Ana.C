@@ -92,7 +92,7 @@ void OHFe_Ana::Loop()
    // Declaration of output histograms 
    bool cut_eff = 0; // Set this to fill histogram for determining cut efficiency.
    int cutval = 0;
-   const int nPt_bins = 4;
+   const int nPt_bins = 6;
 
    TH1F *e_dcat_binned[nPt_bins], *e_dep_binned[nPt_bins]; 
    TH1F *e_prob_binned[nPt_bins], *e_chisq_ndf_binned[nPt_bins];
@@ -101,11 +101,11 @@ void OHFe_Ana::Loop()
    TH1F *e_ecore, *e_prob, *e_chisq_ndf, *cuts;
    TH1I *e_n0, *e_nhit;
    
-   float Pt_bins_low[nPt_bins] = {1.5, 1.8, 2.1, 2.7};
-   float Pt_bins_high[nPt_bins] = {1.8, 2.1, 2.7, 5.0};
+   float Pt_bins_low[nPt_bins] = {1.0, 1.3, 1.5, 1.8, 2.1, 2.7};
+   float Pt_bins_high[nPt_bins] = {1.3, 1.5, 1.8, 2.1, 2.7, 5.0};
 
-   TString hist_labels[nPt_bins] = { "_1.5_1.8","_1.8_2.1", "_2.1_2.7", "_2.7_5.0"};
-   TString hist_titles[nPt_bins] = { "1.5 < p_{T} < 1.8","1.8 < p_{T} < 2.1", "2.1 < p_{T} < 2.7", "2.7 < p_{T} < 5.0"};
+   TString hist_labels[nPt_bins] = { "_1.0_1.3", "_1.3_1.5", "_1.5_1.8","_1.8_2.1", "_2.1_2.7", "_2.7_5.0"};
+   TString hist_titles[nPt_bins] = { "1.0 < p_{T} < 1.3", "1.3 < p_{T} < 1.5", "1.5 < p_{T} < 1.8","1.8 < p_{T} < 2.1", "2.1 < p_{T} < 2.7", "2.7 < p_{T} < 5.0"};
 
 
    // Initialize some histograms //
@@ -202,7 +202,7 @@ void OHFe_Ana::Loop()
       
       // Fill cuts hist to determine efficiency of selection criteria //
       if (cut_eff) {
-         if (pt>1.5 && pt < 5.0)                     {cuts->Fill(-1);}
+         if (pt>1.0 && pt < 5.0)                     {cuts->Fill(-1);}
          if (conversionveto2x==1)                    {cuts->Fill(-2);}
          if (abs(dep)<2.)                            {cuts->Fill(-3);}
          if (abs(sigemcdphi)<3.&& abs(sigemcdz)<3.)  {cuts->Fill(-4);}

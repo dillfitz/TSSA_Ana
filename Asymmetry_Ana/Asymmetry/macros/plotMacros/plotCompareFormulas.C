@@ -92,6 +92,7 @@ void plotCompareFormulas( const char* particle = "ohfe" )
       ttests[i]->SetMarkerStyle( kFullCircle );
       ttests[i]->SetTitle( "; p_{T}[GeV];T" );
       ttests[i]->GetYaxis()->SetRangeUser( -4, 4 );
+      ttests[i]->GetXaxis()->SetLimits( 0, 6 );
       ttests[i]->Draw( "AP" );
       line->Draw( "same" );
 

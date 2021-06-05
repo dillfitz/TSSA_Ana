@@ -104,13 +104,24 @@ void decayAsymmetryD0()
 
       heightNames = "con" + d0hist_labels[i];
       heights[i] = new TF1(heightNames,"[0]",0,2*PI);
+      vector<int> phiCounts;
+      for (int j=1; j<=6; ++j)
+	  {
+	    phiCounts.push_back(d0phi_presel[i]->GetBinContent(j));
+	  }
+      int phiMin = *min_element(phiCounts.begin(), phiCounts.end());
       d0phi_presel[i]->Draw();
       d0phi_presel[i]->Fit(heights[i],"q");
+/*
       if (AN[i] > 0)
       	norms[i] = heights[i]->GetParameter(0)/(1+Pol*AN[i]);
       if (AN[i] < 0)
-	norms[i] = heights[i]->GetParameter(0)/(1-Pol*AN[i]);	
-      
+		norms[i] = heights[i]->GetParameter(0)/(1-Pol*AN[i]);	
+*/     
+      if (AN[i] > 0)
+      	norms[i] = phiMin/(1+Pol*AN[i]);
+      if (AN[i] < 0)
+		norms[i] = phiMin/(1-Pol*AN[i]);	
 
       cout << " normalizations : " << norms[i] << endl;
 

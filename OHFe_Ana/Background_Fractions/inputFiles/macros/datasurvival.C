@@ -8,7 +8,7 @@ void datasurvival()
     bins[i] = VALUE_BINS[i];
   }
   gStyle->SetOptStat(0);
-  TFile*infile1 = TFile::Open("../../../../AllRuns_725_ana644.root");
+  TFile*infile1 = TFile::Open("../../../../AllRuns_725_ana651.root");
 
   TH1F* hadconversions = (TH1F*) infile1->Get("hadconversions");
   TH1F* hadconversions2 = (TH1F*) infile1->Get("hadconversions_2");
@@ -95,7 +95,7 @@ void datasurvival()
 
   // l1->Draw();
 
-  c1->SaveAs("plots/data_survival.png");
+  c1->SaveAs("../datasurvival.png");
 
   h_survival3->SetAxisRange(0.5,1,"Y");
   h_survival3->SetLineColor(1);

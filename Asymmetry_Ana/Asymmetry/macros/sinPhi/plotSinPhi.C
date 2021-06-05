@@ -23,9 +23,9 @@ const bool SAVE_PICTURES = true;
 
 // Use this for the open heavy flavor electron measurement //
 const float YMIN[ NUM_PT_BINS ] = 
-  { -0.25, -0.25, -0.25, -0.25};
+  { -0.25, -0.25, -0.25, -0.25, -0.25, -0.25};
 const float YMAX[ NUM_PT_BINS ] = 
-  {  0.25,  0.25,  0.25,  0.25};
+  {  0.25,  0.25,  0.25,  0.25, 0.25, 0.25};
 
 const float AVE_YMIN = -0.1;
 const float AVE_YMAX =  0.1;
@@ -219,6 +219,7 @@ void plotSinPhi( const char* particle = "ohfe" )
   tTestSin->SetMarkerStyle( kFullCircle );
   tTestSin->SetTitle( "; p_{T}[GeV];T" );
   tTestSin->GetYaxis()->SetRangeUser( -10, 10 );
+  tTestSin->GetXaxis()->SetLimits( 0, 6 );
   tTestSin->Draw( "AP" );
   zeroLine->Draw( "same" );
 
@@ -318,6 +319,7 @@ void plotSinPhi( const char* particle = "ohfe" )
     tTest->SetMarkerStyle( kFullCircle );
     tTest->SetTitle( "; p_{T}[GeV];T" );
     tTest->GetYaxis()->SetRangeUser( -10, 10 );
+    tTest->GetXaxis()->SetLimits( 0, 6 );
     tTest->Draw( "AP" );
     zeroLine->Draw( "same" );
 

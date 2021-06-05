@@ -285,7 +285,7 @@ void OHFe_Ana::Show(Long64_t entry)
 Int_t OHFe_Ana::Cut(Long64_t entry)
 {
  //This function may be called from Loop.
-   if (pt<=1.5 || pt >= 5.0)                     {return -1;}
+   if (pt<=1.0 || pt >= 5.0)                     {return -1;}
    if (conversionveto2x==0)                      {return -2;}
    if (abs(dep)>=2.)                             {return -3;}
    if (abs(sigemcdphi)>=3.||abs(sigemcdz)>=3.)   {return -4;}
