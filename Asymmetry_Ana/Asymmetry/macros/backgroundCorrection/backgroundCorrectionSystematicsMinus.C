@@ -6,14 +6,16 @@ void backgroundCorrectionSystematicsMinus()
 {
 	bool prelim = 1;
  	bool theory_compare = 1;
-	int verbosity = 3;
+    bool sysTables = 1;
+	int verbosity = -99;
 	bool SAVE_IMAGES = 1;
 	bool jpsi = 1;
 	const int nbins = NUM_VALUE_BINS;
     //    const int nbins = 4;
 	double x_lumi[nbins], y_lumi[nbins], y_sqrt[nbins];
 	double y_corrected_lumi[nbins], y_corrected_lumi_np[nbins];
-	double corrected_lumi_err[nbins], corrected_lumi_err_np[nbins];
+	double corrected_lumi_err[nbins], corrected_lumi_err_np[nbins], lumi_err[nbins];
+	double sysDiff[nbins];
 	double total_bg[nbins], total_bg_plus[nbins], total_bg_minus[nbins];
 	double total_bg_np[nbins], total_bg_np_plus[nbins], total_bg_np_minus[nbins];
 	double had_AN[nbins], had_AN_err[nbins];
@@ -115,6 +117,7 @@ void backgroundCorrectionSystematicsMinus()
 		
 		lumi_minus->GetPoint(i, x_lumi[i], y_lumi[i]);
 		sqrt_minus->GetPoint(i, x_lumi[i], y_sqrt[i]);
+		lumi_err[i] = lumi_minus->GetErrorYhigh(i);
 		double sysFormulaDiff = fabs(y_lumi[i] - y_sqrt[i]);
 		if ( verbosity == 1 )
 		{
@@ -152,6 +155,8 @@ void backgroundCorrectionSystematicsMinus()
 		bg_sys_minus_np[i] = fabs(y_corrected_lumi_np[i] - (y_lumi[i] - h_sys_hadlow->GetBinContent(i+1)*had_AN[i])/(1-total_bg_np_minus[i]));
 		sys_plus_tot_np[i] = std::sqrt(bg_sys_plus_np[i]*bg_sys_plus_np[i] + sysFormulaDiff*sysFormulaDiff);
 		sys_minus_tot_np[i] = std::sqrt(bg_sys_minus_np[i]*bg_sys_minus_np[i] + sysFormulaDiff*sysFormulaDiff);
+
+		sysDiff[i] = sysFormulaDiff;
 
 		//cout << "total_bg_frac : " << total_bg[i] << " + " << total_bg_plus[i] << " - " << total_bg_minus[i] << endl;
 		//cout << "total_bg_frac_np : " << total_bg_np[i] << " + " << total_bg_np_plus[i] << " - " << total_bg_np_minus[i] << endl;
@@ -218,6 +223,80 @@ void backgroundCorrectionSystematicsMinus()
 		x_low[i] = x_lumi[i] - 0.03; x_high[i] = x_lumi[i] + 0.03;
 
 	}
+
+    if (!prelim&&!sysTables)
+	{
+
+        cout << std::setprecision(3) << "        \\hline" << endl;
+        cout << "        1.0 -- 1.3 & 1.161  & " << y_corrected_lumi[0] << " & "  << corrected_lumi_err[0] << " & " << y_corrected_lumi_np[0] << " & "  << corrected_lumi_err_np[0] << " & "  << y_lumi[0] <<  " & " << lumi_err[0] << " \\\\ " << endl;
+        cout << "        1.3 -- 1.5 & 1.398  & " << y_corrected_lumi[1] << " & "  << corrected_lumi_err[1] << " & " << y_corrected_lumi_np[1] << " & "  << corrected_lumi_err_np[1] << " & "  << y_lumi[1] <<  " & " << lumi_err[1] << " \\\\ " << endl;
+        cout << "        1.5 -- 1.8 & 1.639  & " << y_corrected_lumi[2] << " & "  << corrected_lumi_err[2] << " & " << y_corrected_lumi_np[2] << " & "  << corrected_lumi_err_np[2] << " & "  << y_lumi[2] <<  " & " << lumi_err[2] << " \\\\ " << endl;
+        cout << "        1.8 -- 2.1 & 1.936  & " << y_corrected_lumi[3] << " & "  << corrected_lumi_err[3] << " & " << y_corrected_lumi_np[3] << " & "  << corrected_lumi_err_np[3] << " & "  << y_lumi[3] <<  " & " << lumi_err[3] << " \\\\ " << endl;
+        cout << "        2.1 -- 2.7 & 2.349  & " << y_corrected_lumi[4] << " & "  << corrected_lumi_err[4] << " & " << y_corrected_lumi_np[4] << " & "  << corrected_lumi_err_np[4] << " & "  << y_lumi[4] <<  " & " << lumi_err[4] << " \\\\ " << endl;
+        cout << "        2.7 -- 5.0 & 3.290  & " << y_corrected_lumi[5] << " & "  << corrected_lumi_err[5] << " & " << y_corrected_lumi_np[5] << " & "  << corrected_lumi_err_np[5] << " & "  << y_lumi[5] <<  " & " << lumi_err[5] << " \\\\ " << endl;
+        cout << "        \\hline" << endl;
+	}
+
+    if (prelim&&!sysTables)
+	{
+
+        cout << std::setprecision(3) << "        \\hline" << endl;
+        cout << "        1.0 -- 1.3 & 1.161  & " << y_corrected_lumi[0] << " & "  << corrected_lumi_err[0] << " & " << sys_plus_tot[0] << " & "  << sys_minus_tot[0] << " \\\\ " << endl;
+        cout << "        1.3 -- 1.5 & 1.398  & " << y_corrected_lumi[1] << " & "  << corrected_lumi_err[1] << " & " << sys_plus_tot[1] << " & "  << sys_minus_tot[1] << " \\\\ " << endl;
+        cout << "        1.5 -- 1.8 & 1.639  & " << y_corrected_lumi[2] << " & "  << corrected_lumi_err[2] << " & " << sys_plus_tot[2] << " & "  << sys_minus_tot[2] << " \\\\ " << endl;
+        cout << "        1.8 -- 2.1 & 1.936  & " << y_corrected_lumi[3] << " & "  << corrected_lumi_err[3] << " & " << sys_plus_tot[3] << " & "  << sys_minus_tot[3] << " \\\\ " << endl;
+        cout << "        2.1 -- 2.7 & 2.349  & " << y_corrected_lumi[4] << " & "  << corrected_lumi_err[4] << " & " << sys_plus_tot[4] << " & "  << sys_minus_tot[4] << " \\\\ " << endl;
+        cout << "        2.7 -- 5.0 & 3.290  & " << y_corrected_lumi[5] << " & "  << corrected_lumi_err[5] << " & " << sys_plus_tot[5] << " & "  << sys_minus_tot[5] << " \\\\ " << endl;
+        cout << "        \\hline" << endl;
+
+        cout << std::setprecision(3) << "        \\hline" << endl;
+        cout << "        1.0 -- 1.3 & 1.161  & " << y_corrected_lumi_np[0] << " & "  << corrected_lumi_err_np[0] << " & " <<sys_plus_tot_np[0] << " & "  << sys_minus_tot_np[0] << " \\\\ " << endl;
+        cout << "        1.3 -- 1.5 & 1.398  & " << y_corrected_lumi_np[1] << " & "  << corrected_lumi_err_np[1] << " & " <<sys_plus_tot_np[1] << " & "  << sys_minus_tot_np[1] << " \\\\ " << endl;
+        cout << "        1.5 -- 1.8 & 1.639  & " << y_corrected_lumi_np[2] << " & "  << corrected_lumi_err_np[2] << " & " <<sys_plus_tot_np[2] << " & "  << sys_minus_tot_np[2] << " \\\\ " << endl;
+        cout << "        1.8 -- 2.1 & 1.936  & " << y_corrected_lumi_np[3] << " & "  << corrected_lumi_err_np[3] << " & " <<sys_plus_tot_np[3] << " & "  << sys_minus_tot_np[3] << " \\\\ " << endl;
+        cout << "        2.1 -- 2.7 & 2.349  & " << y_corrected_lumi_np[4] << " & "  << corrected_lumi_err_np[4] << " & " <<sys_plus_tot_np[4] << " & "  << sys_minus_tot_np[4] << " \\\\ " << endl;
+        cout << "        2.7 -- 5.0 & 3.290  & " << y_corrected_lumi_np[5] << " & "  << corrected_lumi_err_np[5] << " & " <<sys_plus_tot_np[5] << " & "  << sys_minus_tot_np[5] << " \\\\ " << endl;
+        cout << "        \\hline" << endl;
+	}
+	if (sysTables)
+	{
+        cout << std::setprecision(3) << "        \\hline" << endl;
+        cout << "        1.0 -- 1.3 & 1.161  & " << bg_sys_plus[0] << " & "  <<  bg_sys_minus[0] << " \\\\ " << endl;
+        cout << "        1.3 -- 1.5 & 1.398  & " << bg_sys_plus[1] << " & "  <<  bg_sys_minus[1] << " \\\\ " << endl;
+        cout << "        1.5 -- 1.8 & 1.639  & " << bg_sys_plus[2] << " & "  <<  bg_sys_minus[2] << " \\\\ " << endl;
+        cout << "        1.8 -- 2.1 & 1.936  & " << bg_sys_plus[3] << " & "  <<  bg_sys_minus[3] << " \\\\ " << endl;
+        cout << "        2.1 -- 2.7 & 2.349  & " << bg_sys_plus[4] << " & "  <<  bg_sys_minus[4] << " \\\\ " << endl;
+        cout << "        2.7 -- 5.0 & 3.290  & " << bg_sys_plus[5] << " & "  <<  bg_sys_minus[5] << " \\\\ " << endl;
+        cout << "        \\hline" << endl;	
+
+        cout << std::setprecision(3) << "        \\hline" << endl;
+        cout << "        1.0 -- 1.3 & 1.161  & " << bg_sys_plus_np[0] << " & "  <<  bg_sys_minus_np[0] << " \\\\ " << endl;
+        cout << "        1.3 -- 1.5 & 1.398  & " << bg_sys_plus_np[1] << " & "  <<  bg_sys_minus_np[1] << " \\\\ " << endl;
+        cout << "        1.5 -- 1.8 & 1.639  & " << bg_sys_plus_np[2] << " & "  <<  bg_sys_minus_np[2] << " \\\\ " << endl;
+        cout << "        1.8 -- 2.1 & 1.936  & " << bg_sys_plus_np[3] << " & "  <<  bg_sys_minus_np[3] << " \\\\ " << endl;
+        cout << "        2.1 -- 2.7 & 2.349  & " << bg_sys_plus_np[4] << " & "  <<  bg_sys_minus_np[4] << " \\\\ " << endl;
+        cout << "        2.7 -- 5.0 & 3.290  & " << bg_sys_plus_np[5] << " & "  <<  bg_sys_minus_np[5] << " \\\\ " << endl;
+        cout << "        \\hline" << endl;	
+
+        cout << std::setprecision(3) << "        \\hline" << endl;
+        cout << "        1.0 -- 1.3 & 1.161  & " << bg_sys_plus[0] << " & "  <<  bg_sys_minus[0] << " & " <<  sysDiff[0] << " & " << sys_plus_tot[0] << " & " << sys_minus_tot[0] << " \\\\ " << endl;
+        cout << "        1.3 -- 1.5 & 1.398  & " << bg_sys_plus[1] << " & "  <<  bg_sys_minus[1] << " & " <<  sysDiff[1] << " & " << sys_plus_tot[1] << " & " << sys_minus_tot[1] << " \\\\ " << endl;
+        cout << "        1.5 -- 1.8 & 1.639  & " << bg_sys_plus[2] << " & "  <<  bg_sys_minus[2] << " & " <<  sysDiff[2] << " & " << sys_plus_tot[2] << " & " << sys_minus_tot[2] << " \\\\ " << endl;
+        cout << "        1.8 -- 2.1 & 1.936  & " << bg_sys_plus[3] << " & "  <<  bg_sys_minus[3] << " & " <<  sysDiff[3] << " & " << sys_plus_tot[3] << " & " << sys_minus_tot[3] << " \\\\ " << endl;
+        cout << "        2.1 -- 2.7 & 2.349  & " << bg_sys_plus[4] << " & "  <<  bg_sys_minus[4] << " & " <<  sysDiff[4] << " & " << sys_plus_tot[4] << " & " << sys_minus_tot[4] << " \\\\ " << endl;
+        cout << "        2.7 -- 5.0 & 3.290  & " << bg_sys_plus[5] << " & "  <<  bg_sys_minus[5] << " & " <<  sysDiff[5] << " & " << sys_plus_tot[5] << " & " << sys_minus_tot[5] << " \\\\ " << endl;
+        cout << "        \\hline" << endl;
+
+        cout << std::setprecision(3) << "        \\hline" << endl;
+        cout << "        1.0 -- 1.3 & 1.161  & " << bg_sys_plus_np[0] << " & "  <<  bg_sys_minus_np[0] << " & " <<  sysDiff[0] << " & " << sys_plus_tot_np[0] << " & " << sys_minus_tot_np[0] << " \\\\ " << endl;
+        cout << "        1.3 -- 1.5 & 1.398  & " << bg_sys_plus_np[1] << " & "  <<  bg_sys_minus_np[1] << " & " <<  sysDiff[1] << " & " << sys_plus_tot_np[1] << " & " << sys_minus_tot_np[1] << " \\\\ " << endl;
+        cout << "        1.5 -- 1.8 & 1.639  & " << bg_sys_plus_np[2] << " & "  <<  bg_sys_minus_np[2] << " & " <<  sysDiff[2] << " & " << sys_plus_tot_np[2] << " & " << sys_minus_tot_np[2] << " \\\\ " << endl;
+        cout << "        1.8 -- 2.1 & 1.936  & " << bg_sys_plus_np[3] << " & "  <<  bg_sys_minus_np[3] << " & " <<  sysDiff[3] << " & " << sys_plus_tot_np[3] << " & " << sys_minus_tot_np[3] << " \\\\ " << endl;
+        cout << "        2.1 -- 2.7 & 2.349  & " << bg_sys_plus_np[4] << " & "  <<  bg_sys_minus_np[4] << " & " <<  sysDiff[4] << " & " << sys_plus_tot_np[4] << " & " << sys_minus_tot_np[4] << " \\\\ " << endl;
+        cout << "        2.7 -- 5.0 & 3.290  & " << bg_sys_plus_np[5] << " & "  <<  bg_sys_minus_np[5] << " & " <<  sysDiff[5] << " & " << sys_plus_tot_np[5] << " & " << sys_minus_tot_np[5] << " \\\\ " << endl;
+        cout << "        \\hline" << endl;	
+	}
+
 
 	//gStyle->SetErrorX(0.05);
    gStyle->SetEndErrorSize(4);
@@ -370,5 +449,16 @@ void backgroundCorrectionSystematicsMinus()
 		can[0]->SaveAs( name );
 
 	}
+
+  TFile *outfile = new TFile("../dataFiles/bgCorrected_ohfe_AN_minus.root","RECREATE");
+  outfile->cd();
+  corrected_lumi->SetName("ohfeAN");
+  corrected_lumi_np->SetName("npeAN");
+  corrected_lumi->Write();
+  corrected_lumi_np->Write();
+  corrected_lumi->Delete();
+  corrected_lumi_np->Delete();
+  outfile->Write();
+  outfile->Close();
 
 }

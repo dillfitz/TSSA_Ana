@@ -7,7 +7,7 @@ Rank            = CPU_Speed
 GetEnv          = True
 PeriodicHold    = (NumJobStarts>=1 && JobStatus == 1)
 
-Initialdir      = /phenix/spin/phnxsp01/shlee/polarization/sim/decays
+Initialdir      = /phenix/spin/phnxsp01/dillfitz/sim/decay
 
 GroupNumber     = 9
 

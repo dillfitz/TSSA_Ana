@@ -1,0 +1,27 @@
+Universe        = vanilla
+Priority        = +10
+Notification    = Error
+Notify_user     = dillfitz@umich.edu 
+Requirements    = (CPU_Experiment == "phenix")
+Rank            = CPU_Speed
+GetEnv          = True
+PeriodicHold    = (NumJobStarts>=1 && JobStatus == 1)
+
+Initialdir      = /phenix/spin/phnxsp01/dillfitz/sim/decay
+
+GroupNumber     = 0
+
+Arguments       = $(GroupNumber) $(Process)
+
+Executable      = $(Initialdir)/jobfile_d0decayAsym_weightsLoopZoomed.csh
+
+Output          = /phenix/spin/phnxsp01/dillfitz/sim/decay/logs/d0decayAsym_weightsLoopZoomed_$(GroupNumber)$(Process).out 
+Error           = /phenix/spin/phnxsp01/dillfitz/sim/decay/logs/d0decayAsym_weightsLoopZoomed_$(GroupNumber)$(Process).err 
+Log             = /phenix/spin/phnxsp01/dillfitz/sim/decay/logs/d0decayAsym_weightsLoopZoomed_$(GroupNumber)$(Process).log 
+
++Experiment     = "phenix"
++Job_Type       = "cas"
+
+Queue     1000
+
+

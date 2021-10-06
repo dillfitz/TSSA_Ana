@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 #include "TFile.h"
@@ -42,8 +43,8 @@ void decayAsymmetryD0()
   double a1[nd0ptbins] = {-0.155, -0.216, -0.252, -0.265, -0.267, -0.258, -0.246, -0.231, -0.220, -0.207, -0.194, -0.189, -0.174, -0.166, -0.158, -0.147, -0.144, -0.137, -0.129, -0.126, -0.119};
   double a2[nd0ptbins] = {0.0200, 0.0530, 0.0775, 0.0901, 0.0949, 0.0933, 0.0899, 0.0860, 0.0805, 0.0757, 0.0721, 0.0668, 0.0633, 0.0614, 0.0585, 0.0543, 0.0518, 0.0503, 0.0480, 0.0458, 0.0451};
   // parameters to tune to data! //
-  double lambda_f = 0.07;
-  double lambda_d = -0.07;
+  double lambda_f = 0.2;
+  double lambda_d = 0.2;
 
   double AN[nd0ptbins]; 
   //float AN = 1;

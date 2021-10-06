@@ -21,6 +21,8 @@ missing
 *.err
 install-sh
 ltmain.sh
+*.so
+*.d
 
 
 

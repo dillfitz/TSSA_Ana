@@ -7,7 +7,7 @@
 // Study effects of pt distribution and detector acceptance.      
 
 bool do_smear = false;
-int nAccEvents = 100000000;
+int nAccEvents = 10000000;
 void antid0decay(int group=0, int process=0) {
 
 

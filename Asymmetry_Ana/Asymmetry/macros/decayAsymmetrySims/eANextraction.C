@@ -44,7 +44,7 @@ void eANextraction()
   double a1[nd0ptbins] = {-0.155, -0.216, -0.252, -0.265, -0.267, -0.258, -0.246, -0.231, -0.220, -0.207, -0.194, -0.189, -0.174, -0.166, -0.158, -0.147, -0.144, -0.137, -0.129, -0.126, -0.119};
   double a2[nd0ptbins] = {0.0200, 0.0530, 0.0775, 0.0901, 0.0949, 0.0933, 0.0899, 0.0860, 0.0805, 0.0757, 0.0721, 0.0668, 0.0633, 0.0614, 0.0585, 0.0543, 0.0518, 0.0503, 0.0480, 0.0458, 0.0451};
   // parameters to tune to data! //
-  bool D0flag = 0;
+  bool D0flag = 1;
   double lambda_f = 0.07;
   double lambda_d = 0.07;
 
@@ -108,6 +108,8 @@ void eANextraction()
   TF1 *d0AN[nd0ptbins]; TF1 *eAN[neptbins];
   double d0ANfit[nd0ptbins];
   double eANfit[neptbins];
+  double eANfitUCx[neptbins];
+  double eANfitUC[neptbins];  
   for (int i=0; i<nd0ptbins; ++i)
     {
       TString d0fitName =  "d0fit" + d0hist_labels[i];
@@ -125,11 +127,13 @@ void eANextraction()
       ephi[i]->Fit(eAN[i],"q");
 
       eANfit[i] = eAN[i]->GetParameter(1);
+      eANfitUC[i] = eAN[i]->GetParError(1); 
+      eANfitUCx[i] = 0;                 
       cout << " e asymmetry :" <<  eAN[i]->GetParameter(1) << endl;
     }
 
   // Name the graphs!
-  TGraph d0ANGraph(nd0ptbins, d0ptcenters, AN);
+  TGraphErrors d0ANGraph(nd0ptbins, d0ptcenters, AN);
   d0ANGraph.SetName("d0AN");
   d0ANGraph.SetTitle("");
   d0ANGraph.GetXaxis()->SetTitle("p_{T} [GeV/c]");
@@ -154,7 +158,7 @@ void eANextraction()
   d0ANfitGraph.SetMarkerColor(kBlue);
 
 
-  TGraph eANGraph(neptbins, eptcenters, eANfit);
+  TGraphErrors eANGraph(neptbins, eptcenters, eANfit, eANfitUCx, eANfitUC);
   eANGraph.SetName("eANfit");
   eANGraph.SetTitle("");
   eANGraph.GetXaxis()->SetTitle("p_{T} [GeV/c]");
