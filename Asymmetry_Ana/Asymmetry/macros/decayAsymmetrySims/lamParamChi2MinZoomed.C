@@ -4,6 +4,10 @@
 #include <sstream>
 #include <algorithm>
 #include "../../Constants.h"
+#include "TGraph.h"
+#include "TString.h"
+#include "TAxis.h"
+#include "TAttAxis.h"
 
 void lamParamChi2MinZoomed()
 {
@@ -30,13 +34,8 @@ void lamParamChi2MinZoomed()
   TGraph *eANtheory_plus[Npar][Npar], *eANtheory_minus[Npar][Npar];
   double chi2_plus_sig[Npar][Npar];  
   double chi2_minus_sig[Npar][Npar];
-  double chi2_sig[Npar][Npar];        
-  TCanvas *can[Npar][Npar];  
-	TString graphname = "";  
-	TCanvas *candiv_plus = new TCanvas();
-	candiv_plus->Divide(3,3);
-	TCanvas *candiv_minus = new TCanvas();
-	candiv_minus->Divide(3,3);	
+  double chi2_sig[Npar][Npar];         
+	TString graphname = "";  	
 	int counter = 0;
   for (int j=0; j<Npar; ++j)
   {
@@ -46,7 +45,7 @@ void lamParamChi2MinZoomed()
 	    ostringstream ss;
 	    ss<<"_"<<fs[j]<<"_"<<ds[k];
 	    graphname += ss.str();
-	    string graph_name = graphname;
+	    string graph_name(graphname);
 	    replace(graph_name.begin(), graph_name.end(), '.', 'p');
 	    replace(graph_name.begin(), graph_name.end(), '-', 'm');
 	    graphname = graph_name;
@@ -69,30 +68,23 @@ void lamParamChi2MinZoomed()
   TGraph *chi2gr_2sig1D = new TGraph();    
   TGraph *chi2gr_1sig1D = new TGraph();      
   TGraph *chi2gr_3sig1D = new TGraph();        
-  chi2gr->SetTitle("#chi^{2}_{e^{+/-}}(#lambda_{f}, #lambda_{d}); #lambda_{f} [GeV]; #lambda_{d} [GeV]");  
-  chi2gr_2sig1D->SetTitle("; #lambda_{f} [GeV]; #lambda_{d} [GeV]"); 	 
-  chi2gr_2sig1D->GetXaxis()->SetTitleSize(3.);    
-  chi2gr_2sig1D->GetYaxis()->SetTitleSize(3.);                  
+  chi2gr->SetTitle(";#lambda_{f} [GeV];#lambda_{d} [GeV]");	   	 
+  chi2gr_2sig1D->SetTitle(";#lambda_{f} [GeV];#lambda_{d} [GeV]");  	                  
   TGraph2D *chi2gr_plus = new TGraph2D(); 
   TGraph2D *chi2gr_plus_min = new TGraph2D();   
   TGraph2D *chi2gr_plus_1sig = new TGraph2D();    
   TGraph *chi2gr_plus_min1D = new TGraph();   
   TGraph *chi2gr_plus_2sig1D = new TGraph();  
   TGraph *chi2gr_plus_1sig1D = new TGraph();            
-  chi2gr_plus->SetTitle("#chi^{2}_{e^{+}}(#lambda_{f}, #lambda_{d}); #lambda_{f} [GeV]; #lambda_{d} [GeV]");    
-  chi2gr_plus_2sig1D->SetTitle("; #lambda_{f} [GeV]; #lambda_{d} [GeV]");	 
-  chi2gr_plus_2sig1D->GetXaxis()->SetTitleSize(3.);    
-  chi2gr_plus_2sig1D->GetYaxis()->SetTitleSize(3.);            
+  chi2gr_plus->SetTitle(";#lambda_{f} [GeV];#lambda_{d} [GeV]"); 		     
   TGraph2D *chi2gr_minus = new TGraph2D();   
   TGraph2D *chi2gr_minus_min = new TGraph2D();     
   TGraph2D *chi2gr_minus_1sig = new TGraph2D();
   TGraph *chi2gr_minus_min1D = new TGraph();   
   TGraph *chi2gr_minus_2sig1D = new TGraph(); 
   TGraph *chi2gr_minus_1sig1D = new TGraph();               
-	chi2gr_minus->SetTitle("#chi^{2}_{e^{-}}(#lambda_{f}, #lambda_{d}); #lambda_{f} [GeV]; #lambda_{d} [GeV]");  
-  chi2gr_minus_2sig1D->SetTitle("; #lambda_{f} [GeV]; #lambda_{d} [GeV]");	
-  chi2gr_minus_2sig1D->GetXaxis()->SetTitleSize(3.);    
-  chi2gr_minus_2sig1D->GetYaxis()->SetTitleSize(3.);        
+	chi2gr_minus->SetTitle(";#lambda_{f} [GeV];#lambda_{d} [GeV]");
+      
   int npoint = 0; int npoint_plus = 0; int npoint_minus = 0; int npoint_pm = 0; 
   int npoint_70_pm = 0; int npoint_70_plus = 0; int npoint_70_minus = 0; int npoint_3sig = 0;
   for (int j=0; j<Npar; ++j)
@@ -130,14 +122,14 @@ void lamParamChi2MinZoomed()
 		  if(chi2_plus_sig[j][k] - 1.56237 < 0.0001) { cout << " (+) f : " << fs[j] << " d : " << ds[k] << endl; }	 
 		  if(chi2_minus_sig[j][k] - 5.50653 < 0.0001) { cout << " (-) f : " << fs[j] << " d : " << ds[k] << endl; }	   
 		  // 3 sigma CL // 
-		  if(chi2_sig[j][k] - 7.10154 < 9.) 
+		  if( (chi2_sig[j][k] - 7.10154 < 9.) && (chi2_sig[j][k] - 7.10154 > 4.) ) 
 		  { 
 		    chi2gr_3sig1D->SetPoint(npoint_3sig, fs[j],ds[k]); 		    
 		    npoint_3sig++;   
 		    //cout << " (+/-) f : " << fs[j] << " d : " << ds[k] << endl;
 		  }			  		  
 		  // 2 sigma CL  //   
-		  if(chi2_sig[j][k] - 7.10154 < 4.) 
+		  if( (chi2_sig[j][k] - 7.10154 < 4.) && (chi2_sig[j][k] - 7.10154 > 1.) ) 
 		  { 
 		    chi2gr_2sig1D->SetPoint(npoint_pm, fs[j],ds[k]); 		    
 		    npoint_pm++;   
@@ -154,13 +146,13 @@ void lamParamChi2MinZoomed()
 		  }	   	 		     	  		  
 		  // 2 sigma CL //   
 		  //if(chi2_plus_sig[j][k] - 1.50191 < 11.070) 
-		  if(chi2_plus_sig[j][k] - 1.56237 < 4.) 		  
+		  if( (chi2_plus_sig[j][k] - 1.56237 < 4.) && (chi2_plus_sig[j][k] - 1.56237 > 1.) ) 		  
 		  { 
 		    chi2gr_plus_2sig1D->SetPoint(npoint_plus, fs[j],ds[k]); 		     
 		    npoint_plus++;   
 		  }	 		  	
 		  //if(chi2_minus_sig[j][k] - 5.45783 < 11.070) 
-		  if(chi2_minus_sig[j][k] - 5.50653 < 4.) 		  
+		  if( (chi2_minus_sig[j][k] - 5.50653 < 4.) && (chi2_minus_sig[j][k] - 5.50653 > 1.) ) 		  
 		  { 
 
 		    chi2gr_minus_2sig1D->SetPoint(npoint_minus, fs[j],ds[k]); 		     		     
@@ -193,113 +185,128 @@ void lamParamChi2MinZoomed()
   double chi2_plus_min = *min_element(chi2_plus_vec.begin(), chi2_plus_vec.end());	
   double chi2_minus_min = *min_element(chi2_minus_vec.begin(), chi2_minus_vec.end()); 	
   
-  TCanvas *gr2DCan = new TCanvas();
+	TLine *horizline = new TLine(-0.2, 0, 0.2, 0 );
+	horizline->SetLineColor( kBlack );
+	horizline->SetLineWidth( 2 );
+	horizline->SetLineStyle( 2 );  
+	TLine *vertline = new TLine( 0,-0.1, 0, 0.3 );
+	vertline->SetLineColor( kBlack );	
+	vertline->SetLineWidth( 2 );
+	vertline->SetLineStyle( 2 );  	
+	
+	gStyle->SetLabelSize(0.03, "x");
+	gStyle->SetTitleSize(0.03, "x");	
+	gStyle->SetTitleOffset(1.4, "x");
+	gStyle->SetLabelSize(0.03, "y");
+	gStyle->SetTitleSize(0.03, "y");		
+	gStyle->SetTitleOffset(1.65, "y");	
+  
+  TCanvas *gr2DCan = new TCanvas("gr2DCan","",700,700);   
   chi2gr->Draw("COLZ");
-  TLegend *leg = new TLegend(0.7, 0.65, 0.9, 0.9);
-	leg->AddEntry((TObject*)0, "p^{#uparrow}+p #rightarrow e^{+/-} + X  ", "");
-	leg->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV ", "");	
-	leg->AddEntry((TObject*)0, "|#eta| < 0.35 ", "");		
-	leg->SetMargin(0.1);	
-	leg->Draw();     
+  TLegend *dataleg = new TLegend(0.65, 0.75, 0.9, 0.9);
+	dataleg->AddEntry((TObject*)0, "A_{N}(p^{#uparrow}+p #rightarrow HF(e^{+/-}) + X)", "");
+	dataleg->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
+	dataleg->AddEntry((TObject*)0, "|#eta| < 0.35", "");		
+	dataleg->SetMargin(0.06);	
+	dataleg->SetTextSize(0.0235);	
+	dataleg->Draw();   
+	TLegend *simleg = new TLegend( 0.68, 0.1, 0.9, 0.35 );
+  simleg->AddEntry((TObject*)0, "#chi^{2}_{e^{+/-}}(#lambda_{f},#lambda_{d})", "");	
+	simleg->AddEntry((TObject*)0, "A_{N}^{D^{0}/#bar{D}^{0} #rightarrow e^{+/-}}(#lambda_{f},#lambda_{d})", "");	
+	simleg->AddEntry((TObject*)0, "PRD78, 114013",""); 
+	simleg->SetMargin(0.1);	 
+	simleg->SetTextSize(0.03);	
+	simleg->Draw();	 	  
   gr2DCan->SaveAs("images/theoryCompare/LamParamMinZoomed.png");
   gr2DCan->SaveAs("images/theoryCompare/LamParamMinZoomed.pdf");  
-  TCanvas *grCan = new TCanvas();
-  chi2gr_2sig1D->GetYaxis()->SetRangeUser(-0.1,0.3);
+  
+  TCanvas *grCan = new TCanvas("grCan","",700,700);
+  chi2gr_2sig1D->GetYaxis()->SetRangeUser(-0.105,0.305);
   chi2gr_2sig1D->GetXaxis()->SetLimits(-0.2,0.2); 
   chi2gr_2sig1D->SetMarkerStyle(5);
   chi2gr_2sig1D->SetMarkerColor(kBlue);  
   chi2gr_2sig1D->Draw("AP");
-  chi2gr_3sig1D->SetMarkerStyle(25);
+  chi2gr_3sig1D->SetMarkerStyle(3);
   chi2gr_3sig1D->SetMarkerColor(kViolet+1);  
   chi2gr_3sig1D->Draw("P same");    
   chi2gr_1sig1D->SetMarkerStyle(2);
   chi2gr_1sig1D->SetMarkerColor(kRed);  
   chi2gr_1sig1D->Draw("P same");  
   chi2gr_min1D->SetPoint(0, -0.01, 0.11);
+  chi2gr_min1D->SetTitle("; #lambda_{f} [GeV]; #lambda_{d} [GeV]");   
   chi2gr_min1D->SetMarkerStyle(8);
   chi2gr_min1D->SetMarkerSize(2.);  
-  chi2gr_min1D->Draw("P same");    
-  TLegend *leg = new TLegend(0.7, 0.65, 0.9, 0.9);
+  chi2gr_min1D->Draw("P same");   
+  horizline->Draw("same");
+  vertline->Draw("same"); 
+	TLegend *dataleg_CL = new TLegend(0.65, 0.75, 0.9, 0.9);
+	dataleg_CL->AddEntry((TObject*)0, "A_{N}(p^{#uparrow}+p #rightarrow HF(e^{+/-}) + X)", "");
+	dataleg_CL->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
+	dataleg_CL->AddEntry((TObject*)0, "|#eta| < 0.35", "");		
+	dataleg_CL->SetMargin(0.06);	
+	dataleg_CL->SetTextSize(0.0235);
+	dataleg_CL->Draw(); 
+  TLegend *leg = new TLegend(0.68, 0.1, 0.9, 0.29);
   leg->AddEntry(chi2gr_min1D, "Best Fit Value", "p");
   leg->AddEntry(chi2gr_1sig1D, "1 #sigma CL", "p");  
   leg->AddEntry(chi2gr_2sig1D, "2 #sigma CL", "p");
   leg->AddEntry(chi2gr_3sig1D, "3 #sigma CL", "p");  
-  leg->Draw();    
-	TLegend *legend2 = new TLegend( 0.7, 0.1, 0.9, 0.35 );
-	legend2->AddEntry((TObject*)0, "p^{#uparrow}+p #rightarrow e^{+/-} + X  ", "");
-	legend2->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV ", "");	
-	legend2->AddEntry((TObject*)0, "|#eta| < 0.35 ", "");		
-	legend2->SetMargin(0.1);	
-	//legend2->SetTextSize(0.05);
-	legend2->Draw(); 
-  TLegend *legend3 = new TLegend( 0.1, 0.1, 0.325, 0.3 );
-	legend3->AddEntry((TObject*)0, "#lambda_{f} = -0.01 #pm 0.03 GeV ", "");
-	legend3->AddEntry((TObject*)0, "#lambda_{d} = 0.11 #pm 0.09 GeV", "");	
-	//legend3->SetTextSize(0.05);
-	legend3->SetMargin(0.1);
-	legend3->Draw(); 
+  leg->Draw();    	
+	TLegend *simleg_CL = new TLegend(0.68, 0.375, 0.9, 0.625 );
+  simleg_CL->AddEntry((TObject*)0, "#chi^{2}_{e^{+/-}}(#lambda_{f},#lambda_{d})", "");	
+	simleg_CL->AddEntry((TObject*)0, "A_{N}^{D^{0}/#bar{D}^{0} #rightarrow e^{+/-}}(#lambda_{f},#lambda_{d})", "");	
+	simleg_CL->AddEntry((TObject*)0, "PRD78, 114013",""); 
+	simleg_CL->SetMargin(0.1);	 
+	simleg_CL->SetTextSize(0.03);	
+	simleg_CL->Draw();	 	 	
+  TLegend *paramleg = new TLegend( 0.1, 0.1, 0.305, 0.29 );
+	paramleg->AddEntry((TObject*)0, "(#lambda_{f},#lambda_{d}) 1 #sigma CL region", "");	  
+  paramleg->AddEntry((TObject*)0, "#lambda_{f} = -0.01 #pm 0.03 GeV ", "");
+	paramleg->AddEntry((TObject*)0, "#lambda_{d} = 0.11 #pm 0.09 GeV", "");	
+  paramleg->SetTextSize(0.023);
+	paramleg->SetMargin(0.06);
+	paramleg->Draw(); 
   grCan->SaveAs("images/theoryCompare/LamParamMinZoomed_1d.png");  
   grCan->SaveAs("images/theoryCompare/LamParamMinZoomed_1d.pdf");    
+  grCan->Write();
         
-  TCanvas *gr2DCan_plus = new TCanvas();
+  TCanvas *gr2DCan_plus = new TCanvas("gr2DCan_plus","",700,700);
   chi2gr_plus->Draw("COLZ");
-  TLegend *leg = new TLegend(0.7, 0.65, 0.9, 0.9);
-	leg->AddEntry((TObject*)0, "p^{#uparrow}+p #rightarrow e^{+} + X  ", "");
-	leg->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV ", "");	
-	leg->AddEntry((TObject*)0, "|#eta| < 0.35 ", "");		
-	leg->SetMargin(0.1);	
-	leg->Draw();   
+  TLegend *dataleg_plus = new TLegend(0.65, 0.75, 0.9, 0.9);
+	dataleg_plus->AddEntry((TObject*)0, "A_{N}(p^{#uparrow}+p #rightarrow HF(e^{+}) + X)", "");
+	dataleg_plus->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
+	dataleg_plus->AddEntry((TObject*)0, "|#eta| < 0.35", "");		
+	dataleg_plus->SetMargin(0.06);	
+	dataleg_plus->SetTextSize(0.0235);	
+	dataleg_plus->Draw(); 
+	TLegend *simleg_plus = new TLegend( 0.68, 0.1, 0.9, 0.35 );
+  simleg_plus->AddEntry((TObject*)0, "#chi^{2}_{e^{+}}(#lambda_{f},#lambda_{d})", "");	
+	simleg_plus->AddEntry((TObject*)0, "A_{N}^{D^{0} #rightarrow e^{+}}(#lambda_{f},#lambda_{d})", "");	
+	simleg_plus->AddEntry((TObject*)0, "PRD78, 114013",""); 
+	simleg_plus->SetMargin(0.1);	 
+	simleg_plus->SetTextSize(0.03);	
+	simleg_plus->Draw();	  
   gr2DCan_plus->SaveAs("images/theoryCompare/LamParamMinPlusZoomed.png");
-  gr2DCan_plus->SaveAs("images/theoryCompare/LamParamMinPlusZoomed.pdf");  
-  TCanvas *grCan_plus = new TCanvas();
-  chi2gr_plus_2sig1D->GetYaxis()->SetRangeUser(-0.1,0.3);
-  chi2gr_plus_2sig1D->GetXaxis()->SetLimits(-0.2,0.2); 
-  chi2gr_plus_2sig1D->SetMarkerStyle(5);
-  chi2gr_plus_2sig1D->SetMarkerColor(kBlue);  
-  chi2gr_plus_2sig1D->Draw("AP");
-  chi2gr_plus_1sig1D->SetMarkerStyle(2);
-  chi2gr_plus_1sig1D->SetMarkerColor(kRed);  
-  chi2gr_plus_1sig1D->Draw("P same");  
-  chi2gr_plus_min1D->SetPoint(0, 0.06, 0.29);
-  chi2gr_plus_min1D->SetMarkerStyle(8);
-  chi2gr_plus_min1D->SetMarkerSize(2.);  
-  chi2gr_plus_min1D->Draw("P same");    
-  TLegend *leg_plus = new TLegend(0.65, 0.65, 0.9, 0.9);
-  leg_plus->AddEntry(chi2gr_plus_min1D, "Best Fit Value", "p");
-  leg_plus->AddEntry(chi2gr_plus_1sig1D, "1 #sigma CL", "p");  
-  leg_plus->AddEntry(chi2gr_plus_2sig1D, "2 #sigma CL", "p");
-  leg_plus->Draw();    
-  grCan_plus->SaveAs("images/theoryCompare/LamParamMinPlusZoomed_1d.png");    
+  gr2DCan_plus->SaveAs("images/theoryCompare/LamParamMinPlusZoomed.pdf");   
 
-  TCanvas *gr2DCan_minus = new TCanvas();
+  TCanvas *gr2DCan_minus = new TCanvas("gr2DCan_minus","",700,700);
   chi2gr_minus->Draw("COLZ");
-  TLegend *leg = new TLegend(0.7, 0.65, 0.9, 0.9);
-	leg->AddEntry((TObject*)0, "p^{#uparrow}+p #rightarrow e^{-} + X  ", "");
-	leg->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV ", "");	
-	leg->AddEntry((TObject*)0, "|#eta| < 0.35 ", "");		
-	leg->SetMargin(0.1);	
-	leg->Draw();  
+  TLegend *dataleg_minus = new TLegend(0.65, 0.75, 0.9, 0.9);
+	dataleg_minus->AddEntry((TObject*)0, "A_{N}(p^{#uparrow}+p #rightarrow HF(e^{-}) + X)", "");
+	dataleg_minus->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
+	dataleg_minus->AddEntry((TObject*)0, "|#eta| < 0.35", "");		
+	dataleg_minus->SetMargin(0.06);	
+	dataleg_minus->SetTextSize(0.0235);	
+	dataleg_minus->Draw();  
+	TLegend *simleg_minus = new TLegend( 0.68, 0.1, 0.9, 0.35 );
+	simleg_minus->AddEntry((TObject*)0, "#chi^{2}_{e^{-}}(#lambda_{f},#lambda_{d})", "");		
+	simleg_minus->AddEntry((TObject*)0, "A_{N}^{#bar{D}^{0} #rightarrow e^{-}}(#lambda_{f},#lambda_{d})", "");	
+	simleg_minus->AddEntry((TObject*)0, "PRD78, 114013",""); 
+	simleg_minus->SetMargin(0.1);	 
+	simleg_minus->SetTextSize(0.03);	
+	simleg_minus->Draw();	 	
   gr2DCan_minus->SaveAs("images/theoryCompare/LamParamMinMinusZoomed.png");  
   gr2DCan_minus->SaveAs("images/theoryCompare/LamParamMinMinusZoomed.pdf");    
-  TCanvas *grCan_minus = new TCanvas();
-  chi2gr_minus_2sig1D->GetYaxis()->SetRangeUser(-0.1,0.3);
-  chi2gr_minus_2sig1D->GetXaxis()->SetLimits(-0.2,0.2); 
-  chi2gr_minus_2sig1D->SetMarkerStyle(5);
-  chi2gr_minus_2sig1D->SetMarkerColor(kBlue);  
-  chi2gr_minus_2sig1D->Draw("AP");
-  chi2gr_minus_1sig1D->SetMarkerStyle(2);
-  chi2gr_minus_1sig1D->SetMarkerColor(kRed);  
-  chi2gr_minus_1sig1D->Draw("P same");  
-  chi2gr_minus_min1D->SetPoint(0, 0.06, -0.08);
-  chi2gr_minus_min1D->SetMarkerStyle(8);
-  chi2gr_minus_min1D->SetMarkerSize(2.);  
-  chi2gr_minus_min1D->Draw("P same");    
-  TLegend *leg_minus = new TLegend(0.65, 0.65, 0.9, 0.9);
-  leg_minus->AddEntry(chi2gr_minus_min1D, "Best Fit Value", "p");
-  leg_minus->AddEntry(chi2gr_minus_1sig1D, "1 #sigma CL", "p");  
-  leg_minus->AddEntry(chi2gr_minus_2sig1D, "2 #sigma CL", "p");
-  leg_minus->Draw();      
-  grCan_minus->SaveAs("images/theoryCompare/LamParamMinMinusZoomed_1d.png");   
 
 	cout << " chi2 min (+/-) : " << chi2_min  << " chi2 min (+) : " << chi2_plus_min << " -- chi2 min (-) : " << chi2_minus_min << endl;  	
 	
