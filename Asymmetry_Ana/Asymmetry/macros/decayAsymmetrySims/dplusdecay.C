@@ -7,16 +7,16 @@
 // Study effects of pt distribution and detector acceptance.      
 
 bool do_smear = false;
-int nAccEvents = 100000;
-void d0decay(int group=0, int process=0) {
+int nAccEvents = 10000000;
+void dplusdecay(int group=0, int process=0) {
 
 
-  TFile* outfile = new TFile("dataFiles/d0decay.root","recreate");
+  TFile* outfile = new TFile("dataFiles/dplusdecay.root","recreate");
 
-  TNtuple* d0tree = new TNtuple("d0", "D0 to e", "event:pnum:xvtx:yvtx:zvtx:px1:pt1:pz1:E1:theta1:phi1:rap1:eta1:ePID:pt:phi");
+  TNtuple* dplustree = new TNtuple("dplus", "D+ to e+", "event:pnum:xvtx:yvtx:zvtx:px1:pt1:pz1:E1:theta1:phi1:rap1:eta1:ePID:pt:phi");
 
   TPythia6Decayer* mydec = TPythia6Decayer::Instance();
-  mydec->SetDecayTableFile("d0decay.dec");
+  mydec->SetDecayTableFile("dplusdecay.dec");
   mydec->ReadDecayTable();
   //mydec->WriteDecayTable();
 
@@ -25,8 +25,7 @@ void d0decay(int group=0, int process=0) {
   gRandom->SetSeed();
 
   TClonesArray* a = new TClonesArray("TParticle", 100);
-  float ntpD0[99];
-  float ntpD0bar[99];
+  float ntpDplus[99];
   int inacccount=0;
   int evtcount=0;
 
@@ -62,11 +61,11 @@ while(inacccount<nAccEvents){
   float py = pt*sin(phi);
   float pp = pt/sin(theta);
   float pz = pp*cos(theta);
-  float mass = 1.86484;
+  float mass = 1.86962;
   float ee = sqrt(mass*mass+px*px+py*py+pz*pz);
   TLorentzVector* vec = new TLorentzVector(px, py, pz, ee);
 
-  mydec->Decay(421,vec);
+  mydec->Decay(411,vec);
 
   int nnn = mydec->ImportParticles(a);
   delete vec;
@@ -87,8 +86,8 @@ while(inacccount<nAccEvents){
       // cout << " posironix " << epCount << endl;
       if (epCount!=1) {continue;}
       // cout << "apparently the positron " << part->Pt() << " " << part->GetPdgCode() << endl;
-      ntpD0[0] = (float)evtcount;
-      ntpD0[1] = 2;
+      ntpDplus[0] = (float)evtcount;
+      ntpDplus[1] = 2;
         partcount++;
         px1 = part->Px();
         py1 = part->Py();
@@ -98,22 +97,22 @@ while(inacccount<nAccEvents){
         py1 = py1*(1.0+rnd->Gaus(0.0,smear));
         pz1 = pz1*(1.0+rnd->Gaus(0.0,smear));
       }
-      ntpD0[5] = px1;
-      ntpD0[6] = py1;
+      ntpDplus[5] = px1;
+      ntpDplus[6] = py1;
       pt1 = sqrt(px1*px1 + py1*py1);
-      ntpD0[6]= pt1; 
+      ntpDplus[6]= pt1; 
       prob = ffermi->Eval(pt1);
       ert1 = ( prob > rnd->Uniform(0.,1.));
-      ntpD0[7] = pz1;
-      ntpD0[8] = sqrt(px1*px1 + py1*py1 + pz1*pz1 + mass*mass);
-      ntpD0[2] = 0.;
-      ntpD0[3] = 0.;
-      ntpD0[4] = evtvtxz;
-      ntpD0[9] = part->Theta();
-      ntpD0[10] = part->Phi();
-      ntpD0[11] = part->Y();
-      ntpD0[12] = part->Eta();
-      ntpD0[13] = part->GetPdgCode();
+      ntpDplus[7] = pz1;
+      ntpDplus[8] = sqrt(px1*px1 + py1*py1 + pz1*pz1 + mass*mass);
+      ntpDplus[2] = 0.;
+      ntpDplus[3] = 0.;
+      ntpDplus[4] = evtvtxz;
+      ntpDplus[9] = part->Theta();
+      ntpDplus[10] = part->Phi();
+      ntpDplus[11] = part->Y();
+      ntpDplus[12] = part->Eta();
+      ntpDplus[13] = part->GetPdgCode();
       //ok1 = false;
       if(fabs(part->Eta())<0.35) {
 	ok1=true;
@@ -124,11 +123,11 @@ while(inacccount<nAccEvents){
   if(ok1) { // if detector acceptance
  
     float MASS = 0.000511;
-    ntpD0[14] = pt;
-    ntpD0[15] = phi;
+    ntpDplus[14] = pt;
+    ntpDplus[15] = phi;
 
     inacccount++;
-    d0tree->Fill(ntpD0);
+    dplustree->Fill(ntpDplus);
 
   }
 }
@@ -136,7 +135,7 @@ while(inacccount<nAccEvents){
 cout << "total generated: "<< evtcount << endl;
 cout << "in acceptance: " << inacccount << endl;
 
-d0tree->Write();
+dplustree->Write();
 outfile->Close();
 
 
