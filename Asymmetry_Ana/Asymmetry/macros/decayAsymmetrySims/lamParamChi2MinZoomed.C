@@ -211,7 +211,9 @@ void lamParamChi2MinZoomed()
   //gStyle->SetRangeUser(0.,50., "z");
 
   
-  TCanvas *gr2DCan = new TCanvas("gr2DCan","",840, 840);  
+  TCanvas *grCan = new TCanvas("grCan","",1000, 500);  
+  grCan->Divide(2,1);
+  grCan->cd(1);
   //TPad *gr2DPad = new TPad("gr2DPad","",0.125,0.125,0.125,0.05);
   //gPad->SetTopMargin(0.1);
   //gPad->SetRightMargin(0.1);
@@ -235,10 +237,8 @@ void lamParamChi2MinZoomed()
 	simleg->SetMargin(0.015);	 
 	simleg->SetTextSize(0.024);	
 	simleg->Draw();	 	  
-  gr2DCan->SaveAs("images/theoryCompare/LamParamMinZoomed.png");
-  gr2DCan->SaveAs("images/theoryCompare/LamParamMinZoomed.pdf");  
   
-  TCanvas *grCan = new TCanvas("grCan","",840,840);
+  grCan->cd(2);
   //grCan->SetMargin(0.125, 0.125, 0.125, 0.05);
   chi2gr_2sig1D->GetYaxis()->SetRangeUser(-0.105,0.305);
   chi2gr_2sig1D->GetXaxis()->SetLimits(-0.2,0.2); 
@@ -279,11 +279,15 @@ void lamParamChi2MinZoomed()
 	simleg_CL->SetMargin(0.015);	 
 	simleg_CL->SetTextSize(0.024);	
 	simleg_CL->Draw();	 	 	
-  grCan->SaveAs("images/theoryCompare/LamParamMinZoomed_1d.png");  
-  grCan->SaveAs("images/theoryCompare/LamParamMinZoomed_1d.pdf");    
-  grCan->Write();
-        
-  TCanvas *gr2DCan_plus = new TCanvas("gr2DCan_plus","",840,840);
+  grCan->SaveAs("images/theoryCompare/LamParamMinZoomed.png");  
+  //grCan->SaveAs("images/theoryCompare/LamParamMinZoomed_1d.pdf");    
+  //grCan->Write();
+       
+  //TPad *pad = new TPad();
+  //TPad *spad1 = new TPad("spad1","",.1,.1,.5,.5);     
+  TCanvas *gr2DCan_pm = new TCanvas("gr2DCan_pm","",1000,500);
+  gr2DCan_pm->Divide(2,1);
+  gr2DCan_pm->cd(1);
   chi2gr_plus->GetYaxis()->SetRangeUser(-0.105,0.305); 
   chi2gr_plus->SetMinimum(0.);       
   chi2gr_plus->SetMaximum(50.);
@@ -301,10 +305,9 @@ void lamParamChi2MinZoomed()
 	simleg_plus->SetMargin(0.015);	 
 	simleg_plus->SetTextSize(0.024);	
 	simleg_plus->Draw();	  
-  gr2DCan_plus->SaveAs("images/theoryCompare/LamParamMinPlusZoomed.png");
-  gr2DCan_plus->SaveAs("images/theoryCompare/LamParamMinPlusZoomed.pdf");   
+  
 
-  TCanvas *gr2DCan_minus = new TCanvas("gr2DCan_minus","",840,840);
+  gr2DCan_pm->cd(2);
   chi2gr_minus->GetYaxis()->SetRangeUser(-0.105,0.305);  
   chi2gr_minus->SetMinimum(0.);     
   chi2gr_minus->SetMaximum(50.);
@@ -322,8 +325,8 @@ void lamParamChi2MinZoomed()
 	simleg_minus->SetMargin(0.015);	 
 	simleg_minus->SetTextSize(0.024);	
 	simleg_minus->Draw();	 	
-  gr2DCan_minus->SaveAs("images/theoryCompare/LamParamMinMinusZoomed.png");  
-  gr2DCan_minus->SaveAs("images/theoryCompare/LamParamMinMinusZoomed.pdf");    
+  gr2DCan_pm->SaveAs("images/theoryCompare/LamParamMinZoomed_pm.png");  
+  //gr2DCan_minus->SaveAs("images/theoryCompare/LamParamMinMinusZoomed.pdf");    
 
 	cout << " chi2 min (+/-) : " << chi2_min  << " chi2 min (+) : " << chi2_plus_min << " -- chi2 min (-) : " << chi2_minus_min << endl;  	
 	
