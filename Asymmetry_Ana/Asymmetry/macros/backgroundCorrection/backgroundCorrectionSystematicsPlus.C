@@ -4,7 +4,7 @@
 void backgroundCorrectionSystematicsPlus()
 {
 	bool prelim = 1;
-	bool theory_compare = 0;
+	bool theory_compare = 1;
     bool sysTables = 1;
 	int verbosity = -99;
 	bool SAVE_IMAGES = 1;
@@ -428,26 +428,36 @@ void backgroundCorrectionSystematicsPlus()
 		legend3->Draw();
 	}
 	if (prelim && theory_compare)
-	{
-	  TFile *theoryFile = TFile::Open("inputFiles/TheoryCurves.root");
-	  TGraph *d0efd07 = (TGraph*)theoryFile->Get("d0efd07");
-	  TGraph *d0efdpm07 = (TGraph*)theoryFile->Get("d0efdpm07");
-	  TGraph *d0efd0 = (TGraph*)theoryFile->Get("d0efd0");
- 		for (int i=0; i<5; ++i)
-		{
-			d0efd07->RemovePoint(0);
-			d0efdpm07->RemovePoint(0);
-			d0efd0->RemovePoint(0);
- 		}
+	{	  	  
+	  TFile *theoryFile = TFile::Open("inputFiles/d0DecayAsymmetry_fitted_10B_weightsLoopZoomed.root");	 
+	  TGraph *d0efdbestfit = (TGraphErrors*)theoryFile->Get("eAN_m0p01_0p11");
+	  //TGraph *d0efdp1sig = (TGraphErrors*)theoryFile->Get("eAN_0p02_0p2");
+	  //TGraph *d0efdm1sig = (TGraphErrors*)theoryFile->Get("eAN_m0p04_0p02");
+	
+	  TFile *theoryFileKGKGp = TFile::Open("inputFiles/dcombinedDecayAsymmetry_fitted_10B_weightsLoopZoomed_KGKGp.root");	 	  
+	  TGraph *deKGbestfit = (TGraphErrors*)theoryFileKGKGp->Get("eAN_KG_0p0006");
+	  TGraph *deKGpbestfit = (TGraphErrors*)theoryFileKGKGp->Get("eAN_KGp_0p00025");	  	  	  
 
-	  d0efd07->Draw("SAME");
-	  d0efdpm07->Draw("SAME");
-	  d0efd0->Draw("SAME");
+    d0efdbestfit->SetLineWidth(2);
+	  d0efdbestfit->Draw("SAME");
+	  
+    deKGbestfit->SetLineWidth(2);
+    deKGbestfit->SetLineColor(kGreen-6);   	  
+	  deKGbestfit->Draw("SAME");
+	  
+    deKGpbestfit->SetLineWidth(2);
+    deKGpbestfit->SetLineColor(kViolet-3);   	  
+	  deKGpbestfit->Draw("SAME");	
+	  
 	  legend->AddEntry((TObject*)0, "", "");
-	  legend->AddEntry((TObject*)0, "PRD78, 114013",""); 
-	  legend->AddEntry(d0efd07, "#lambda_{f} =  #lambda_{d} = 0.07 GeV (D^{0} #rightarrow e^{+})","l");
-	  legend->AddEntry(d0efdpm07, "#lambda_{f} = -#lambda_{d} = 0.07 GeV (D^{0} #rightarrow e^{+})","l");
-	  legend->AddEntry(d0efd0, "#lambda_{f} =  #lambda_{d} = 0.00 GeV (D^{0} #rightarrow e^{+})","l");
+	  legend->AddEntry((TObject*)0, "PRD78, 114013 (D^{0} #rightarrow e^{+})",""); 
+	  legend->AddEntry(d0efdbestfit, "#lambda_{f} = -0.01 GeV, #\lambda_{d} = 0.11 GeV","l");	
+	  
+	  legend->AddEntry((TObject*)0, "", "");
+	  legend->AddEntry((TObject*)0, "PRD84, 014026 ((D^{0}+D^{+}) #rightarrow e^{+})","");
+	  legend->AddEntry(deKGbestfit, "K_{G} = 0.0006","l");	
+	  legend->AddEntry(deKGpbestfit, "K_{G}' = 0.00025","l");		  
+	  	   	    
 	}
 
 

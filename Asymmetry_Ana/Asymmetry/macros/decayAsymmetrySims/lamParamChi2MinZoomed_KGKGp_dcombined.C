@@ -24,9 +24,9 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
 	double x_AN_theory_plus_KGp_d0[nbins], y_AN_theory_plus_KGp_d0[nbins], x_AN_theory_minus_KGp_d0bar[nbins], y_AN_theory_minus_KGp_d0bar[nbins];		
 	double x_AN_theory_plus_KG_dplus[nbins], y_AN_theory_plus_KG_dplus[nbins], x_AN_theory_minus_KG_dminus[nbins], y_AN_theory_minus_KG_dminus[nbins];
 	double x_AN_theory_plus_KGp_dplus[nbins], y_AN_theory_plus_KGp_dplus[nbins], x_AN_theory_minus_KGp_dminus[nbins], y_AN_theory_minus_KGp_dminus[nbins];		
-  const int Npar = 41;
-  double KGs[Npar] = {-0.002, -0.0019, -0.0018, -0.0017, -0.0016, -0.0015, -0.0014, -0.0013, -0.0012, -0.0011, -0.0010, -0.0009, -0.0008, -0.0007, -0.0006, -0.0005, -0.0004, -0.0003, -0.0002, -0.0001, 0.0, 0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006, 0.0007, 0.0008, 0.0009, 0.0010, 0.0011, 0.0012, 0.0013, 0.0014, 0.0015 , 0.0016, 0.0017, 0.0018, 0.0019, 0.002};
-  double KGps[Npar] = {-0.002, -0.0019, -0.0018, -0.0017, -0.0016, -0.0015, -0.0014, -0.0013, -0.0012, -0.0011, -0.0010, -0.0009, -0.0008, -0.0007, -0.0006, -0.0005, -0.0004, -0.0003, -0.0002, -0.0001, 0.0, 0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006, 0.0007, 0.0008, 0.0009, 0.0010, 0.0011, 0.0012, 0.0013, 0.0014, 0.0015 , 0.0016, 0.0017, 0.0018, 0.0019, 0.002};
+  const int Npar = 101;
+  double KGs[Npar] = {-0.005, -0.0049, -0.0048, -0.0047, -0.0046, -0.0045, -0.0044, -0.0043, -0.0042, -0.0041, -0.004, -0.0039, -0.0038, -0.0037, -0.0036, -0.0035, -0.0034, -0.0033, -0.0032, -0.0031, -0.003, -0.0029, -0.0028, -0.0027, -0.0026, -0.0025, -0.0024, -0.0023, -0.0022, -0.0021, -0.002, -0.0019, -0.0018, -0.0017, -0.0016, -0.0015, -0.0014, -0.0013, -0.0012, -0.0011, -0.0010, -0.0009, -0.0008, -0.0007, -0.0006, -0.0005, -0.0004, -0.0003, -0.0002, -0.0001, 0.0, 0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006, 0.0007, 0.0008, 0.0009, 0.0010, 0.0011, 0.0012, 0.0013, 0.0014, 0.0015 , 0.0016, 0.0017, 0.0018, 0.0019, 0.002, 0.0021, 0.0022, 0.0023, 0.0024, 0.0025 , 0.0026, 0.0027, 0.0028, 0.0029, 0.003, 0.0031, 0.0032, 0.0033, 0.0034, 0.0035 , 0.0036, 0.0037, 0.0038, 0.0039, 0.004, 0.0041, 0.0042, 0.0043, 0.0044, 0.0045, 0.0046, 0.0047, 0.0048, 0.0049, 0.005};
+  double KGps[Npar] = {-0.00025, -0.00024, -0.00023, -0.00022, -0.00021, -0.0002, -0.00019, -0.00018, -0.00017, -0.00016, -0.00015, -0.00014, -0.00013, -0.00012, -0.00011, -0.0001, -0.00009, -0.00008, -0.00007, -0.00006, -0.00005, -0.00004, -0.00003, -0.00002, -0.00001, 0.0, 0.00001, 0.00002, 0.00003, 0.00004, 0.00005, 0.00006, 0.00007, 0.00008, 0.00009, 0.0001, 0.00011, 0.00012, 0.00013, 0.00014, 0.00015, 0.00016, 0.00017, 0.00018, 0.00019, 0.0002, 0.00021, 0.00022, 0.00023, 0.00024, 0.00025, 0.00026, 0.00027, 0.00028, 0.00029, 0.0003, 0.00031, 0.00032, 0.00033, 0.00034, 0.00035, 0.00036, 0.00037, 0.00038, 0.00039 , 0.0004, 0.00041, 0.00042, 0.00043, 0.00044, 0.00045, 0.00046, 0.00047, 0.00048, 0.00049, 0.0005, 0.00051, 0.00052, 0.00053, 0.00054, 0.00055, 0.00056, 0.00057, 0.00058, 0.00059, 0.0006, 0.00061, 0.00062, 0.00063, 0.00064, 0.00065, 0.00066, 0.00067, 0.00068, 0.00069, 0.0007, 0.00071, 0.00072, 0.00073, 0.00074, 0.00075};
  
 	TFile *infile_data_plus = TFile::Open("../dataFiles/bgCorrected_ohfe_AN_plus.root");
 	TFile *infile_data_minus = TFile::Open("../dataFiles/bgCorrected_ohfe_AN_minus.root");
@@ -63,8 +63,8 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
   TCanvas *candiv_plus = new TCanvas();
   TCanvas *candiv_minus = new TCanvas();
 	int counter = 0;
-	candiv_plus->Divide(3,2);
-	candiv_minus->Divide(3,2);
+	candiv_plus->Divide(3,3);
+	candiv_minus->Divide(3,3);
   for (int j=0; j<Npar; ++j)
   {
 	  graphname = "eAN";
@@ -121,9 +121,6 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
           
   }  
     
-  //candiv_plus->SaveAs("images/theoryCompare/theoryComparePlus_KGKGp.png");
-  //candiv_minus->SaveAs("images/theoryCompare/theoryCompareMinus_KGKGp.png"); 
-
   vector<double> chi2_vec_KG, chi2_vec_KGp;  
   vector<double> chi2_plus_vec_KG, chi2_plus_vec_KGp; 
   vector<double> chi2_minus_vec_KG, chi2_minus_vec_KGp;
@@ -175,16 +172,21 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
 	    chi2_vec_KGp.push_back(chi2_sig_KGp[j]);	    
 	    chi2_plus_vec_KGp.push_back(chi2_plus_sig_KGp[j]);	    
 	    chi2_minus_vec_KGp.push_back(chi2_minus_sig_KGp[j]);
-	    
+	  //cout << KGs[j] << " " << KGps[j] << endl;  
     if (j%10==0) 
     {
       candiv_plus->cd(counter+1);
-      TString title = "K_{G} = K_{G}' = ";
-      title += KGs[j];
-      eANtheory_plus_KG[j]->SetTitle(title);        
+      ostringstream tempstr;
+      tempstr << "K_{G} = " << KGs[j] <<  ", K_{G}' = " << KGps[j];
+      cout << tempstr.str() << endl;
+      TString title;
+      title = tempstr.str();
+      eANtheory_plus_KG[j]->SetTitle(title);   
+      eANtheory_plus_KG[j]->GetXaxis()->SetTitle("p_{T} [GeV/c]"); 
+      eANtheory_plus_KG[j]->GetYaxis()->SetTitle("A_{N}");               
       ohfeAN_plus->SetMarkerStyle(25);                      
       eANtheory_plus_KG[j]->SetMarkerStyle(kCircle);
-      eANtheory_plus_KG[j]->GetYaxis()->SetRangeUser(-0.06, 0.08);          
+      eANtheory_plus_KG[j]->GetYaxis()->SetRangeUser(-0.14, 0.14);          
       eANtheory_plus_KG[j]->Draw("AP");   
       eANtheory_plus_KGp[j]->SetMarkerStyle(3);
       eANtheory_plus_KGp[j]->Draw("P");                  
@@ -196,11 +198,13 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
       leg_plus->Draw();     
       
       candiv_minus->cd(counter+1);
-      eANtheory_minus_KG[j]->SetTitle(title);       
+      eANtheory_minus_KG[j]->SetTitle(title);    
+      eANtheory_minus_KG[j]->GetXaxis()->SetTitle("p_{T} [GeV/c]"); 
+      eANtheory_minus_KG[j]->GetYaxis()->SetTitle("A_{N}");           
       ohfeAN_minus->SetTitle("");        
       ohfeAN_minus->SetMarkerStyle(25);                      
       eANtheory_minus_KG[j]->SetMarkerStyle(kCircle);
-      eANtheory_minus_KG[j]->GetYaxis()->SetRangeUser(-0.06, 0.08);          
+      eANtheory_minus_KG[j]->GetYaxis()->SetRangeUser(-0.14, 0.14);          
       eANtheory_minus_KG[j]->Draw("AP");   
       eANtheory_minus_KGp[j]->SetMarkerStyle(3);
       eANtheory_minus_KGp[j]->Draw("P");                  
@@ -216,7 +220,7 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
 	
 		  if(chi2_sig_KG[j] - 8.21973 < 0.0001) { cout << " (+/-) KG : " << KGs[j] << endl; }	 	     
 		    
-		  if(chi2_sig_KGp[j] - 7.10078 < 0.0001) { cout << " (+/-) KGp : " << KGps[j] << endl; }	 	    
+		  if(chi2_sig_KGp[j] - 7.07002 < 0.0001) { cout << " (+/-) KGp : " << KGps[j] << endl; }	 	    
 	 
 		  // 2 sigma CL  //  
 		  // +- // 
@@ -247,6 +251,9 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
 	      KGps_1sigma.push_back(KGps[j]);
 		  }	   		    	 	     
   }
+  
+  candiv_plus->SaveAs("images/theoryCompare/theoryComparePlus_KGKGp.png");
+  candiv_minus->SaveAs("images/theoryCompare/theoryCompareMinus_KGKGp.png");   
   
 	TFile *outfile = new TFile("lamParamChi2MinZoomed_KGKGp.root", "RECREATE");
 	outfile->cd();				      
@@ -307,7 +314,7 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
   KGs_chi2_min->SetPoint(0,0.0006, 0.);
   KGs_chi2_min->SetMarkerStyle(20);
   TGraph *KGps_chi2_min = new TGraph();
-  KGps_chi2_min->SetPoint(0,0.0002, 0.);  
+  KGps_chi2_min->SetPoint(0,0.00025, 0.);  
   KGps_chi2_min->SetMarkerStyle(20);  
     
   TGraph *KGs_1sig_graph = new TGraph(KGs_1sigma.size(), KGs_1sig_array, KGs_1sig_ys);
@@ -377,7 +384,7 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
   can->Divide(1,2);
   can->cd(1);
   KGs_1sig_graph->GetYaxis()->SetRangeUser(-1., 1.);
-  KGs_1sig_graph->GetXaxis()->SetLimits(-0.002, 0.002);    
+  KGs_1sig_graph->GetXaxis()->SetLimits(-0.005, 0.005);    
   KGs_1sig_graph->SetTitle("");
   KGs_1sig_graph->GetXaxis()->SetTitle("K_{G}");
   KGs_1sig_graph->GetXaxis()->SetTitleSize(0.06);  
@@ -389,7 +396,7 @@ void lamParamChi2MinZoomed_KGKGp_dcombined()
   
   can->cd(2);  
   KGps_1sig_graph->GetYaxis()->SetRangeUser(-1., 1.);
-  KGps_1sig_graph->GetXaxis()->SetLimits(-0.002, 0.002);    
+  KGps_1sig_graph->GetXaxis()->SetLimits(-0.00025, 0.00075);    
   KGps_1sig_graph->SetTitle("");
   KGps_1sig_graph->GetXaxis()->SetTitle("K_{G}'");  
   KGps_1sig_graph->GetXaxis()->SetTitleSize(0.06);  

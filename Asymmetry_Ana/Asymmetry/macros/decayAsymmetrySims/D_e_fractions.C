@@ -1,9 +1,9 @@
 void D_e_fractions()
 {
-	TFile *d0decayFile = TFile::Open("dataFiles/condor/d0decay_0.root");
-	TFile *antid0decayFile = TFile::Open("dataFiles/condor/antid0decay_0.root");
-	TFile *dplusdecayFile = TFile::Open("dataFiles/condor/dplusdecay_0.root");
-	TFile *dminusdecayFile = TFile::Open("dataFiles/condor/dminusdecay_0.root");
+	TFile *d0decayFile = TFile::Open("dataFiles/d0decay_0.root");
+	TFile *antid0decayFile = TFile::Open("dataFiles/antid0decay_0.root");
+	TFile *dplusdecayFile = TFile::Open("dataFiles/dplusdecay_0.root");
+	TFile *dminusdecayFile = TFile::Open("dataFiles/dminusdecay_0.root");
 	
   //double ptd0_e, ptd0bar_e, ptdplus_e, ptdminus_e;	
   TTree *d0tree = (TTree*)d0decayFile->Get( "d0" );
@@ -49,8 +49,17 @@ void D_e_fractions()
     h_antid0fracs->SetBinContent(i+1, d0bar_fracs[i]);                 
   } 
   
+  TCanvas *can = new TCanvas();
+  h_d0fracs->SetTitle("(+) charges");
+  h_d0fracs->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  h_d0fracs->GetYaxis()->SetTitle("f_{D^{0}}");
   h_d0fracs->Draw();
+  can->SaveAs("images/theoryCompare/d0fracs.png");
+  h_antid0fracs->SetTitle("(-) charges");
+  h_antid0fracs->GetXaxis()->SetTitle("p_{T} [GeV/c]");
+  h_antid0fracs->GetYaxis()->SetTitle("f_{#bar{D}^{0}}");  
   h_antid0fracs->Draw();
+  can->SaveAs("images/theoryCompare/antid0fracs.png");  
   TFile *outfile = new TFile("dataFiles/d_fractions.root", "RECREATE");
   outfile->cd();
   h_d0fracs->Write();

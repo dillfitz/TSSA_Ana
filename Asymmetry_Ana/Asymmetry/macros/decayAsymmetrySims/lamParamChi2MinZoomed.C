@@ -211,14 +211,51 @@ void lamParamChi2MinZoomed()
   //gStyle->SetRangeUser(0.,50., "z");
 
   
-  TCanvas *grCan = new TCanvas("grCan","",1000, 500);  
-  grCan->Divide(2,1);
-  grCan->cd(1);
-  //TPad *gr2DPad = new TPad("gr2DPad","",0.125,0.125,0.125,0.05);
-  //gPad->SetTopMargin(0.1);
-  //gPad->SetRightMargin(0.1);
-  //gPad->SetBottomMargin(0.1);
-  //gPad->SetLeftMargin(0.1);
+  TCanvas *grCan = new TCanvas("grCan","",1000, 1000);
+  grCan->Divide(2,2);
+  grCan->cd(1);     
+  chi2gr_plus->GetYaxis()->SetRangeUser(-0.105,0.305); 
+  chi2gr_plus->SetMinimum(0.);       
+  chi2gr_plus->SetMaximum(50.);
+  chi2gr_plus->Draw("COLZ"); 
+  TLegend *dataleg_plus = new TLegend(0.5625, 0.685, 0.8, 0.8);
+	dataleg_plus->AddEntry((TObject*)0, "A_{N}(p^{#uparrow}+p #rightarrow HF(e^{+}) + X)", "");
+	dataleg_plus->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
+	dataleg_plus->AddEntry((TObject*)0, "|#eta| < 0.35", "");		
+	dataleg_plus->SetMargin(0.015);	
+	dataleg_plus->SetTextSize(0.024);	
+	dataleg_plus->Draw(); 
+	TLegend *simleg_plus = new TLegend( 0.5625, 0.2, 0.8, 0.28);
+  simleg_plus->AddEntry((TObject*)0, "Theory: PRD78, 114013", "");	
+	simleg_plus->AddEntry((TObject*)0, "A_{N}^{D^{0} #rightarrow e^{+}}(#lambda_{f},#lambda_{d})", "");	
+	simleg_plus->SetMargin(0.015);	 
+	simleg_plus->SetTextSize(0.024);	
+	simleg_plus->Draw();	  
+  
+
+  grCan->cd(2);
+  chi2gr_minus->GetYaxis()->SetRangeUser(-0.105,0.305);  
+  chi2gr_minus->SetMinimum(0.);     
+  chi2gr_minus->SetMaximum(50.);
+  chi2gr_minus->Draw("COLZ");
+  TLegend *dataleg_minus = new TLegend(0.5625, 0.685, 0.8, 0.8);
+	dataleg_minus->AddEntry((TObject*)0, "A_{N}(p^{#uparrow}+p #rightarrow HF(e^{-}) + X)", "");
+	dataleg_minus->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
+	dataleg_minus->AddEntry((TObject*)0, "|#eta| < 0.35", "");		
+	dataleg_minus->SetMargin(0.015);	
+	dataleg_minus->SetTextSize(0.024);	
+	dataleg_minus->Draw();  
+	TLegend *simleg_minus = new TLegend(  0.5625, 0.2, 0.8, 0.28);
+	simleg_minus->AddEntry((TObject*)0, "Theory: PRD78, 114013", "");		
+	simleg_minus->AddEntry((TObject*)0, "A_{N}^{#bar{D}^{0} #rightarrow e^{-}}(#lambda_{f},#lambda_{d})", "");	
+	simleg_minus->SetMargin(0.015);	 
+	simleg_minus->SetTextSize(0.024);	
+	simleg_minus->Draw();	 	  
+  
+  
+  
+  
+  grCan->cd(3);
   chi2gr->GetYaxis()->SetRangeUser(-0.105,0.305);  
   chi2gr->GetZaxis()->SetLimits(0.,50.);
   chi2gr->SetMinimum(0.);  
@@ -238,7 +275,7 @@ void lamParamChi2MinZoomed()
 	simleg->SetTextSize(0.024);	
 	simleg->Draw();	 	  
   
-  grCan->cd(2);
+  grCan->cd(4);
   //grCan->SetMargin(0.125, 0.125, 0.125, 0.05);
   chi2gr_2sig1D->GetYaxis()->SetRangeUser(-0.105,0.305);
   chi2gr_2sig1D->GetXaxis()->SetLimits(-0.2,0.2); 
@@ -279,54 +316,8 @@ void lamParamChi2MinZoomed()
 	simleg_CL->SetMargin(0.015);	 
 	simleg_CL->SetTextSize(0.024);	
 	simleg_CL->Draw();	 	 	
-  grCan->SaveAs("images/theoryCompare/LamParamMinZoomed.png");  
-  //grCan->SaveAs("images/theoryCompare/LamParamMinZoomed_1d.pdf");    
-  //grCan->Write();
        
-  //TPad *pad = new TPad();
-  //TPad *spad1 = new TPad("spad1","",.1,.1,.5,.5);     
-  TCanvas *gr2DCan_pm = new TCanvas("gr2DCan_pm","",1000,500);
-  gr2DCan_pm->Divide(2,1);
-  gr2DCan_pm->cd(1);
-  chi2gr_plus->GetYaxis()->SetRangeUser(-0.105,0.305); 
-  chi2gr_plus->SetMinimum(0.);       
-  chi2gr_plus->SetMaximum(50.);
-  chi2gr_plus->Draw("COLZ"); 
-  TLegend *dataleg_plus = new TLegend(0.5625, 0.685, 0.8, 0.8);
-	dataleg_plus->AddEntry((TObject*)0, "A_{N}(p^{#uparrow}+p #rightarrow HF(e^{+}) + X)", "");
-	dataleg_plus->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
-	dataleg_plus->AddEntry((TObject*)0, "|#eta| < 0.35", "");		
-	dataleg_plus->SetMargin(0.015);	
-	dataleg_plus->SetTextSize(0.024);	
-	dataleg_plus->Draw(); 
-	TLegend *simleg_plus = new TLegend( 0.5625, 0.2, 0.8, 0.28);
-  simleg_plus->AddEntry((TObject*)0, "Theory: PRD78, 114013", "");	
-	simleg_plus->AddEntry((TObject*)0, "A_{N}^{D^{0} #rightarrow e^{+}}(#lambda_{f},#lambda_{d})", "");	
-	simleg_plus->SetMargin(0.015);	 
-	simleg_plus->SetTextSize(0.024);	
-	simleg_plus->Draw();	  
-  
-
-  gr2DCan_pm->cd(2);
-  chi2gr_minus->GetYaxis()->SetRangeUser(-0.105,0.305);  
-  chi2gr_minus->SetMinimum(0.);     
-  chi2gr_minus->SetMaximum(50.);
-  chi2gr_minus->Draw("COLZ");
-  TLegend *dataleg_minus = new TLegend(0.5625, 0.685, 0.8, 0.8);
-	dataleg_minus->AddEntry((TObject*)0, "A_{N}(p^{#uparrow}+p #rightarrow HF(e^{-}) + X)", "");
-	dataleg_minus->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
-	dataleg_minus->AddEntry((TObject*)0, "|#eta| < 0.35", "");		
-	dataleg_minus->SetMargin(0.015);	
-	dataleg_minus->SetTextSize(0.024);	
-	dataleg_minus->Draw();  
-	TLegend *simleg_minus = new TLegend(  0.5625, 0.2, 0.8, 0.28);
-	simleg_minus->AddEntry((TObject*)0, "Theory: PRD78, 114013", "");		
-	simleg_minus->AddEntry((TObject*)0, "A_{N}^{#bar{D}^{0} #rightarrow e^{-}}(#lambda_{f},#lambda_{d})", "");	
-	simleg_minus->SetMargin(0.015);	 
-	simleg_minus->SetTextSize(0.024);	
-	simleg_minus->Draw();	 	
-  gr2DCan_pm->SaveAs("images/theoryCompare/LamParamMinZoomed_pm.png");  
-  //gr2DCan_minus->SaveAs("images/theoryCompare/LamParamMinMinusZoomed.pdf");    
+  grCan->SaveAs("images/theoryCompare/LamParamMinZoomed.png");  
 
 	cout << " chi2 min (+/-) : " << chi2_min  << " chi2 min (+) : " << chi2_plus_min << " -- chi2 min (-) : " << chi2_minus_min << endl;  	
 	
