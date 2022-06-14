@@ -1,3 +1,5 @@
+Original author of Asymmetry library: Nicole Lewis
+
 The classes that are sued to calculate the asymmetry are:
 Asymmetry            - Does the actual count counting and asymmetry calculating
 Aceptance Correction - Calculates the <|cos\phi|> correction while the asymmetry
@@ -17,7 +19,7 @@ processAsymmetry.C
 
 The inputs of this function are meant to make it easier to run over different 
 data sets.  This code is currently set up to run over "dp" (direct photon), 
-"pi0" and "eta" photon data. Setting "dpBackground" to true for pi0 and eta data
+"pi0" and "eta" photon data, as well as single electron data (or single charged tracks) at midrapidity. Setting "dpBackground" to true for pi0 and eta data
 will evaluate the asymmetry as a function of photon pt instead of hadron pt.
 Set
 
