@@ -3,7 +3,7 @@
 void sysplots_plus()
 {
 
-  gStyle->SetCanvasPreferGL(1);
+  //gStyle->SetCanvasPreferGL(1);
   gStyle->SetOptStat(0);
 
   const int nbins = NUM_VALUE_BINS;
@@ -62,26 +62,44 @@ void sysplots_plus()
 
     }
 
-  TLegend* legend = new TLegend(0.65,0.65,0.9,0.9);
-  legend->AddEntry(h_piz_n,"#pi0");
-  legend->AddEntry(h_eta_n,"#eta");
-  legend->AddEntry(h_jpsi_n,"j/#psi");
-  //legend->AddEntry(h_ke3_n,"ke3");
-  legend->AddEntry(h_photon_n,"direct #gamma");
-  legend->AddEntry(h_hadcontam_n,"hadron contamination");
+  TLegend* legend = new TLegend(0.55,0.6,0.9,0.9);
+	legend->SetLineColor(0);  
+  legend->AddEntry(h_piz_n," #pi^{0}");
+  legend->AddEntry(h_eta_n," #eta");
+  legend->AddEntry(h_jpsi_n," J/#psi");
+  //legend->AddEntry(h_ke3_n," Ke3");  
+  legend->AddEntry(h_photon_n," direct #gamma");
+  legend->AddEntry(h_hadcontam_n," hadron contamination");
+	legend->SetMargin(0.1);
+	legend->SetTextSize(0.04);
+	legend->SetMargin(0.05);  
+  
+	TLegend *legend2 = new TLegend(0.21, 0.7, 0.375, 0.9);
+	legend2->SetLineColor(0);
+	legend2->AddEntry((TObject*)0, "p^{#uparrow}+p #rightarrow e^{+} + X", "");
+	legend2->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
+	legend2->AddEntry((TObject*)0, "|#eta| < 0.35", "");	
+	legend2->AddEntry((TObject*)0, "#bf{PHENIX}", "");						
+	legend2->SetTextSize(0.04);
+	legend2->SetMargin(0.05); 
 
-  h_jpsi_n->SetLineColor(6);
+  h_jpsi_n->SetLineColor(51);
   h_photon_n->SetLineColor(4);
-  h_hadcontam_n->SetLineColor(3);
+  h_hadcontam_n->SetLineColor(kGreen+2);
   h_ke3_n->SetLineColor(kOrange);
-  h_eta_n->SetLineColor(kOrange+7);
+  h_eta_n->SetLineColor(1);
 
   h_piz_n->SetMarkerStyle(20);
-  h_jpsi_n->SetMarkerStyle(20);
-  h_photon_n->SetMarkerStyle(20);
-  h_hadcontam_n->SetMarkerStyle(20);
-  h_ke3_n->SetMarkerStyle(20);
-  h_eta_n->SetMarkerStyle(20);
+  h_jpsi_n->SetMarkerStyle(21);
+  h_photon_n->SetMarkerStyle(22);
+  h_hadcontam_n->SetMarkerStyle(34);
+  h_ke3_n->SetMarkerStyle(23);
+  h_eta_n->SetMarkerStyle(33);
+  
+  h_photon_n->SetMarkerSize(1.3);
+  h_eta_n->SetMarkerSize(1.7);  
+  h_ke3_n->SetMarkerSize(1.3);  
+  h_hadcontam_n->SetMarkerSize(1.3);  
 
   h_piz_n->SetMarkerColor(h_piz_n->GetLineColor());
   h_jpsi_n->SetMarkerColor(h_jpsi_n->GetLineColor());
@@ -90,11 +108,29 @@ void sysplots_plus()
   //h_ke3_n->SetMarkerColor(h_ke3_n->GetLineColor());
   h_eta_n->SetMarkerColor(h_eta_n->GetLineColor());
 
-
+  cout << "bg fractions plus" << endl;
+  cout << std::setprecision(3) << "                \\hline" << endl;
+  cout << "                1.0 -- 1.3 & 1.161  & " << h_piz_n->GetBinContent(1) << " & " << h_eta_n->GetBinContent(1) << " & " << h_photon_n->GetBinContent(1) << " & " << h_jpsi_n->GetBinContent(1) << " & " << h_hadcontam_n->GetBinContent(1) << " \\\\ " << endl;
+  cout << "                1.3 -- 1.5 & 1.398  & " << h_piz_n->GetBinContent(2) << " & " << h_eta_n->GetBinContent(2) << " & " << h_photon_n->GetBinContent(2) << " & " << h_jpsi_n->GetBinContent(2) << " & " << h_hadcontam_n->GetBinContent(2) << " \\\\ " << endl;
+  cout << "                1.5 -- 1.8 & 1.639  & " << h_piz_n->GetBinContent(3) << " & " << h_eta_n->GetBinContent(3) << " & " << h_photon_n->GetBinContent(3) << " & " << h_jpsi_n->GetBinContent(3) << " & " << h_hadcontam_n->GetBinContent(3) << " \\\\ " << endl;
+  cout << "                1.8 -- 2.1 & 1.936  & " << h_piz_n->GetBinContent(4) << " & " << h_eta_n->GetBinContent(4) << " & " << h_photon_n->GetBinContent(4) << " & " << h_jpsi_n->GetBinContent(4) << " & " << h_hadcontam_n->GetBinContent(4) << " \\\\ " << endl;
+  cout << "                2.1 -- 2.7 & 2.349  & " << h_piz_n->GetBinContent(5) << " & " << h_eta_n->GetBinContent(5) << " & " << h_photon_n->GetBinContent(5) << " & " << h_jpsi_n->GetBinContent(5) << " & " << h_hadcontam_n->GetBinContent(5) << " \\\\ " << endl;
+  cout << "                2.7 -- 5.0 & 3.290  & " << h_piz_n->GetBinContent(6) << " & " << h_eta_n->GetBinContent(6) << " & " << h_photon_n->GetBinContent(6) << " & " << h_jpsi_n->GetBinContent(6) << " & " << h_hadcontam_n->GetBinContent(6) << " \\\\ " << endl;
+  cout << "                \\hline" << endl;
+  cout << "                \\hline" << endl;   
 
   h_piz_n->SetAxisRange(0.0005,300,"Y");
-  h_piz_n->SetTitle(";p_{T};");
-  TCanvas*c1 = new TCanvas("c1","",500,500);
+  h_piz_n->SetTitle(";p_{T} [GeV/c]; background fractions");
+  h_piz_n->GetXaxis()->SetTitleOffset(1.2); 
+  h_piz_n->GetXaxis()->SetTitleSize(0.05);  
+  h_piz_n->GetXaxis()->SetLabelSize(0.045);          
+  h_piz_n->GetYaxis()->SetTitleOffset(1.3);
+  h_piz_n->GetYaxis()->SetTitleSize(0.05);  
+  h_piz_n->GetYaxis()->SetLabelSize(0.045);
+  TCanvas*c1 = new TCanvas("c1","", 600, 600);
+  c1->SetMargin(0.15,0.05,0.15,0.05);
+  //c1->SetWindowSize(600,600);
+  //c1->SetCanvasSize(500,500);  
   gPad->SetLogy();
   h_piz_n->Draw();
   for( int i = 0; i < nbins;i++)
@@ -137,9 +173,11 @@ void sysplots_plus()
   h_hadcontam_n->Draw("SAME");
 
   legend->Draw();
+  legend2->Draw();
 
 
   c1->SaveAs("normalizations_w_sys_plus.png");
+  c1->SaveAs("normalizations_w_sys_plus.pdf");  
 
 
 }

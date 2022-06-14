@@ -7,7 +7,7 @@
 #include <pair>
 #include "../../Constants.h"
 
-void lamParamChi2MinZoomed_variationswSys(int num = 0)
+void lamParamChi2MinZoomed_variationswSys(int num = 1)
 {
 	bool prelim = 1;
 	bool theory_compare = 0;
@@ -21,11 +21,11 @@ void lamParamChi2MinZoomed_variationswSys(int num = 0)
   double fs[Npar] = {-0.20, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.10, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20};
   double ds[Npar] = {-0.10, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.30};	
   
-  double sys_plus_upper[nbins] = {0.00198, 0.00155, 0.000637, 0.00704, 0.00468, 0.00686};
-  double sys_plus_lower[nbins] = {0.000959, 0.00124, 0.00059, 0.00702, 0.0046, 0.00499};  
+  double sys_plus_upper[nbins] = {0.0171, 0.00926, 0.00751, 0.00905, 0.00656, 0.0075};
+  double sys_plus_lower[nbins] = {0.017, 0.00922, 0.0075, 0.00903, 0.0065, 0.00584};  
   
-  double sys_minus_upper[nbins] = {0.00339, 0.00392, 0.00106, 0.000366, 0.00257, 0.0022};
-  double sys_minus_lower[nbins] = {0.00203, 0.00292, 0.000961, 0.000268, 0.00256, 0.0018};    
+  double sys_minus_upper[nbins] = {0.0164, 0.0121, 0.00946, 0.00715, 0.0063, 0.0066};
+  double sys_minus_lower[nbins] = {0.0161, 0.0116, 0.00943, 0.00709, 0.0063, 0.00524};    
      
 	TFile *infile_data_plus = TFile::Open("../dataFiles/bgCorrected_ohfe_AN_plus.root");
 	TFile *infile_data_minus = TFile::Open("../dataFiles/bgCorrected_ohfe_AN_minus.root");
@@ -134,7 +134,8 @@ void lamParamChi2MinZoomed_variationswSys(int num = 0)
     chi2_minus_min[l] = *min_element(chi2_minus_vec.begin(), chi2_minus_vec.end());    
   }			
 
-  TGraph *lamparam = new TGraph();                    
+  TGraph *lamparam = new TGraph();        
+  TH2D *lamparamhist = new TH2D("lamparam", "", 41, -0.2, -0.2, 41, -0.1, 0.3);            
   TGraph *lamparam_plus = new TGraph();         
   TGraph *lamparam_minus = new TGraph();     
   int npoint = 0; int npoint_plus = 0; int npoint_minus = 0;         	
@@ -147,6 +148,7 @@ void lamParamChi2MinZoomed_variationswSys(int num = 0)
         cout << " l : " << l << " chi2 min : " << bestfitpars.at(i).first << " f : " << bestfitpars.at(i).second.first << " d : " <<  bestfitpars.at(i).second.second << endl;
         lamparam->SetPoint(npoint, bestfitpars.at(i).second.first, bestfitpars.at(i).second.second); 
         npoint++; 
+        lamparamhist->Fill(bestfitpars.at(i).second.first, bestfitpars.at(i).second.second);
          
       } 
       if (bestfitpars_plus.at(i).first == chi2_plus_min[l]) 
@@ -184,6 +186,22 @@ void lamParamChi2MinZoomed_variationswSys(int num = 0)
   imgname += num;  
   imgname += ".png";
   grCan->SaveAs(imgname);  
+  
+  TCanvas *histCan = new TCanvas();
+  TString outfilename = "dataFiles/lamParamChi2Zoomed_variations_wSys_hist";
+  outfilename += N_iter;
+  outfilename += "_";
+  outfilename += num;
+  outfilename += ".root";   
+  lamparamhist->GetYaxis()->SetRangeUser(-0.1,0.3);
+  lamparamhist->GetXaxis()->SetLimits(-0.2,0.2);   
+  lamparamhist->Draw("COLZ");
+  TString imgname = "images/theoryCompare/LamParamMinZoomed_variations_wSys_hist";
+  imgname += N_iter;
+  imgname += "_";
+  imgname += num;  
+  imgname += ".png";
+  histCan->SaveAs(imgname);    
 
   TCanvas *grCan_plus = new TCanvas();
   lamparam_plus->GetYaxis()->SetRangeUser(-0.1,0.3);

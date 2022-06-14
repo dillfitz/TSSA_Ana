@@ -8,7 +8,7 @@
 #include "../../Constants.h"
 #include "TRandom3.h"
 
-void lamParamChi2MinZoomed_variations(int num = 0)
+void lamParamChi2MinZoomed_variations(int num = 1)
 {
 	bool prelim = 1;
 	bool theory_compare = 0;
@@ -118,7 +118,8 @@ void lamParamChi2MinZoomed_variations(int num = 0)
     chi2_minus_min[l] = *min_element(chi2_minus_vec.begin(), chi2_minus_vec.end());    
   }			
 
-  TGraph *lamparam = new TGraph();                    
+  TGraph *lamparam = new TGraph();    
+  TH2D *lamparamhist = new TH2D("lamparam", "", 41, -0.2, -0.2, 41, -0.1, 0.3);                              
   TGraph *lamparam_plus = new TGraph();         
   TGraph *lamparam_minus = new TGraph();     
   int npoint = 0; int npoint_plus = 0; int npoint_minus = 0;         	
@@ -131,6 +132,7 @@ void lamParamChi2MinZoomed_variations(int num = 0)
         cout << " l : " << l << " chi2 min : " << bestfitpars.at(i).first << " f : " << bestfitpars.at(i).second.first << " d : " <<  bestfitpars.at(i).second.second << endl;
         lamparam->SetPoint(npoint, bestfitpars.at(i).second.first, bestfitpars.at(i).second.second); 
         npoint++; 
+        lamparamhist->Fill(bestfitpars.at(i).second.first, bestfitpars.at(i).second.second);        
          
       } 
       if (bestfitpars_plus.at(i).first == chi2_plus_min[l]) 
@@ -169,6 +171,22 @@ void lamParamChi2MinZoomed_variations(int num = 0)
   imgname += num;
   imgname += ".png";
   grCan->SaveAs(imgname);  
+  
+  TCanvas *histCan = new TCanvas();
+  TString outfilename = "dataFiles/lamParamChi2Zoomed_variations_wSys_hist";
+  outfilename += N_iter;
+  outfilename += "_";
+  outfilename += num;
+  outfilename += ".root";   
+  lamparamhist->GetYaxis()->SetRangeUser(-0.1,0.3);
+  lamparamhist->GetXaxis()->SetLimits(-0.2,0.2);   
+  lamparamhist->Draw("COLZ");
+  TString imgname = "images/theoryCompare/LamParamMinZoomed_variations_wSys_hist";
+  imgname += N_iter;
+  imgname += "_";
+  imgname += num;  
+  imgname += ".png";
+  histCan->SaveAs(imgname);      
 
   TCanvas *grCan_plus = new TCanvas();
   lamparam_plus->GetYaxis()->SetRangeUser(-0.1,0.3);
