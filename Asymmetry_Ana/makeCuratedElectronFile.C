@@ -135,7 +135,13 @@ void makeCuratedElectronFile()
 	  lastRunNumber = run; 
           continue;  
       }
+      
       if(fillnumber==18777 || fillnumber==18758 || fillnumber==18777 || fillnumber==18778) continue;
+      
+      //if (fillnumber == 18749 || fillnumber == 18764) {continue;}      
+      
+      // this is a test to remove an entire fill group (#21) rather than just fill 18749 // 
+      //if (fillnumber == 18741) {continue;}            
 
       if( fillnumber != lastFillNumber )
       {

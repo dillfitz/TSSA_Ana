@@ -71,8 +71,26 @@ class Asymmetry
 			const int valueBin,
 			const int arm, 
 			const int spinPattern );
+			
+  bool incrementCountsBlue( const int f, 
+			const int valueBin,
+			const int arm, 
+			const int spinPattern );
+			
+  bool incrementCountsYellow( const int f, 
+			const int valueBin,
+			const int arm, 
+			const int spinPattern );						
   //Uses the "spin pattern" to figure out the polarization direction
   //"spin pattern" is stored in data trees
+  
+    bool incrementCounts_pA( const int f, 
+			const int valueBin,
+			const int arm, 
+			const int blueSpinDir );
+  //Uses the spin direction of the blue beam to figure out the polarization direction
+  //"blueSpinDir" is stored in data trees (extracted in makeCuratedPair_pA.C
+  // This is relevant for pA runs, as only the blue beam is polarized.
 
   void clearCounts();
 
@@ -102,7 +120,7 @@ class Asymmetry
   float getAsymmetry( const int beam, const int f, const int valueBin );
   float getAsymError( const int beam, const int f, const int valueBin );
 
-  void printCounts();
+  void printCounts(bool pA);
   //prints total number of counts per beam and p_T bin in a table the can 
   //hopefully be copied and pasted into latex
 

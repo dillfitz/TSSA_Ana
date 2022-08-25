@@ -82,6 +82,7 @@ void asymmetry( const char* particle = "ohfe",
   for( int i = 0; i < numFills; i++ )
     {
       fillTree->GetEntry(i);
+      //if (fillNumberInFillTree == 18749 || fillNumberInFillTree == 18764) {continue;}
       if( i%NUM_FILLS_IN_GROUP == 0 )
 	{
 	  fillBinInit++;
@@ -188,6 +189,8 @@ void asymmetry( const char* particle = "ohfe",
   for( int i = 0; i < numEntries; i++ )
     {
       dataTree->GetEntry(i);
+      
+      //if (fillNumber == 18749 || fillNumber == 18764) {continue;}      
       if( i%50000 == 0 ) cout << "Processed " << i << " entries " << endl;
 
       if( fillNumber != lastFillNumber )
@@ -274,6 +277,7 @@ void asymmetry( const char* particle = "ohfe",
 	  }
 	else
 	  {
+	    cout << " acc cor const " << endl;
 	    accCorr.calculateConst( accCorrOption, acceptanceCorrection );
 	    accCorrGraph = accCorr.graphConst( accCorrOption );
 	  }
@@ -322,7 +326,7 @@ void asymmetry( const char* particle = "ohfe",
   outFile->Close();
   outFile->Delete();
 
-  asymmetry.printCounts();
+  asymmetry.printCounts(false);
 
   accCorr.printNumbers();
 

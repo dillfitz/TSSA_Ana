@@ -77,11 +77,13 @@ void asymmetryPlus( const char* particle = "ohfe",
   for( int i = 0; i < numFills; i++ )
     {
       fillTree->GetEntry(i);
+      
       if( i%NUM_FILLS_IN_GROUP == 0 )
 	{
 	  fillBinInit++;
 	  fillIndexInit = 0;
 	}
+	  cout << "number of fills : " << i << " fillBinInit : " << fillBinInit << " fills : " << fillNumberInFillTree << endl;	
       double d_upY   = (double)countsUpY;
       double d_downY = (double)countsDownY;
       double d_upB   = (double)countsUpB;
@@ -131,7 +133,7 @@ void asymmetryPlus( const char* particle = "ohfe",
   for( int f = 0; f < NUM_FILL_BINS; f++ )
     {
       fillBinArray[f] = f + 1;  
-      fillTree->GetEntry(f);
+      fillTree->GetEntry(f);      
  
       float avePolY, avePolErrY, avePolB, avePolErrB;
       polarizationY.averagePolarization( f, avePolY, avePolErrY );
@@ -185,7 +187,7 @@ void asymmetryPlus( const char* particle = "ohfe",
     {
       dataTree->GetEntry(i);
       if (charge == -1) 
-	continue;
+	      continue;
 
       if( i%50000 == 0 ) cout << "Processed " << i << " entries " << endl;
 
@@ -211,7 +213,22 @@ void asymmetryPlus( const char* particle = "ohfe",
            px = pt*cos(phi); 
            py = pt*sin(phi); 
 	  accCorr.increment( arm, ptBin, px, py );
-	  asymmetry.incrementCounts( fillBin, ptBin, arm, spinPattern );
+/*	 
+	  if (fillNumber == 18749)
+	  {
+	    //cout << "test1 " << endl;
+	    asymmetry.incrementCountsBlue( fillBin, ptBin, arm, spinPattern );	  
+	  }
+	  else if (fillNumber == 18764)
+	  {
+	    //cout << "test2 " << endl;
+	    asymmetry.incrementCountsYellow( fillBin, ptBin, arm, spinPattern );	  
+	  }	  
+	  else
+	  {
+	*/  
+	    asymmetry.incrementCounts( fillBin, ptBin, arm, spinPattern );
+	  //}
 	}
     }//end looping through pairs
   cout << "The last fill number was " << fillNumber << " with fill bin "
@@ -302,7 +319,7 @@ void asymmetryPlus( const char* particle = "ohfe",
   outFile->Close();
   outFile->Delete();
 
-  asymmetry.printCounts();
+  asymmetry.printCounts(false);
 
   accCorr.printNumbers();
 

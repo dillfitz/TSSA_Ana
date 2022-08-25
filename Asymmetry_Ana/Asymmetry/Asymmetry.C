@@ -290,55 +290,151 @@ bool Asymmetry::incrementCounts( const int f,
 	  numUL[ YELLOW ][f][ valueBin ]++;
 	  numUR[ BLUE   ][f][ valueBin ]++;
 	}
+	
     }
-/*
-  if( arm == 0 )//west arm: yellow right, blue left
+
+  return true;
+}
+
+bool Asymmetry::incrementCountsBlue( const int f, 
+				 const int valueBin, 
+				 const int arm, 
+				 const int spinPattern )
+{
+  if( !isFillBinValid( f ) || !isValueBinValid( valueBin ) )
+    {
+      cout << "-->Asymmetry::incrementCounts()" << endl;
+      return false;
+    }
+  if( arm == WEST )//west arm: yellow right, blue left
     {
       if( spinPattern == 0 )//yellow down, blue down
 	{
-	  numDR[ YELLOW ][f][ valueBin ]++;
 	  numDL[ BLUE   ][f][ valueBin ]++;
 	}
       else if( spinPattern == 1 )//yellow up, blue down
 	{
-	  numUR[ YELLOW ][f][ valueBin ]++;
 	  numDL[ BLUE   ][f][ valueBin ]++;
 	}
       else if( spinPattern == 2 )//yellow down, blue up
 	{
-	  numDR[ YELLOW ][f][ valueBin ]++;
 	  numUL[ BLUE   ][f][ valueBin ]++;
 	}
       else if( spinPattern == 3 )//yellow up, blue up
 	{
-	  numUR[ YELLOW ][f][ valueBin ]++;
 	  numUL[ BLUE   ][f][ valueBin ]++;
 	}
     }
-  else if( arm == 1 )//east arm: yellow left, blue right
+  else if( arm == EAST )//east arm: yellow left, blue right
     {
       if( spinPattern == 0 )//yellow down, blue down
 	{
-	  numDL[ YELLOW ][f][ valueBin ]++;
 	  numDR[ BLUE   ][f][ valueBin ]++;
 	}
       else if( spinPattern == 1 )//yellow up, blue down
 	{
-	  numUL[ YELLOW ][f][ valueBin ]++;
 	  numDR[ BLUE   ][f][ valueBin ]++;
 	}
       else if( spinPattern == 2 )//yellow down, blue up
 	{
-	  numDL[ YELLOW ][f][ valueBin ]++;
 	  numUR[ BLUE   ][f][ valueBin ]++;
 	}
       else if( spinPattern == 3 )//yellow up, blue up
 	{
-	  numUL[ YELLOW ][f][ valueBin ]++;
 	  numUR[ BLUE   ][f][ valueBin ]++;
 	}
+	
     }
-*/
+
+  return true;
+}
+
+bool Asymmetry::incrementCountsYellow( const int f, 
+				 const int valueBin, 
+				 const int arm, 
+				 const int spinPattern )
+{
+  if( !isFillBinValid( f ) || !isValueBinValid( valueBin ) )
+    {
+      cout << "-->Asymmetry::incrementCounts()" << endl;
+      return false;
+    }
+  if( arm == WEST )//west arm: yellow right, blue left
+    {
+      if( spinPattern == 0 )//yellow down, blue down
+	{
+	  numDR[ YELLOW ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 1 )//yellow up, blue down
+	{
+	  numUR[ YELLOW ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 2 )//yellow down, blue up
+	{
+	  numDR[ YELLOW ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 3 )//yellow up, blue up
+	{
+	  numUR[ YELLOW ][f][ valueBin ]++;
+	}
+    }
+  else if( arm == EAST )//east arm: yellow left, blue right
+    {
+      if( spinPattern == 0 )//yellow down, blue down
+	{
+	  numDL[ YELLOW ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 1 )//yellow up, blue down
+	{
+	  numUL[ YELLOW ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 2 )//yellow down, blue up
+	{
+	  numDL[ YELLOW ][f][ valueBin ]++;
+	}
+      else if( spinPattern == 3 )//yellow up, blue up
+	{
+	  numUL[ YELLOW ][f][ valueBin ]++;
+	}
+	
+    }
+
+  return true;
+}
+
+bool Asymmetry::incrementCounts_pA( const int f, 
+				 const int valueBin, 
+				 const int arm, 
+				 const int blueSpinDir )
+{
+  if( !isFillBinValid( f ) || !isValueBinValid( valueBin ) )
+    {
+      cout << "-->Asymmetry::incrementCounts()" << endl;
+      return false;
+    }
+  if( arm == WEST )//west arm: yellow right, blue left
+  {
+    if( blueSpinDir == 1 )//blue down
+	  {
+	    numDL[ BLUE   ][f][ valueBin ]++;
+	  }
+    else if( blueSpinDir == -1 )//blue up
+	  {
+	    numUL[ BLUE   ][f][ valueBin ]++;
+	  }
+
+  }
+  else if( arm == EAST )//east arm: yellow left, blue right
+  {
+    if( blueSpinDir == 1 )// blue down
+	  {
+	    numDR[ BLUE   ][f][ valueBin ]++;
+ 	  }
+    else if( blueSpinDir == -1 )// blue up
+	  {
+	    numUR[ BLUE   ][f][ valueBin ]++;
+ 	  }	
+  }
 
   return true;
 }
@@ -374,7 +470,7 @@ bool Asymmetry::calculateAsymmetry( const int beam,
       float UR = (float)numUR[ beam ][f][i];
       float DR = (float)numDR[ beam ][f][i];
 
-      if( UL + DL + UR + DR == 0 ) continue;
+      if( UL + DL + UR + DR == 0 ) {continue;}
 
       if( option == LEFT_LUMINOSITY && UL >= NUM_CUT_OFF && DL >= NUM_CUT_OFF )
 	{
@@ -404,7 +500,7 @@ bool Asymmetry::calculateAsymmetry( const int beam,
       else
 	{
 	  cout << "Beam " << beam << " fill bin " << f << ", value bin " << i 
-	       << " was empty: " << UL << " " << DL << " " << UR << " " << DR 
+	       << " was empty: " << " UL: " << UL << " DL: " << DL << " UR: " << UR << " DR: " << DR 
 	       << endl;
 	  
 	  asymmetry[ beam ][f][i] = 0;
@@ -604,7 +700,7 @@ float Asymmetry::getAsymError( const int beam, const int f, const int valueBin )
   return asymError[ beam ][f][ valueBin ];
 }
 
-void Asymmetry::printCounts()
+void Asymmetry::printCounts(bool pA)
 {
   int ULY[ NUM_VALUE_BINS ], URY[ NUM_VALUE_BINS ];
   int DLY[ NUM_VALUE_BINS ], DRY[ NUM_VALUE_BINS ];
@@ -628,13 +724,18 @@ void Asymmetry::printCounts()
 	  DLB[i] += numDL[ BLUE ][f][i];
 	  DRB[i] += numDR[ BLUE ][f][i];
 
+    //cout << "ULY " << ULY[i] << " URY " << URY[i] << " DLY " << DLY[i] << " DRY " << DRY[i] << endl;
+    //cout << "ULB " << ULB[i] << " URB " << URB[i] << " DLB " << DLB[i] << " DRB " << DRB[i] << endl;    
+    if (!pA)
+    {
 	  //check that the counts makes sense
-	  if( ULY[i] + DLY[i] != URB[i] + DRB[i] )
-	    cout << "Fill bin " << f << " value bin " << i 
-		 << " counts in east arm don't make sense " << endl;
-	  if( URY[i] + DRY[i] != ULB[i] + DLB[i] )
-	    cout << "Fill bin " << f << " value bin " << i 
-		 << " counts in east arm don't make sense " << endl;
+	    if( ULY[i] + DLY[i] != URB[i] + DRB[i] )
+	      cout << "Fill bin " << f << " value bin " << i 
+		    << " counts in east arm don't make sense " << endl;
+	    if( URY[i] + DRY[i] != ULB[i] + DLB[i] )
+	      cout << "Fill bin " << f << " value bin " << i 
+		    << " counts in east arm don't make sense " << endl;
+	  }
 	}
 
     }

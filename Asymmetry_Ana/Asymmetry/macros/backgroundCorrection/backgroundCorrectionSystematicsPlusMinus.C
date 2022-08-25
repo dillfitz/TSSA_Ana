@@ -84,13 +84,13 @@ void backgroundCorrectionSystematicsPlusMinus()
 	ohfeAN_minus_sys->SetFillColor(kBlue);		
 	ohfeAN_minus_sys->Draw("5");	
 	
-	TF1 *line = new TF1( "line", "0", 0, 20 );
+	TF1 *line = new TF1( "line", "0", 0, 4 );
 	line->SetLineColor( kBlack );
 	line->SetLineStyle( 3 );
 
-	TLegend *legend = new TLegend( 0.45, 0.5, 0.82, 0.95 );
+	TLegend *legend = new TLegend( 0.45, 0.45, 0.82, 0.95 );
 	legend->SetLineColor(0);
-	legend->SetTextSize(0.06);
+	legend->SetTextSize(0.055);
 	legend->AddEntry(ohfeAN_plus, "Open Heavy Flavor e^{+}", "p" );
 	legend->AddEntry((TObject*)0, "", "");	
   legend->AddEntry(ohfeAN_minus, "Open Heavy Flavor e^{-}", "p" );
@@ -98,7 +98,7 @@ void backgroundCorrectionSystematicsPlusMinus()
 
 
 
-	TLegend *legend2 = new TLegend( 0.16, 0.7, 0.325, 0.98 );
+	TLegend *legend2 = new TLegend( 0.16, 0.71, 0.325, 0.98 );
 	legend2->SetLineColor(0);
 	legend2->AddEntry((TObject*)0, "p^{#uparrow}+p #rightarrow e^{+/-} + X", "");
 	legend2->AddEntry((TObject*)0, "#sqrt{s} = 200 GeV", "");	
@@ -139,7 +139,7 @@ void backgroundCorrectionSystematicsPlusMinus()
 	
 	  TFile *theoryFileKGKGp_minus = TFile::Open("inputFiles/antidcombinedDecayAsymmetry_fitted_10B_weightsLoopZoomed_KGKGp.root");	 	  
 	  TGraph *antideKGbestfit = (TGraphErrors*)theoryFileKGKGp_minus->Get("eAN_KG_0p0006");
-	  TGraph *antideKGpbestfit = (TGraphErrors*)theoryFileKGKGp_minus->Get("eAN_KGp_0p0002");	    	  
+	  TGraph *antideKGpbestfit = (TGraphErrors*)theoryFileKGKGp_minus->Get("eAN_KGp_0p00025");	    	  
 
     d0efdbestfit->SetLineWidth(2);
     d0efdbestfit->SetLineColor(kRed);
@@ -155,31 +155,29 @@ void backgroundCorrectionSystematicsPlusMinus()
     deKGpbestfit->SetLineStyle(3);   	      	  
 	  deKGpbestfit->Draw("SAME");	
 
-	  legend->AddEntry((TObject*)0, "", "");	
 	  legend->AddEntry((TObject*)0, "", "");	 
 	  legend->AddEntry((TObject*)0, "", "");	  	   	    	   	   	   	    
 	  legend->AddEntry((TObject*)0, "PRD78, 114013",""); 
 	  legend->AddEntry((TObject*)0, "", "");
 	  //legend->AddEntry((TObject*)0, "D^{0} #rightarrow e^{+}",""); 	  
-	  legend->AddEntry(d0efdbestfit, "(#lambda_{f}, #lambda_{d}) = (-0.01, 0.11) GeV","l");	
-	  legend->AddEntry((TObject*)0, "", "");	  	  
-	  //legend->AddEntry((TObject*)0, "#bar{D}^{0} #rightarrow e^{-}",""); 	 
-	  legend->AddEntry(antid0efdbestfit, "(#lambda_{f}, #lambda_{d}) = (-0.01, 0.11) GeV","l");		  
-	  legend->AddEntry((TObject*)0, "", "");	 
-	  legend->AddEntry((TObject*)0, "", "");	
-	  legend->AddEntry((TObject*)0, "", "");	
-	  legend->AddEntry((TObject*)0, "", "");	  	   	    	   	    	   	    	   
+	  legend->AddEntry(d0efdbestfit, "","l");	
+	  legend->AddEntry((TObject*)0, "", "");		  	  
+	  legend->AddEntry((TObject*)0, "(#lambda_{f}, #lambda_{d}) = (-0.01 #pm 0.03,", "");	  	   	    	   	    	  legend->AddEntry((TObject*)0, "", "");	   	    	   	  
+	  legend->AddEntry((TObject*)0, "               0.11 #pm 0.09) GeV", "");	  	  
+	  legend->AddEntry(antid0efdbestfit, "","l");		  	  
+	  legend->AddEntry((TObject*)0, "", "");	  	   	    	   	    	   	    	   	 	  	   	   	    	   	    	  legend->AddEntry((TObject*)0, "", "");	 	    	   
 	  legend->AddEntry((TObject*)0, "PRD84, 014026", "") ;
 	  //legend->AddEntry((TObject*)0, "(D^{0}+D^{+}) #rightarrow e^{+}","");
-	  TLegend *legend_continued = new TLegend(0.37, 0.3, 0.98, 0.5);
+	  TLegend *legend_continued = new TLegend(0.34, 0.3, 0.98, 0.45);
 	  legend_continued->SetBorderSize(0);
-	  legend_continued->SetTextSize(0.06);
+	  legend_continued->SetTextSize(0.0475);
 	  legend_continued->SetNColumns(2);
-	  legend_continued->AddEntry(deKGbestfit, "K_{G} = 6.0x10^{-4}","l");	
-	  legend_continued->AddEntry(deKGpbestfit, "K_{G}' = 2.5x10^{-4}","l");	
-	  //legend->AddEntry((TObject*)0, "(#bar{D}^{0}+D^{-}) #rightarrow e^{-}","");	
-	  legend_continued->AddEntry(antideKGbestfit, "K_{G} = 6.0x10^{-4}","l");
-	  legend_continued->AddEntry(antideKGpbestfit, "K_{G}' = 2.5x10^{-4}","l");			  
+	  legend_continued->AddEntry(deKGbestfit, "","l");	
+	  legend_continued->AddEntry(deKGpbestfit, "","l");	
+	  legend_continued->AddEntry((TObject*)0, "K_{G} = (6.0^{+14}_{-17})x10^{-4}","");	
+	  legend_continued->AddEntry((TObject*)0, "K_{G}' = (2.5^{+2.2}_{-2.2})x10^{-4}","");		  
+	  legend_continued->AddEntry(antideKGbestfit, "","l");
+	  legend_continued->AddEntry(antideKGpbestfit, "","l");			  
 	  legend_continued->Draw();	  	  
 
     antid0efdbestfit->SetLineWidth(2);

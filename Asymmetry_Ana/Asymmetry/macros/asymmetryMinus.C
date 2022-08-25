@@ -184,8 +184,9 @@ void asymmetryMinus( const char* particle = "ohfe",
   for( int i = 0; i < numEntries; i++ )
     {
       dataTree->GetEntry(i);
+      
       if (charge == 1) 
-	continue;
+	      continue;
 
       if( i%50000 == 0 ) cout << "Processed " << i << " entries " << endl;
 
@@ -211,7 +212,22 @@ void asymmetryMinus( const char* particle = "ohfe",
            px = pt*cos(phi); 
            py = pt*sin(phi); 
 	  accCorr.increment( arm, ptBin, px, py );
-	  asymmetry.incrementCounts( fillBin, ptBin, arm, spinPattern );
+/*	  
+	  if (fillNumber == 18749)
+	  {
+	    //cout << "test1 " << endl;
+	    asymmetry.incrementCountsBlue( fillBin, ptBin, arm, spinPattern );	  
+	  }
+	  else if (fillNumber == 18764)
+	  {
+	    //cout << "test2 " << endl;
+	    asymmetry.incrementCountsYellow( fillBin, ptBin, arm, spinPattern );	  
+	  }	  
+	  else
+	  {
+*/	  
+	    asymmetry.incrementCounts( fillBin, ptBin, arm, spinPattern );
+//	  }	  
 	}
     }//end looping through pairs
   cout << "The last fill number was " << fillNumber << " with fill bin "
@@ -302,7 +318,7 @@ void asymmetryMinus( const char* particle = "ohfe",
   outFile->Close();
   outFile->Delete();
 
-  asymmetry.printCounts();
+  asymmetry.printCounts(false);
 
   accCorr.printNumbers();
 

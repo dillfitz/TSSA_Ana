@@ -1,0 +1,245 @@
+#include <iostream>
+using namespace std;
+
+#include "TFile.h"
+#include "TH1.h"
+#include "TCanvas.h"
+#include "TF1.h"
+#include "TGraphErrors.h"
+
+#include "../Constants.h"
+/*
+const char* particle = "eta";
+const int NUM_PARA = 7;
+const int NUM_HISTO_BINS = 70;
+const double HISTO_MIN = 0.2;
+const double HISTO_MAX = 0.9;
+const double PEAK_MIN = 0.480;
+const double PEAK_MAX = 0.620;
+const double FIT_RANGE_MIN = 0.4;
+const double FIT_RANGE_MAX = 0.7;
+const int NUM_PT_BINS = 6;
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 8, 15 };
+//guas + pol3;
+const double GUESS[ NUM_PT_BINS ][ NUM_PARA ] = 
+{
+  {  25000, 0.548, 0.03, -9000, 3000000, -7000000, 4000000 },//2-3
+  {  60000, 0.548, 0.03, 10000,   10000,   -10000,  -10000 },//3-4
+  {  60000, 0.548, 0.03, 10000,   10000,   -10000,  -10000 },//4-5
+  {  45000, 0.548, 0.03, 10000,   10000,   -10000,  -10000 },//5-6
+  {   8000, 0.548, 0.03, 10000,    4000,   -10000,  -10000 },//6-8
+  {   2000, 0.548, 0.03,  1000,    2000,    -3000,   20000 },//8-15
+};
+/**/
+const char* particle = "pi0";
+const int NUM_PARA = 7;
+const int NUM_HISTO_BINS = 160;
+const float HISTO_MIN = 0.04;
+const float HISTO_MAX = 0.440;
+const double PEAK_MIN = 0.113;
+const double PEAK_MAX = 0.163;
+const double FIT_RANGE_MIN = 0.1;
+const double FIT_RANGE_MAX = 0.2;
+const int NUM_PT_BINS = 10;
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 20 };
+//guas + pol3;
+const double GUESS[ NUM_PT_BINS ][ NUM_PARA ] = 
+{
+  {  25000, 0.135, 0.02, -900, 30000, -70000 },//2-3
+  {  60000, 0.135, 0.02, 1000,   100,   -100 },//3-4
+  {  60000, 0.135, 0.02, 1000,   100,   -100 },//4-5
+  {  45000, 0.135, 0.02, 1000,   100,   -100 },//5-6
+  {   8000, 0.135, 0.02, 1000,    40,   -100 },//6-7
+  {   8000, 0.135, 0.02, 1000,    40,   -100 },//7-8
+  {   8000, 0.135, 0.02, 1000,    40,   -100 },//8-9
+  {   8000, 0.135, 0.02, 1000,    40,   -100 },//9-10
+  {   8000, 0.135, 0.02, 1000,    40,   -100 },//10-12
+  {   2000, 0.135, 0.02,  100,    20,    -30 },//12-20
+};
+
+/*
+//guas + pol3;
+const double GUESS[ NUM_PT_BINS ][ NUM_PARA ] = 
+{
+  {  25000, 0.135, 0.02, -900, 30000, -70000, 40000 },//2-3
+  {  60000, 0.135, 0.02, 1000,   100,   -100,  -100 },//3-4
+  {  60000, 0.135, 0.02, 1000,   100,   -100,  -100 },//4-5
+  {  45000, 0.135, 0.02, 1000,   100,   -100,  -100 },//5-6
+  {   8000, 0.135, 0.02, 1000,    40,   -100,  -100 },//6-7
+  {   8000, 0.135, 0.02, 1000,    40,   -100,  -100 },//7-8
+  {   8000, 0.135, 0.02, 1000,    40,   -100,  -100 },//8-9
+  {   8000, 0.135, 0.02, 1000,    40,   -100,  -100 },//9-10
+  {   8000, 0.135, 0.02, 1000,    40,   -100,  -100 },//10-12
+  {   2000, 0.135, 0.02,  100,    20,    -30,   200 },//12-20
+};
+/**/
+
+void findBackgroundFraction( )
+{
+  gStyle->SetOptFit();
+  TString inputFileName = "../curated_";
+  inputFileName += particle;
+  inputFileName += "_file.root";
+  cout << "opening file " << inputFileName << endl;
+  TFile *histoFile = TFile::Open( inputFileName );
+  TH1F* invariantMass[ NUM_ARMS ][ NUM_PT_BINS ];
+  for( int arm = 0; arm < NUM_ARMS; arm++ )
+    for( int i = 0; i < NUM_PT_BINS; i++ )
+      {
+ 	TString histoName = "invmass";
+	if( arm == WEST ) 
+	  histoName += "West";
+	else if( arm == EAST )
+	  histoName += "East";
+	histoName += PT_BINS[i];
+	histoName += "to";
+	histoName += PT_BINS[i + 1];
+	invariantMass[ arm ][i] = (TH1F*)histoFile->Get( histoName );
+      }
+
+  double r[ NUM_ARMS ][ NUM_PT_BINS ];
+  double peakCounts[ NUM_ARMS ][ NUM_PT_BINS ];
+  TCanvas *canvases[ NUM_ARMS ][ NUM_PT_BINS ];
+
+  TH1F *chiSquaredHisto = new TH1F( "chiSquaredHisto", "Reduced #chi^{2}",
+				    100, 0, 100 );
+
+  //make arrays for recording difference in fits and histo value
+  TCanvas *compareCans[ NUM_ARMS ][ NUM_PT_BINS ];
+  double binMid[ NUM_HISTO_BINS ], binRange[ NUM_HISTO_BINS ];
+  double binWidth = ( HISTO_MAX - HISTO_MIN ) / NUM_HISTO_BINS; 
+  for( int i = 0; i < NUM_HISTO_BINS; i++ )
+    {
+      binRange[i] = binWidth / 2;
+      binMid[i] = HISTO_MIN  + binWidth * i + binWidth / 2;
+    }
+  int firstBin = invariantMass[0][0]->FindBin( FIT_RANGE_MIN );
+  int lastBin  = invariantMass[0][0]->FindBin( FIT_RANGE_MAX );
+  double compare[ NUM_HISTO_BINS ];
+  for( int i = 0; i < firstBin; i++ )
+    compare[i] = 0;
+  for( int i = lastBin; i < NUM_HISTO_BINS; i++ )
+    compare[i] = 0;
+  for( int arm = 0; arm < NUM_ARMS; arm++ )
+    for( int i = 0; i < NUM_PT_BINS; i++ )
+      {
+	TString fName = "f";
+	fName += arm * 10 + i;
+	if( arm == WEST )
+	  canvases[ arm ][i] = new TCanvas();
+	else if( arm == EAST )
+	  canvases[ arm ][i] = new TCanvas( fName, fName, 800, 0, 700, 500 );
+	invariantMass[ arm ][i]->Draw();
+
+	//**********TF1 *fit = new TF1( fName, "gaus+pol3(3)", 
+	//		    FIT_RANGE_MIN, FIT_RANGE_MAX );
+	//fit->SetParNames( "amplitude", "mean", "sigma", "A", "B", "C", "D" );
+	TF1 *fit = new TF1( fName, "gaus+pol2(3)", 
+			    FIT_RANGE_MIN, FIT_RANGE_MAX );
+	fit->SetParNames( "amplitude", "mean", "sigma", "A", "B", "C" );
+ 	for( int para = 0; para < NUM_PARA; para++ )
+	  fit->SetParameter( para, GUESS[i][ para ] );
+
+	invariantMass[ arm ][i]->Fit( fName, "QR" );
+	double chi = fit->GetChisquare();
+	int ndf    = fit->GetNDF();
+	chiSquaredHisto->Fill( chi / ndf );
+
+	double a = fit->GetParameter(3);
+	double b = fit->GetParameter(4);
+	double c = fit->GetParameter(5);
+	//*****	double d = fit->GetParameter(6);
+	//TF1 *line = new TF1( "line", "pol3", PEAK_MIN, PEAK_MAX );
+	TF1 *line = new TF1( "line", "pol2", PEAK_MIN, PEAK_MAX );
+	line->SetParameter( 0, a );
+	line->SetParameter( 1, b );
+	line->SetParameter( 2, c );
+	//****line->SetParameter( 3, d );
+ 
+	double backgroundCounts = line->Integral( PEAK_MIN, PEAK_MAX );
+	peakCounts[ arm ][i]    = fit ->Integral( PEAK_MIN, PEAK_MAX );
+
+	r[ arm ][i] = backgroundCounts / peakCounts[ arm ][i];
+
+	for( int j = firstBin; j < lastBin; j++ )
+	  {
+	    double dataValue = invariantMass[ arm ][i]->GetBinContent(j);
+	    if( dataValue == 0 ) dataValue = 1;
+
+	    double fitValue = fit->Eval( binMid[ j - 1 ] );
+	    compare[j] = ( fitValue - dataValue ) / sqrt( dataValue );
+	    /*if( i == NUM_PT_BINS - 1 )
+	      cout << binMid[ j - 1 ] << ": " << compare[j] << " = ( " 
+		   << fitValue << " - " << dataValue << " ) / sqrt( " 
+		   << dataValue << " )" << endl;*/
+	  }
+     
+	TString name = "c";
+	name += arm*20 + i;
+	TString title = "Comparison plot for r ";
+	if( arm == 0 ) 
+	  title += "West";
+	else if( arm == 1 )
+	  title += "East";
+	title += " Arm ";
+	title += PT_BINS[i];
+	title += " < p_{T} < ";
+	title += PT_BINS[ i + 1 ];
+	title += "; M_{#gamma#gamma}; ";
+	if( arm == WEST )
+	  compareCans[ arm ][i] = new TCanvas( name, name, 0, 500, 700, 400 );
+	else if( arm == EAST )
+	  compareCans[ arm ][i] = new TCanvas( name, name, 800, 500, 700, 400 );
+	TGraphErrors *graph = new TGraphErrors( NUM_HISTO_BINS, binMid, compare,
+					       binRange, 0 );
+	graph->SetTitle( title );
+	graph->GetXaxis()->SetRangeUser( HISTO_MIN, HISTO_MAX );
+	graph->SetFillColor( kBlue - 3 );
+	graph->Draw( "AB" );
+      }
+
+  TCanvas *chi2 = new TCanvas( "chi2", "Reduced Chi Squared" );
+  chiSquaredHisto->Draw();
+
+  //cout << setprecision(3);
+
+  cout << endl << "For fit ranges " << FIT_RANGE_MIN << " to " << FIT_RANGE_MAX 
+       << endl;
+  for( int arm = 0; arm < NUM_ARMS; arm++ )
+    {
+      if( arm == WEST )
+	cout << "const double R_WEST[ NUM_VALUE_BINS ] = { ";
+      else if( arm == EAST )
+	cout << "const double R_EAST[ NUM_VALUE_BINS ] = { ";
+      for( int i = 0; i < NUM_PT_BINS; i++ )
+	{
+	  cout << r[ arm ][i];
+	  if( i < NUM_PT_BINS - 1 )
+	    cout << ", ";
+	}
+      cout << " };" << endl;
+    }
+
+  float rSqrt[ NUM_PT_BINS ];
+  cout << "const double R_SQRT[ NUM_VALUE_BINS ] = { ";
+  for( int i = 0; i < NUM_PT_BINS; i++ )
+    {
+      //average weighted by peak counts!
+      rSqrt[i] = peakCounts[0][i]*r[0][i] + peakCounts[1][i]*r[1][i];
+      rSqrt[i] /= peakCounts[0][i] + peakCounts[1][i];
+      cout << rSqrt[i];
+      if( i < NUM_PT_BINS - 1 )
+	cout << ", ";
+    }
+  cout << " };" << endl;
+
+  cout << " (p_T)[GeV] & West Arm & East Arm & Both Arms\\ " 
+       << FIT_RANGE_MIN << " to " << FIT_RANGE_MAX << endl;
+  for( int ptBin = 0; ptBin < NUM_PT_BINS; ptBin++ )
+    cout << PT_BINS[ ptBin ] << " - " << PT_BINS[ ptBin + 1 ] << " & "
+	 << r[0][ ptBin ] << " & " << r[1][ ptBin ] << " & "<< rSqrt[ ptBin ] 
+	 << " \\" << endl;
+
+}

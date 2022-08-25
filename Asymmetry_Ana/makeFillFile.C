@@ -130,6 +130,12 @@ void makeFillFile()
 
       if( fillNumber==18777 || fillNumber==18758 || fillNumber==18778 || fillNumber==0) continue;
 
+      
+      //if (fillNumber == 18749 || fillNumber == 18764 ) {continue;}            
+
+      // this is a test to remove an entire fill group (#21) rather than just fill 18749 // 
+      //if (fillNumber == 18741) {continue;}
+      
       //forgot about run 426319 before I merged files
 
       if( i == 0 && fillIndex == 0 )

@@ -135,8 +135,11 @@ bool AcceptanceCorrection::calculateConst( const int option,
     cor = -999;
  
   for( int b = 0; b < NUM_VALUE_BINS; b++ )
+  {
     acceptanceCorrection[b] = cor;
-
+    //cout << "this should set all bins equal!! what gives?" << endl;
+  }
+  
   print( option, acceptanceCorrection );
 }
 

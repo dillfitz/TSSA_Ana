@@ -32,7 +32,7 @@ const  int OPTIONS[ NUM_OPTIONS ] =
     { LEFT_LUMINOSITY, RIGHT_LUMINOSITY, SQUARE_ROOT };
 const string OPTION_NAMES[ NUM_OPTIONS ] = { "Left", "Right", "Sqrt" };
 
-
+/*
 const int NUM_ARMS = 2;
 const int LEFT = 0;
 const int RIGHT = 1;
@@ -40,11 +40,25 @@ const int EAST = 0;
 const int WEST = 1;
 const int SQRT = 2;
 const string ARM_NAMES[ NUM_ARMS ] = { "East", "West" };
+*/
 
+// for pAu
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 82;
+// 2 fills per group
+//const int NUM_FILLS_IN_GROUP = 2;
+//const int NUM_FILL_BINS = 41;
 
-
+// for pAl
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 29;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 15;
 // Note that the mapping to east and west is opposite for an old EMCAL analysis (i.e. use below for dp, eta, pi0)
-/*
+
 const int NUM_ARMS = 2;
 const int LEFT = 0;
 const int RIGHT = 1;
@@ -52,7 +66,7 @@ const int WEST = 0;
 const int EAST = 1;
 const int SQRT = 2;
 const string ARM_NAMES[ NUM_ARMS ] = { "West", "East" };
-*/
+
 
 const int NUM_CUT_OFF = 10;
 //Error formulas are based off of Poison Statistics, so there needs to be "many"
@@ -78,6 +92,7 @@ const float BIN_CENTERS[ NUM_VALUE_BINS ] =
 */
 
 //Extending the pT range down to 1 GeV for the OHFe analysis //
+/*
 const int NUM_FILLS_IN_GROUP = 2;
 const int NUM_FILL_BINS = 70;
 const int NUM_VALUE_BINS = 6;
@@ -85,21 +100,45 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 1.0, 1.3, 1.5, 1.8, 2.1, 2.7, 5.0 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 1.161, 1.398, 1.639, 1.936, 2.349, 3.29 };
+*/
 
+  /**/
+//pi0 pt
+
+const int NUM_VALUE_BINS = 10;
+const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 20 };
+const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
+  { 2.57559, 3.42, 4.40087, 5.40314, 6.41429, 7.42398, 8.43269, 9.43928, 
+    10.7884, 13.5335 }; 
 
 /*
-//pi0 pt
-const int NUM_FILLS_IN_GROUP = 1;
-const int NUM_FILL_BINS = 144;
+//pi0 background pt
+
+const int NUM_VALUE_BINS = 8;
+const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 9, 20 };
+const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
+  { 2.55035, 3.39841, 4.39527, 5.39971, 6.41023, 7.41296, 8.42347, 10.4089 };   
+ */
+
+//eta pt
+/*
 const int NUM_VALUE_BINS = 8;
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 2.31, 3.02, 4.2, 5.39, 6.41, 7.42, 8.75, 11.5 };
+  { 2.38832, 3.52584, 4.39291, 5.40096, 6.41452, 7.42343, 8.74899, 11.6617 }; 
 */ 
+/*  
+//eta  background pt
 
+const int NUM_VALUE_BINS = 7;
+const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 20 };
+const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
+  { 2.37559, 3.44349, 4.39029, 5.39697, 6.41253, 7.42308, 9.41961 }; 
 /*
-//eta pt
 const int NUM_FILLS_IN_GROUP = 1;
 const int NUM_FILL_BINS = 144;
 const int NUM_VALUE_BINS = 6;
@@ -107,8 +146,6 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 2, 3, 4, 5, 6, 8, 15 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 2.38, 3.54, 4.39, 5.4, 6.69, 9.37 }; 
-*/
-
 
 /*
 //pi0 and eta as a function of photon pt
@@ -119,7 +156,6 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 2, 3, 4, 5, 6, 8, 18 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 2.29, 3.34, 4.38, 5.4, 6.69, 9.48 };
-*/
 
   /*
 //just one pt bin for dir photon systematic uncertainty from background purposes
@@ -129,7 +165,7 @@ const int NUM_VALUE_BINS = 1;
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = { 6 };
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
   { 5, 18 };
+/**/
 
-*/
 
 #endif /* _CONSTANTS_H_ */
