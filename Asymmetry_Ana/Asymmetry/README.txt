@@ -1,6 +1,6 @@
 Original author of Asymmetry library: Nicole Lewis
 
-The classes that are sued to calculate the asymmetry are:
+The classes that are used to calculate the asymmetry are:
 Asymmetry            - Does the actual count counting and asymmetry calculating
 Aceptance Correction - Calculates the <|cos\phi|> correction while the asymmetry
                        counts are being counts
