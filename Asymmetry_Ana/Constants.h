@@ -42,21 +42,7 @@ const int SQRT = 2;
 const string ARM_NAMES[ NUM_ARMS ] = { "East", "West" };
 */
 
-// for pAu
-// 1 fill per group
-//const int NUM_FILLS_IN_GROUP = 1;
-//const int NUM_FILL_BINS = 82;
-// 2 fills per group
-//const int NUM_FILLS_IN_GROUP = 2;
-//const int NUM_FILL_BINS = 41;
 
-// for pAl
-// 1 fill per group
-//const int NUM_FILLS_IN_GROUP = 1;
-//const int NUM_FILL_BINS = 29;
-// 2 fills per group
-const int NUM_FILLS_IN_GROUP = 2;
-const int NUM_FILL_BINS = 15;
 // Note that the mapping to east and west is opposite for an old EMCAL analysis (i.e. use below for dp, eta, pi0)
 
 const int NUM_ARMS = 2;
@@ -102,15 +88,77 @@ const float BIN_CENTERS[ NUM_VALUE_BINS ] =
   { 1.161, 1.398, 1.639, 1.936, 2.349, 3.29 };
 */
 
-  /**/
-//pi0 pt
+
+//////////////
+// pi0 pAu //
+////////////
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 82;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 41;
 
 const int NUM_VALUE_BINS = 10;
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 2.57559, 3.42, 4.40087, 5.40314, 6.41429, 7.42398, 8.43269, 9.43928, 
-    10.7884, 13.5335 }; 
+  { 2.71, 3.735, 4.307, 5.399, 6.414, 7.423, 8.431, 9.437, 10.78, 13.52 };
+  
+
+/* 
+//////////////
+// pi0 pAl //
+////////////
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 29;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 15;
+
+const int NUM_VALUE_BINS = 10;
+const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 20 };
+const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
+  { 2.674, 3.467, 4.412, 5.41, 6.417, 7.424, 8.433, 9.439, 10.79, 13.55 };
+*/
+
+/*
+//////////////
+// eta pAu //
+////////////
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 82;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 41;
+
+const int NUM_VALUE_BINS = 8;
+const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
+const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
+  { 2.639, 3.442, 4.406, 5.403, 6.413, 7.422, 8.74, 11.65 };
+*/
+
+/*  
+//////////////  
+// eta pAl //
+////////////
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 29;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 15;
+
+const int NUM_VALUE_BINS = 8;
+const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
+const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
+  { 2.641, 3.461, 4.416, 5.408, 6.416, 7.425, 8.742, 11.7 };
+*/
 
 /*
 //pi0 background pt
@@ -120,16 +168,8 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 2, 3, 4, 5, 6, 7, 8, 9, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 2.55035, 3.39841, 4.39527, 5.39971, 6.41023, 7.41296, 8.42347, 10.4089 };   
- */
+*/
 
-//eta pt
-/*
-const int NUM_VALUE_BINS = 8;
-const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
-  { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
-const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 2.38832, 3.52584, 4.39291, 5.40096, 6.41452, 7.42343, 8.74899, 11.6617 }; 
-*/ 
 /*  
 //eta  background pt
 
