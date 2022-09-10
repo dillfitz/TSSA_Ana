@@ -20,7 +20,7 @@ const int heightSqrt = 450;
 const int heightLumi = 450;
 
 //const int SQRT = 2;
-void processAsymmetry_pA( const char* particle = "pi0", const char* collisionSystem = "pAl", const bool dpBackground = false, const bool isolated = false )
+void processAsymmetry_pA( const char* particle = "eta", const char* collisionSystem = "pAl", const bool dpBackground = false, const bool isolated = false )
 
 //both must be set to false for dp
 {

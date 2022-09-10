@@ -409,7 +409,7 @@ bool Asymmetry::incrementCounts_pA( const int f,
 {
   if( !isFillBinValid( f ) || !isValueBinValid( valueBin ) )
     {
-      cout << "-->Asymmetry::incrementCounts()" << endl;
+      cout << "-->Asymmetry::incrementCounts_pA()" << endl;
       return false;
     }
   if( arm == WEST )//west arm: yellow right, blue left

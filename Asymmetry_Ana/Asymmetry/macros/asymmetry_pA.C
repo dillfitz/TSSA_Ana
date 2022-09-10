@@ -25,8 +25,7 @@ using namespace std;
 //E_gamma & 10% > E_cone - E_pair
 //
 
-void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAl", const bool dpBackground = false, const bool isolated = false )
-
+void asymmetry_pA( const char* particle = "eta", TString collisionSystem = "pAl", const bool dpBackground = false, const bool isolated = false )
 {
 
   cout << particle <<  endl;

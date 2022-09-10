@@ -24,7 +24,7 @@ const float MAX =  0.07;
 const bool SAVE_IMAGES = true;
 
 // Use this for the open heavy flavor electron measurement //
-void plotCompareFormulas_pA( const char* particle = "pi0", const char* collisionSystem = "pAl" )
+void plotCompareFormulas_pA( const char* particle = "eta", const char* collisionSystem = "pAl" )
 {
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;

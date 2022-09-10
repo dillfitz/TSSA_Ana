@@ -20,7 +20,7 @@ const float YMAX =  0.18;
 const int SIZE = 2;
 
 // Use this for the open heavy flavor electron measurement //
-void plotRelLumi_pA( const char* particle = "pi0", const char* collisionSystem = "pAl" )
+void plotRelLumi_pA( const char* particle = "eta", const char* collisionSystem = "pAl" )
 {
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;

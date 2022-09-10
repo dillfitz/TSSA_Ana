@@ -90,7 +90,7 @@ const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] =
       { 0.8381, 1.381, 1.896 }  //12-20
     }
   };
-*/  
+*/
 /*
 // pi0 pAl
 const int NUM_PT_BINS = 10;
@@ -156,7 +156,8 @@ const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] =
       { 0.8599, 1.367, 1.899 }  //10-20
     }
   };
-*/  
+*/
+
 // eta Al
 const int NUM_PT_BINS = 8;
 const float PT_BINS[ NUM_VALUE_BINS + 1 ] = 
