@@ -24,14 +24,14 @@ const float histoMax = +5;
 const int multiply = 111;
 
 // Use this for the open heavy flavor electron measurement //
-int asymmetryBunchShuffle_pA( float seed = 2, const int NUM_SHUFFLES = 10000, const char* particle = "pi0", const char* collisionSystem = "pAl")
+int asymmetryBunchShuffle_pA( float seed = 2, const int NUM_SHUFFLES = 10000, const char* particle = "pi0", const char* collisionSystem = "pAu")
 {
   TString outputFileName = "shuffled_";
   outputFileName += particle;
   outputFileName += "_";
   outputFileName += collisionSystem;
-  //outputFileName += "_";
-  //outputFileName += seed;
+  outputFileName += "_";
+  outputFileName += seed;
   outputFileName += ".root";
   
   TString inputTreeNameInFile = particle;
