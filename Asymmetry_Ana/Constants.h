@@ -88,7 +88,7 @@ const float BIN_CENTERS[ NUM_VALUE_BINS ] =
   { 1.161, 1.398, 1.639, 1.936, 2.349, 3.29 };
 */
 
-/*
+
 //////////////
 // pi0 pAu //
 ////////////
@@ -104,7 +104,7 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 2.71, 3.735, 4.307, 5.399, 6.414, 7.423, 8.431, 9.437, 10.78, 13.52 };
-*/  
+  
 
 /*
 //////////////
@@ -142,7 +142,7 @@ const float BIN_CENTERS[ NUM_VALUE_BINS ] =
   { 2.639, 3.442, 4.406, 5.403, 6.413, 7.422, 8.74, 11.65 };
 */
 
-  
+/*
 //////////////  
 // eta pAl //
 ////////////
@@ -158,7 +158,7 @@ const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] =
   { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
   { 2.641, 3.461, 4.416, 5.408, 6.416, 7.425, 8.742, 11.7 };
-
+*/
 
 /*
 //pi0 background pt

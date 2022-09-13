@@ -25,7 +25,7 @@ using namespace std;
 //E_gamma & 10% > E_cone - E_pair
 //
 
-void asymmetry_pA( const char* particle = "eta", TString collisionSystem = "pAl", const bool dpBackground = false, const bool isolated = false )
+void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu", const bool background = true, const bool dpBackground = false, const bool isolated = false )
 {
 
   cout << particle <<  endl;
@@ -45,14 +45,17 @@ void asymmetry_pA( const char* particle = "eta", TString collisionSystem = "pAl"
        << NUM_FILL_BINS << " groups of " << NUM_FILLS_IN_GROUP << " fills,"
        << " with " << NUM_VALUE_BINS << " pt bins " << endl;
 
-  // matc tis filename structure
   TString inputDataFileName = "../../";
   inputDataFileName += "curated_";
   inputDataFileName += particle;
   inputDataFileName += "_";
   inputDataFileName += collisionSystem;
   inputDataFileName += ".root";
-  TString inputTreeNameInFile = particle;
+  
+  TString inputTreeNameInFile = "";
+  if (background)
+    inputTreeNameInFile += "background_";  
+  inputTreeNameInFile += particle;
   inputTreeNameInFile += "_tree";
   
   TString inputFillFileName = "../../fill_";
@@ -61,7 +64,9 @@ void asymmetry_pA( const char* particle = "eta", TString collisionSystem = "pAl"
 
   TString outputFileName = "./dataFiles/";
   outputFileName += particle;
-  outputFileName += "_";  
+  outputFileName += "_";
+  if (background)
+    outputFileName += "background_";  
   outputFileName += collisionSystem;
   outputFileName += "_AN_fills.root";
 

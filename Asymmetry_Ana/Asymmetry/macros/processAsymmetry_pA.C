@@ -20,7 +20,7 @@ const int heightSqrt = 450;
 const int heightLumi = 450;
 
 //const int SQRT = 2;
-void processAsymmetry_pA( const char* particle = "eta", const char* collisionSystem = "pAl", const bool dpBackground = false, const bool isolated = false )
+void processAsymmetry_pA( const char* particle = "pi0", const char* collisionSystem = "pAu", const bool background = true, const bool dpBackground = false, const bool isolated = false )
 
 //both must be set to false for dp
 {
@@ -33,6 +33,8 @@ void processAsymmetry_pA( const char* particle = "eta", const char* collisionSys
   TString inputFileName = directory;
   inputFileName += particle;
   inputFileName += "_";
+  if (background)
+    inputFileName += "background_";
   inputFileName += collisionSystem;
   inputFileName += "_AN_fills";
   inputFileName += ".root";
@@ -41,6 +43,8 @@ void processAsymmetry_pA( const char* particle = "eta", const char* collisionSys
   TString outputFileName = directory;
   outputFileName += particle;
   outputFileName += "_";
+  if (background)
+    outputFileName += "background_";
   outputFileName += collisionSystem;
   outputFileName += "_AN";
   outputFileName += ".root";
