@@ -161,31 +161,77 @@ const float BIN_CENTERS[ NUM_VALUE_BINS ] =
 */
 
 /*
-//pi0 background pt
+/////////////////////////
+// pi0 background pAu //
+///////////////////////
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 82;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 41;
 
 const int NUM_VALUE_BINS = 8;
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 9, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 2.55035, 3.39841, 4.39527, 5.39971, 6.41023, 7.41296, 8.42347, 10.4089 };   
+  { 2.628, 3.446, 4.406, 5.398, 6.408, 7.418, 8.428, 10.41 };
 */
 
-/*  
-//eta  background pt
+/*
+/////////////////////////
+// pi0 background pAl //
+///////////////////////
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 29;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 15;
+
+const int NUM_VALUE_BINS = 8;
+const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 9, 20 };
+const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
+  { 2.632, 3.457, 4.412, 5.401, 6.408, 7.42, 8.43, 10.46 };
+*/
+
+/*
+/////////////////////////
+// eta background pAu //
+///////////////////////
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 82;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 41;
 
 const int NUM_VALUE_BINS = 7;
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 2.37559, 3.44349, 4.39029, 5.39697, 6.41253, 7.42308, 9.41961 }; 
-/*
-const int NUM_FILLS_IN_GROUP = 1;
-const int NUM_FILL_BINS = 144;
-const int NUM_VALUE_BINS = 6;
+  { 2.631, 3.43, 4.397, 5.394, 6.408, 7.419, 9.388 };
+*/
+
+/*  
+/////////////////////////
+// eta background pAl //
+///////////////////////
+// 1 fill per group
+//const int NUM_FILLS_IN_GROUP = 1;
+//const int NUM_FILL_BINS = 29;
+// 2 fills per group
+const int NUM_FILLS_IN_GROUP = 2;
+const int NUM_FILL_BINS = 15;
+
+const int NUM_VALUE_BINS = 7;
 const float VALUE_BINS[ NUM_VALUE_BINS + 1 ] = 
-  { 2, 3, 4, 5, 6, 8, 15 };
+  { 2, 3, 4, 5, 6, 7, 8, 20 };
 const float BIN_CENTERS[ NUM_VALUE_BINS ] = 
-  { 2.38, 3.54, 4.39, 5.4, 6.69, 9.37 }; 
+  { 2.63, 3.451, 4.409, 5.4, 6.413, 7.422, 9.432 };
+*/
+
 
 /*
 //pi0 and eta as a function of photon pt

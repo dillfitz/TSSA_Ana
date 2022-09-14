@@ -16,7 +16,7 @@ using namespace std;
 
 
 // Use this for the open heavy flavor electron measurement //
-void asymmetryPhi_pA( const char* particle = "eta", const char* collisionSystem = "pAl" )
+void asymmetryPhi_pA( const char* particle = "pi0", const char* collisionSystem = "pAu", const bool background = false )
 {
   if( particle != "ohfe" && particle != "e" && particle != "dp" && particle != "pi0" && particle != "eta" )
     cout << "Error! particle can only be dp, pi0, or eta!  You are calculating nonsense " << endl;
@@ -32,12 +32,16 @@ void asymmetryPhi_pA( const char* particle = "eta", const char* collisionSystem 
   inputDataFileName += collisionSystem;
   inputDataFileName += ".root";
 
-
+  TString inputTreeNameInFile = "";
+  if (background)
+    inputTreeNameInFile += "background_";
   TString inputTreeNameInFile = particle;
   inputTreeNameInFile += "_tree";
   
   TString outputFileName = particle;
   outputFileName += "_";
+  if (background)
+    outputFileName += "background_";
   outputFileName += collisionSystem;
   outputFileName += "_phi.root";
   cout << "~~~~~~~~~~~Gonna output everything into " << outputFileName 

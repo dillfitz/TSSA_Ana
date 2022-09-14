@@ -12,7 +12,7 @@ const float PHI_BINS[ NUM_PHI_BINS + 1 ] = { 0.589, 1.1127, 1.6364, 2.1598 };
 /*
 // For the 4 bin analysis // 
 const int NUM_PT_BINS = 4;
-const float PT_BINS[ NUM_VALUE_BINS + 1 ] = {1.5, 1.8, 2.1, 2.7, 5.0 };
+const float PT_BINS[ NUM_PT_BINS + 1 ] = {1.5, 1.8, 2.1, 2.7, 5.0 };
 const double PT_BIN_CENTERS[ NUM_PT_BINS ] = { 1.639, 1.936, 2.349, 3.29 };
 const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] = 
    {
@@ -34,7 +34,7 @@ const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] =
 /*
 // For the 6 bin heavy flavor analysis // 
 const int NUM_PT_BINS = 6;
-const float PT_BINS[ NUM_VALUE_BINS + 1 ] = {1.0, 1.3, 1.5, 1.8, 2.1, 2.7, 5.0 };
+const float PT_BINS[ NUM_PT_BINS + 1 ] = {1.0, 1.3, 1.5, 1.8, 2.1, 2.7, 5.0 };
 const double PT_BIN_CENTERS[ NUM_PT_BINS ] = {1.161, 1.398, 1.639, 1.936, 2.349, 3.29 };
 const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] = 
    {
@@ -56,10 +56,11 @@ const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] =
     },
   };
 */
-/*
+
+
 // pi0 Au
 const int NUM_PT_BINS = 10;
-const float PT_BINS[ NUM_VALUE_BINS + 1 ] = 
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 20 };
 const double PT_BIN_CENTERS[ NUM_PT_BINS ] = 
   { 2.71, 3.735, 4.307, 5.399, 6.414, 7.423, 8.431, 9.437, 10.78, 13.52 };
@@ -90,11 +91,12 @@ const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] =
       { 0.8381, 1.381, 1.896 }  //12-20
     }
   };
-*/
+
+
 /*
 // pi0 pAl
 const int NUM_PT_BINS = 10;
-const float PT_BINS[ NUM_VALUE_BINS + 1 ] = 
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 20 };
 const double PT_BIN_CENTERS[ NUM_PT_BINS ] = 
   { 2.674, 3.467, 4.412, 5.41, 6.417, 7.424, 8.433, 9.439, 10.79, 13.55 };
@@ -126,10 +128,11 @@ const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] =
     }
   };
 */
-/*  
+
+/*
 // eta Au
 const int NUM_PT_BINS = 8;
-const float PT_BINS[ NUM_VALUE_BINS + 1 ] = 
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
 const double PT_BIN_CENTERS[ NUM_PT_BINS ] = 
   { 2.639, 3.442, 4.406, 5.403, 6.413, 7.422, 8.74, 11.65 };
@@ -158,9 +161,10 @@ const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] =
   };
 */
 
+/*
 // eta Al
 const int NUM_PT_BINS = 8;
-const float PT_BINS[ NUM_VALUE_BINS + 1 ] = 
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
   { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
 const double PT_BIN_CENTERS[ NUM_PT_BINS ] = 
   { 2.641, 3.461, 4.416, 5.408, 6.416, 7.425, 8.742, 11.7 };
@@ -187,6 +191,130 @@ const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] =
       { 0.8458, 1.38, 1.898 }  //10-20
     }
   };
+*/
 
+/*
+// pi0 background Au
+const int NUM_PT_BINS = 8;
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 9, 20 };
+const double PT_BIN_CENTERS[ NUM_PT_BINS ] = 
+  { 2.628, 3.446, 4.406, 5.398, 6.408, 7.418, 8.428, 10.41 };
+const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] = 
+   {
+    {//West arm 
+      { 0.8771, 1.397, 1.86 }, //2-3
+      { 0.8647, 1.396, 1.868 }, //3-4
+      { 0.8544, 1.392, 1.878 }, //4-5
+      { 0.8393, 1.391, 1.884 }, //5-6
+      { 0.8136, 1.388, 1.885 }, //6-7
+      { 0.8042, 1.387, 1.889 }, //7-8
+      { 0.8213, 1.388, 1.885 }, //8-9
+      { 0.8375, 1.389, 1.891 }  //9-20
+    },
+    {//East arm 
+      { 0.8317, 1.247, 1.909 }, //2-3
+      { 0.8425, 1.282, 1.906 }, //3-4
+      { 0.8586, 1.317, 1.901 }, //4-5
+      { 0.8642, 1.338, 1.898 }, //5-6
+      { 0.8667, 1.355, 1.898 }, //6-7
+      { 0.8636, 1.357, 1.896 }, //7-8
+      { 0.8604, 1.372, 1.893 }, //8-9
+      { 0.8488, 1.378, 1.893 }  //9-20
+    }
+  };
+*/
+
+/*
+// pi0 background pAl
+const int NUM_PT_BINS = 8;
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 9, 20 };
+const double PT_BIN_CENTERS[ NUM_PT_BINS ] = 
+  { 2.632, 3.457, 4.412, 5.401, 6.408, 7.42, 8.43, 10.46 };
+const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] = 
+   {
+    {//West arm 
+      { 0.8627, 1.394, 1.864 }, //2-3
+      { 0.8535, 1.396, 1.871 }, //3-4
+      { 0.845, 1.393, 1.879 }, //4-5
+      { 0.8301, 1.393, 1.887 }, //5-6
+      { 0.8049, 1.387, 1.893 }, //6-7
+      { 0.7972, 1.394, 1.893 }, //7-8
+      { 0.8091, 1.39, 1.89 }, //8-9
+      { 0.8238, 1.402, 1.882 }  //9-20
+    },
+    {//East arm 
+      { 0.8342, 1.253, 1.894 }, //2-3
+      { 0.8409, 1.289, 1.902 }, //3-4
+      { 0.8518, 1.325, 1.899 }, //4-5
+      { 0.8516, 1.344, 1.899 }, //5-6
+      { 0.8524, 1.363, 1.898 }, //6-7
+      { 0.8473, 1.375, 1.89 }, //7-8
+      { 0.8488, 1.386, 1.901 }, //8-9
+      { 0.8304, 1.391, 1.901 }  //9-20
+    }
+  };
+*/
+
+/* 
+// eta background Au
+const int NUM_PT_BINS = 7;
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 20 };
+const double PT_BIN_CENTERS[ NUM_PT_BINS ] = 
+  { 2.631, 3.43, 4.397, 5.394, 6.408, 7.419, 9.388 };
+const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] = 
+   {
+    {//West arm 
+      { 0.9229, 1.388, 1.815 }, //2-3
+      { 0.9065, 1.394, 1.828 }, //3-4
+      { 0.8932, 1.394, 1.844 }, //4-5
+      { 0.881, 1.393, 1.858 }, //5-6
+      { 0.872, 1.393, 1.866 }, //6-7
+      { 0.8665, 1.396, 1.877 }, //7-8
+      { 0.8604, 1.394, 1.878 }  //8-20
+    },
+    {//East arm 
+      { 0.8818, 1.275, 1.836 }, //2-3
+      { 0.8764, 1.299, 1.855 }, //3-4
+      { 0.8805, 1.328, 1.861 }, //4-5
+      { 0.8784, 1.343, 1.868 }, //5-6
+      { 0.8724, 1.355, 1.876 }, //6-7
+      { 0.8694, 1.362, 1.88 }, //7-8
+      { 0.8622, 1.367, 1.891 }  //8-20
+    }
+  };
+*/
+
+/*
+// eta background Al
+const int NUM_PT_BINS = 7;
+const float PT_BINS[ NUM_PT_BINS + 1 ] = 
+  { 2, 3, 4, 5, 6, 7, 8, 20 };
+const double PT_BIN_CENTERS[ NUM_PT_BINS ] = 
+  { 2.63, 3.451, 4.409, 5.4, 6.413, 7.422, 9.432 };
+const float PHI_BIN_CENTERS[ NUM_ARMS ][ NUM_PT_BINS ][ NUM_PHI_BINS ] = 
+   {
+    {//West arm 
+      { 0.9142, 1.387, 1.815 }, //2-3
+      { 0.8982, 1.394, 1.829 }, //3-4
+      { 0.8861, 1.395, 1.845 }, //4-5
+      { 0.8744, 1.395, 1.858 }, //5-6
+      { 0.8662, 1.394, 1.866 }, //6-7
+      { 0.8575, 1.392, 1.871 }, //7-8
+      { 0.8508, 1.403, 1.882 }  //8-20
+    },
+    {//East arm 
+      { 0.8822, 1.276, 1.825 }, //2-3
+      { 0.8729, 1.305, 1.853 }, //3-4
+      { 0.8712, 1.336, 1.86 }, //4-5
+      { 0.8667, 1.352, 1.866 }, //5-6
+      { 0.8629, 1.362, 1.873 }, //6-7
+      { 0.861, 1.366, 1.881 }, //7-8
+      { 0.8504, 1.383, 1.886 }  //8-20
+    }
+  };
+*/
   
 #endif  /*_CONSTANTS_SIN_PHI_H_*/
