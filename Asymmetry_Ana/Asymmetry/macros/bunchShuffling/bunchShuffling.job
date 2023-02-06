@@ -8,15 +8,20 @@ Rank            = CPU_Speed
 Priority        = 1
 
 #These are the arguments to be passed to the csh script
-NumShuffles     = 250
-Arguments       = $(Process) $(NumShuffles)
+NumShuffles     = 100
+Particle        = \"eta\"
+ParticleLogs    = eta
+CollisionSystem = \"pAl\"
+CollisionSystemLogs = pAl
+Background      = 1
+Arguments       = $(Process) $(NumShuffles) $(Particle) $(CollisionSystem) $(Background)
 
 #Tell condor what script to run, and where to put the output files 
-codeDir         = /direct/phenix+u/workarea/nialewis/Run15ppPhotons/Asymmetry/macros/bunchShuffling
+codeDir         = /phenix/spin/phnxsp01/dillfitz/pA_pi0_eta/TSSA_Ana/Asymmetry_Ana/Asymmetry/macros/bunchShuffling
 Executable      = $(codeDir)/bunchShuffling.csh
-Output          = $(codeDir)/logFiles/out_$(Process).log
-Error           = $(codeDir)/logFiles/err_$(Process).log
-Log             = /tmp/dillfitz/bunchShuffle_$(Process).log
+Output          = $(codeDir)/logFiles/out_$(ParticleLogs)_$(CollisionSystemLogs)_$(Process)_bg$(Background).log
+Error           = $(codeDir)/logFiles/err_$(ParticleLogs)_$(CollisionSystemLogs)_$(Process)_bg$(Background).log
+Log             = $(codeDir)/logFiles/bunchShuffle_$(ParticleLogs)_$(CollisionSystemLogs)_$(Process)_bg$(Background).log
 
 
-Queue  40
+Queue  100

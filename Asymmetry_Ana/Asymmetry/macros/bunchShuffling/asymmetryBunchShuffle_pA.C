@@ -11,6 +11,7 @@ using namespace std;
 #include "TFile.h"
 #include "TH1.h"
 #include "TString.h"
+#include "TGraph"
 
 int getRandom( const int min, const int max );
 
@@ -23,20 +24,45 @@ const float histoMax = +5;
 
 const int multiply = 111;
 
-// Use this for the open heavy flavor electron measurement //
-int asymmetryBunchShuffle_pA( float seed = 2, const int NUM_SHUFFLES = 10000, const char* particle = "pi0", const char* collisionSystem = "pAl")
+// Use this for the pi0/eta pA measurement //
+int asymmetryBunchShuffle_pA( float seed = 2, const int NUM_SHUFFLES = 50, const char* particle = "pi0", const char* collisionSystem = "pAu", const bool background = true )
 {
   TString outputFileName = "shuffled_";
+  if (background)
+    outputFileName += "background_";
   outputFileName += particle;
   outputFileName += "_";
   outputFileName += collisionSystem;
-  //outputFileName += "_";
-  //outputFileName += seed;
+  outputFileName += "_";
+  outputFileName += seed;
   outputFileName += ".root";
   
-  TString inputTreeNameInFile = particle;
+  TString inputTreeNameInFile = "";
+  if (background)
+    inputTreeNameInFile += "background_";
+  inputTreeNameInFile += particle;
   inputTreeNameInFile += "_tree";
-   
+  
+  TString accCorrInFileName = "../dataFiles/";
+  accCorrInFileName += particle;
+  accCorrInFileName += "_";
+  if (background)
+    accCorrInFileName += "background_";
+  accCorrInFileName += collisionSystem;
+  accCorrInFileName += "_AN_fills.root";
+  TFile *accCorrInFile = TFile::Open(accCorrInFileName);
+  TGraph* accCorrSqrtGraph;
+  double *accCorrSqrt;
+  accCorrSqrtGraph = (TGraph*)accCorrInFile->Get( "accCorrSqrt" );
+  accCorrSqrt    = accCorrSqrtGraph->GetY();
+  float SQRT_ACC_CORR[NUM_VALUE_BINS];
+  for (int i=0; i<NUM_VALUE_BINS; ++i)
+  {
+    SQRT_ACC_CORR[i] = accCorrSqrt[i];
+    //cout << "bin : " << i << " acc corr : " << SQRT_ACC_CORR[i] << endl;
+  }
+
+  /*
   if (particle == "pi0" && collisionSystem == "pAu")
   {
     float SQRT_ACC_CORR[NUM_VALUE_BINS] = {0.841251, 0.867366, 0.870088, 0.875006, 0.878855, 0.880475, 0.882042, 0.881463, 0.88339, 0.890346};
@@ -53,7 +79,7 @@ int asymmetryBunchShuffle_pA( float seed = 2, const int NUM_SHUFFLES = 10000, co
   {
     float SQRT_ACC_CORR[NUM_VALUE_BINS] = {0.87136, 0.883857, 0.887107, 0.885778, 0.885864, 0.884948, 0.883384, 0.883265};      
   }
-    
+  */   
   TString inputDataFileName = "../../../curated_";
   inputDataFileName += particle;
   inputDataFileName += "_";

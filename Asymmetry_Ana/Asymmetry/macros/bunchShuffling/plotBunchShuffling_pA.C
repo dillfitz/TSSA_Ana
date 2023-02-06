@@ -13,10 +13,12 @@ const bool SAVE_PICTURES = true;
 const bool peak = false;//true;
 //if false than looking at background
 
-void plotBunchShuffling_pA(const char* particle = "pi0", const char* collisionSystem = "pAl")
+void plotBunchShuffling_pA(const char* particle = "pi0", const char* collisionSystem = "pAu", const bool background = true)
 {
   gStyle->SetOptFit();
-  TString inputFileName = "shuffled_";
+  TString inputFileName = "dataFiles/shuffled_";
+  if (background)
+    inputFileName += "background_";
   inputFileName += particle;
   inputFileName += "_";
   inputFileName += collisionSystem;
@@ -61,8 +63,17 @@ void plotBunchShuffling_pA(const char* particle = "pi0", const char* collisionSy
 	{
 	  ostringstream name;
 	  name << "images/";
-	  name << particle << "_" << collisionSystem << "_shuffles" << VALUE_BINS[i] << "to" << VALUE_BINS[i + 1] 
-	       << ".png";
+	  if (background)
+	  {
+	    name << "background_" << particle << "_" << collisionSystem << "_shuffles" << VALUE_BINS[i] << "to" << VALUE_BINS[i + 1] 
+		 << ".png";
+	  }
+	  else
+	  {
+	    name << particle << "_" << collisionSystem << "_shuffles" << VALUE_BINS[i] << "to" << VALUE_BINS[i + 1] 
+		 << ".png";
+	  }
+
 	  canvases[i]->SaveAs( name.str().c_str() );
 	}
     }
