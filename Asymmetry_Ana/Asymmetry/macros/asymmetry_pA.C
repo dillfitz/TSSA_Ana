@@ -45,14 +45,17 @@ void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu"
        << NUM_FILL_BINS << " groups of " << NUM_FILLS_IN_GROUP << " fills,"
        << " with " << NUM_VALUE_BINS << " pt bins " << endl;
 
-  // matc tis filename structure
   TString inputDataFileName = "../../";
   inputDataFileName += "curated_";
   inputDataFileName += particle;
   inputDataFileName += "_";
   inputDataFileName += collisionSystem;
   inputDataFileName += ".root";
-  TString inputTreeNameInFile = particle;
+  
+  TString inputTreeNameInFile = "";
+  if (background)
+    inputTreeNameInFile += "background_";  
+  inputTreeNameInFile += particle;
   inputTreeNameInFile += "_tree";
   
   TString inputFillFileName = "../../fill_";
@@ -61,7 +64,9 @@ void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu"
 
   TString outputFileName = "./dataFiles/";
   outputFileName += particle;
-  outputFileName += "_";  
+  outputFileName += "_";
+  if (background)
+    outputFileName += "background_";  
   outputFileName += collisionSystem;
   outputFileName += "_AN_fills.root";
 
@@ -93,7 +98,7 @@ void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu"
 	    fillBinInit++;
 	    fillIndexInit = 0;
 	  }
-    
+ 	  cout << "number of fills : " << i << " fillBinInit : " << fillBinInit << " fills : " << fillNumberInFillTree << endl;	   
     //if (polB == 0) {continue; cout << "zero polarization..." << endl;    }
     double d_upB   = (double)countsUpB;
     double d_downB = (double)countsDownB;
@@ -337,7 +342,7 @@ void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu"
 
   
   //for when the debugging gets super fun
-  /*
+  
   cout << endl;
   bool skip=false;
   for( int f = 0; f < NUM_FILL_BINS; f++ )
@@ -348,9 +353,10 @@ void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu"
   cout << endl;
   cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
   cout << endl;
-
+/*
   cout << "Blue  beam, fill bin 46, pt bins: " << endl;
   for( int b = 0; b < NUM_VALUE_BINS; b++ )
     asymmetry.printNumbersPretty( BLUE,   10, b );
-  */
+*/
+
 }

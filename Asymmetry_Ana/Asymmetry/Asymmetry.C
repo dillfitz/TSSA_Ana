@@ -779,12 +779,13 @@ void Asymmetry::printNumbersDetailed( const int beam,
   if( ! isBeamValid( beam ) || !isFillBinValid( f ) 
       || !isValueBinValid( valueBin ) )
     cout << "-->Asymmetry::printNumbersDetailed()" << endl;
-
+    
   if( beam == YELLOW )
     cout << "Yellow, ";
   else if( beam == BLUE )
     cout << "Blue,   ";
   cout << " fill bin = " << f << ", value bin = " << valueBin 
+       << " accCor = " << accCorrection[valueBin] << " +/- " 
        << " polarization = " << polarization[ beam ][f] << " +/- " 
        << polError[ beam ][f] << ", relative luminosity =  " 
        << relLuminosity[ beam ][f] << ", UL = " << numUL[ beam ][f][ valueBin ] 

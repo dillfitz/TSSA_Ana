@@ -28,7 +28,7 @@ const float AVE_YMIN = -0.1;
 const float AVE_YMAX =  0.1;
 
 // Use this for the open heavy flavor electron measurement //
-void plotSinPhi_pA( const char* particle = "eta", const char* collisionSystem = "pAl"  )
+void plotSinPhi_pA( const char* particle = "eta", const char* collisionSystem = "pAl" , const bool background = true )
 {
   gStyle->SetOptFit( true );
 
@@ -46,6 +46,8 @@ void plotSinPhi_pA( const char* particle = "eta", const char* collisionSystem = 
 
   TString phiFileName = particle;
   phiFileName += "_";
+  if (background)
+    phiFileName += "background_";
   phiFileName += collisionSystem;
   phiFileName += "_phi.root";
   TFile *file = TFile::Open( phiFileName );
@@ -163,7 +165,10 @@ void plotSinPhi_pA( const char* particle = "eta", const char* collisionSystem = 
 	    {
 	      TString pictureName = "images/";
 	      pictureName += particle;
-	      pictureName += "/sinPhi_";
+	      pictureName += "/";
+	      if (background)
+	        pictureName += "background_";	    
+	      pictureName += "sinPhi_";
 	      pictureName += collisionSystem;
 	      pictureName += "_";
 	      pictureName += name.str().c_str();
@@ -199,7 +204,10 @@ void plotSinPhi_pA( const char* particle = "eta", const char* collisionSystem = 
     blue->SetTitle( " ;p_{T} [GeV]; " );
     TString pictureName = "images/";
     pictureName += particle;
-    pictureName += "/blueSinPhi_";
+	  pictureName += "/";
+	  if (background)
+	    pictureName += "background_";	    
+	  pictureName += "blueSinPhi_";
     pictureName += collisionSystem;
     TString ttestSinName = pictureName;
     pictureName += ".png";
@@ -209,6 +217,8 @@ void plotSinPhi_pA( const char* particle = "eta", const char* collisionSystem = 
   TString graphFileName = "../dataFiles/";
   graphFileName += particle;
   graphFileName += "_";
+  if (background)
+    graphFileName += "background_";
   graphFileName += collisionSystem;
   graphFileName += "_AN.root";
   TFile *otherFile = TFile::Open( graphFileName );
@@ -279,7 +289,10 @@ void plotSinPhi_pA( const char* particle = "eta", const char* collisionSystem = 
     lumi->SetTitle( "; p_{T} [GeV];" );
     TString pictureName = "images/";
     pictureName += particle;
-    pictureName += "/finalCompareSinPhi_";
+    pictureName += "/";
+    if (background)
+      pictureName += "background_";
+    pictureName += "finalCompareSinPhi_";
     pictureName += collisionSystem;
     TString ttestName = pictureName;
     pictureName += ".png";

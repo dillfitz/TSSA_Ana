@@ -24,11 +24,17 @@ const float MAX =  0.07;
 const bool SAVE_IMAGES = true;
 
 // Use this for the open heavy flavor electron measurement //
-void plotCompareFormulas_pA( const char* particle = "eta", const char* collisionSystem = "pAl" )
+void plotCompareFormulas_pA( const char* particle = "eta", const char* collisionSystem = "pAu", const bool background = false, const bool bgCorrected = true )
 {
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;
   inputFileName += "_";
+  if (background && !bgCorrected)
+    inputFileName += "background_";
+  else if (bgCorrected && !background)
+    inputFileName += "bgCorrected_"; 
+  else if (bgCorrected && background)
+    inputFileName += "this is a fail safe";   
   inputFileName += collisionSystem;
   inputFileName += "_AN";
   inputFileName += ".root";
@@ -36,10 +42,24 @@ void plotCompareFormulas_pA( const char* particle = "eta", const char* collision
   cout << "Inputting file " << inputFileName << endl;
   TFile *file = TFile::Open( inputFileName );
   TGraphAsymmErrors* lumi;
-  lumi = (TGraphAsymmErrors*)file->Get( "lumiB" );
+  if (bgCorrected)
+  {
+    lumi = (TGraphAsymmErrors*)file->Get( "lumi" );
+  }
+  else
+  {
+    lumi = (TGraphAsymmErrors*)file->Get( "lumiB" );
+  }
  
   TGraphAsymmErrors* sqrt;
-  sqrt = (TGraphAsymmErrors*)file->Get( "sqrtB" );
+  if (bgCorrected)
+  {
+    sqrt = (TGraphAsymmErrors*)file->Get( "sqrt" );
+  }
+  else 
+  {
+    sqrt = (TGraphAsymmErrors*)file->Get( "sqrtB" );
+  }
 
   TLegend *legend = new TLegend( 0.15, 0.7, 0.5, 0.9);
   //TLegend *legend = new TLegend( 0.15,0.9, 0.53, 0.72 );
@@ -60,7 +80,11 @@ void plotCompareFormulas_pA( const char* particle = "eta", const char* collision
   sqrt->SetMarkerStyle( kFullSquare );
   sqrt->SetMarkerColor( kRed );
   sqrt->SetMarkerSize( 0.7* SIZE );
-  sqrt->GetYaxis()->SetRangeUser( MIN, MAX );
+  if (bgCorrected)
+    sqrt->GetYaxis()->SetRangeUser(-0.07, 0.15);
+  else
+    sqrt->GetYaxis()->SetRangeUser( MIN, MAX );
+  
   if( !SAVE_IMAGES )
 	{
 	    sqrt->SetTitle( "Blue Beam; p_{T} [GeV];" ); 
@@ -93,6 +117,10 @@ void plotCompareFormulas_pA( const char* particle = "eta", const char* collision
 	  TString name = "./images/";
 	  name += particle;
 	  name += "/";
+	  if (background && !bgCorrected)
+	    name += "bg_";
+	  else if (bgCorrected && !background)
+	    name += "bgCorrected_";
 	  name += collisionSystem; 
 	  name += "CompareSqrtLumi";
 	  name += marph;
