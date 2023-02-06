@@ -28,7 +28,7 @@ const float AVE_YMIN = -0.1;
 const float AVE_YMAX =  0.1;
 
 // Use this for the open heavy flavor electron measurement //
-void plotSinPhi_pA( const char* particle = "pi0", const char* collisionSystem = "pAu" , const bool background = false )
+void plotSinPhi_pA( const char* particle = "eta", const char* collisionSystem = "pAl" , const bool background = true )
 {
   gStyle->SetOptFit( true );
 

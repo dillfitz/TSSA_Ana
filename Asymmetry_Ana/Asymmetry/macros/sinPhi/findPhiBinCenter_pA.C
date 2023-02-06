@@ -11,7 +11,7 @@ using namespace std;
 const bool ISOLATED = false;
 
 // Use this for the open heavy flavor electron measurement //
-void findPhiBinCenter_pA( const char* particle = "pi0", const char* collisionSystem = "pAu", const bool background = true  )
+void findPhiBinCenter_pA( const char* particle = "eta", const char* collisionSystem = "pAu", const bool background = true  )
 {
   if( particle != "ohfe" && particle != "e" && particle != "dp" && particle != "pi0" && particle != "eta" )
     cout << "Error! particle can only be dp, pi0, or eta!  You are calculating nonsense " << endl;

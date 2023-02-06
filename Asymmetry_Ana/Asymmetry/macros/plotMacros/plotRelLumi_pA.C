@@ -20,11 +20,14 @@ const float YMAX =  0.18;
 const int SIZE = 2;
 
 // Use this for the open heavy flavor electron measurement //
-void plotRelLumi_pA( const char* particle = "eta", const char* collisionSystem = "pAl" )
+void plotRelLumi_pA( const char* particle = "eta", const char* collisionSystem = "pAu", const bool background = true )
 {
   TString inputFileName = "../dataFiles/";
   inputFileName += particle;
   inputFileName += "_";
+  if (background)
+    inputFileName += "background_";
+    
   inputFileName += collisionSystem;
   inputFileName += "_AN";
   inputFileName += ".root";
@@ -53,21 +56,8 @@ void plotRelLumi_pA( const char* particle = "eta", const char* collisionSystem =
   lumiBL->GetYaxis()->SetRangeUser( YMIN, YMAX );
   lumiBR->GetYaxis()->SetRangeUser( YMIN, YMAX );   
     
-  //  { "lumiYL", "lumiYR", "lumiBL", "lumiBR"};
-  TCanvas *c20 = new TCanvas( "c20", "Yellow Beam Left Right" );
-
 
   TString directoryName = "./images/";
-
-  if( SAVE_IMAGES )
-  {
-    TString name = directoryName;
-    name += particle;
-    name += "/";
-    name += collisionSystem;
-    name += "lumiLeftRightYellow.png";
-    c20->SaveAs( name );
-  }
 
   TCanvas *c41 = new TCanvas( "c41", "Blue Beam Left Right Asymmetry " );
   if( !SAVE_IMAGES )
@@ -88,7 +78,10 @@ void plotRelLumi_pA( const char* particle = "eta", const char* collisionSystem =
   {
     TString name = directoryName;
     name += particle;
-    name += "/RelLumi/";
+    name += "/";
+    if (background)
+      name += "bg_";
+    name += collisionSystem;    
     name += "lumiLeftRightBlue.png";
     c41->SaveAs( name );
   }
@@ -109,6 +102,8 @@ void plotRelLumi_pA( const char* particle = "eta", const char* collisionSystem =
     TString name = directoryName;
     name += particle;
     name += "/";
+    if (background)
+      name += "bg_";
     name += collisionSystem;
     name += "lumiLeftRightBlueTTest.png";
     c45->SaveAs( name );

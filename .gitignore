@@ -23,6 +23,6 @@ install-sh
 ltmain.sh
 *.so
 *.d
-
+*.txt
 
 

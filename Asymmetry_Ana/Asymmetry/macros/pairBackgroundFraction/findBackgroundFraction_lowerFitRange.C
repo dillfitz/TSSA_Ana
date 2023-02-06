@@ -11,7 +11,7 @@ using namespace std;
 
 #include "../../../Constants.h"
 
-const bool SAVE_IMAGES = true;
+const bool SAVE_IMAGES = false;
 /**/
 const char* particle = "eta";
 const int NUM_PARA = 7;
@@ -20,7 +20,7 @@ const double HISTO_MIN = 0.2;
 const double HISTO_MAX = 0.9;
 const double PEAK_MIN = 0.480;
 const double PEAK_MAX = 0.620;
-const double FIT_RANGE_MIN = 0.4;
+const double FIT_RANGE_MIN = 0.3;
 const double FIT_RANGE_MAX = 0.7;
 const int NUM_PT_BINS = 8;
 const float PT_BINS[ NUM_PT_BINS + 1 ] = { 2, 3, 4, 5, 6, 7, 8, 10, 20 };
@@ -43,7 +43,7 @@ const float HISTO_MIN = 0;
 const float HISTO_MAX = 0.300;
 const double PEAK_MIN = 0.112;
 const double PEAK_MAX = 0.162;
-const double FIT_RANGE_MIN = 0.07;
+const double FIT_RANGE_MIN = 0.05;
 const double FIT_RANGE_MAX = 0.25;
 const int NUM_PT_BINS = 10;
 const float PT_BINS[ NUM_PT_BINS + 1 ] = 
@@ -64,7 +64,7 @@ const double GUESS[ NUM_PT_BINS ][ NUM_PARA ] =
 };
 /**/
 
-void findBackgroundFraction(const char* collisionSystem = "pAu")
+void findBackgroundFraction_lowerFitRange(const char* collisionSystem = "pAu")
 {
   gStyle->SetOptFit();
   TString inputFileName = "../../../curated_";
@@ -230,6 +230,12 @@ void findBackgroundFraction(const char* collisionSystem = "pAu")
 
   TCanvas *chi2 = new TCanvas( "chi2", "Reduced Chi Squared" );
   chiSquaredHisto->Draw();
+  TString chi2Name = "images/chi2_";
+  chi2Name += particle;
+  chi2Name += "_";
+  chi2Name += collisionSystem;
+  chi2Name += "_lower.png";
+  chi2->SaveAs(chi2Name);
 
   //cout << setprecision(3);
 
@@ -287,7 +293,7 @@ void findBackgroundFraction(const char* collisionSystem = "pAu")
 	 
   TString outfileName = "../dataFiles/";
   outfileName += particle;
-  outfileName += "_bgfracs_";
+  outfileName += "_bgfracs_lowerFitRange_";
   outfileName += collisionSystem;
   outfileName += ".root";	 
   TFile *outfile;

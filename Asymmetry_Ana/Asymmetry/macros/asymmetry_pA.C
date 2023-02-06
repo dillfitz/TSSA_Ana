@@ -25,7 +25,7 @@ using namespace std;
 //E_gamma & 10% > E_cone - E_pair
 //
 
-void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu", const bool background = false, const bool dpBackground = false, const bool isolated = false )
+void asymmetry_pA( const char* particle = "eta", TString collisionSystem = "pAu", const bool background = true, const bool dpBackground = false, const bool isolated = false )
 {
 
   cout << particle <<  endl;
@@ -98,7 +98,7 @@ void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu"
 	    fillBinInit++;
 	    fillIndexInit = 0;
 	  }
-    
+ 	  cout << "number of fills : " << i << " fillBinInit : " << fillBinInit << " fills : " << fillNumberInFillTree << endl;	   
     //if (polB == 0) {continue; cout << "zero polarization..." << endl;    }
     double d_upB   = (double)countsUpB;
     double d_downB = (double)countsDownB;
@@ -342,7 +342,7 @@ void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu"
 
   
   //for when the debugging gets super fun
-  /*
+  
   cout << endl;
   bool skip=false;
   for( int f = 0; f < NUM_FILL_BINS; f++ )
@@ -353,9 +353,10 @@ void asymmetry_pA( const char* particle = "pi0", TString collisionSystem = "pAu"
   cout << endl;
   cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
   cout << endl;
-
+/*
   cout << "Blue  beam, fill bin 46, pt bins: " << endl;
   for( int b = 0; b < NUM_VALUE_BINS; b++ )
     asymmetry.printNumbersPretty( BLUE,   10, b );
-  */
+*/
+
 }
